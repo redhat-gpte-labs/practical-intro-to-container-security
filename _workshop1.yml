@@ -1,8 +1,8 @@
 id: "workshop1"
-name: "OpenShift Workshop"
+name: "A Practical Introduction to Container Security"
 
 content:
-  url: https://raw.githubusercontent.com/siamaksade/workshopper-template/master
+  url: https://raw.githubusercontent.com/bkoz/container-security/master
 
 vars:
   OPENSHIFT_DOCS_BASE: "https://docs.openshift.com/container-platform/3.7"
