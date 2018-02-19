@@ -1,0 +1,12 @@
+config:
+    renderer: markdown
+
+modules:
+  lab1:
+    name: Getting Started
+  lab2:
+    name: Explore OpenShift
+  lab3:
+    name: Create an Application
+    requires:
+      - lab2
