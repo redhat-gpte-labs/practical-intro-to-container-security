@@ -1,4 +1,4 @@
-## Overview
+# Overview
 
 This lab session is a low-level, hands-on introduction to container security using Red Hat Enterprise Linux 7. It can be delivered by an instructor or consumed as a series of self paced exercises.
 
