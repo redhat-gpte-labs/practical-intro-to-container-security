@@ -8,6 +8,18 @@ Prerequisites
 * Basic text editing skills using vim or nano.
 * An introductory knowledge of Docker is helpful.
 
+Lab Enviroment
+
+You will be working with the following RHEL7.3 Server systems. 
+
+rhserver0.example.com (Container host)
+rhserver1.example.com  (Container registry)
+rhserver2.example.com (Container registry)
+dist.example.com (Content server)
+
+Login is {{OPENSHIFT_USERNAME}}. Password is {{OPENSHIFT_PASSWORD}}
+
+
 ~~~shell
 $ oc login {{OPENSHIFT_MASTER_URL}}
 ~~~
