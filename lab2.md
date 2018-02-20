@@ -2,13 +2,11 @@
 
 This lab session is a low-level, hands-on introduction to container security using Red Hat Enterprise Linux 7. It can be delivered by an instructor or consumed as a series of self paced exercises.
 
-The prerequisites include:
+Prerequisites
 
-Fundamental user and administrative Red Hat Enterprise Linux concepts 
-
-Basic text editing skills using vim or nano
-
-An introductory knowledge of Docker is helpful.
+* Fundamental user and administrative Red Hat Enterprise Linux concepts. 
+* Basic text editing skills using vim or nano.
+* An introductory knowledge of Docker is helpful.
 
 ~~~shell
 $ oc login {{OPENSHIFT_MASTER_URL}}

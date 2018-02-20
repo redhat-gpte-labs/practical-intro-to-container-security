@@ -1,4 +1,5 @@
 ## A PRACTICAL INTRODUCTION TO CONTAINER SECURITY
+
 ### Red Hat Summit, May 2018
 
 #### Abstract
