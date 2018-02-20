@@ -3,9 +3,9 @@ config:
 
 modules:
   lab1:
-    name: Getting Started
+    name: Welcome
   lab2:
-    name: Explore OpenShift
+    name: Overview
   lab3:
     name: Create an Application
     requires:
