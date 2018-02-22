@@ -37,7 +37,7 @@ Note that the workshop variables can be overriden via specifying environment var
 
 You can directly run Workshopper as a docker container which is specially helpful when writing the content.
 ```
-$ docker run -p 8080:8080 -v $(pwd):/app-data \
+$ docker run -p 8080:8080 -v /usr/tmp/container-security:/app-data \
               -e CONTENT_URL_PREFIX="file:///app-data" \
               -e WORKSHOPS_URLS="file:///app-data/_workshop1.yml" \
               osevg/workshopper:latest 

@@ -7,6 +7,6 @@ modules:
   lab2:
     name: Overview
   lab3:
-    name: Create an Application
+    name: Configuration
     requires:
       - lab2

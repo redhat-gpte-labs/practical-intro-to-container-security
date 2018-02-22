@@ -7,9 +7,14 @@ content:
 vars:
   OPENSHIFT_DOCS_BASE: "https://docs.openshift.com/container-platform/3.7"
   OPENSHIFT_MASTER_URL: "http://192.168.1.100:8443"
-  OPENSHIFT_USERNAME: "developer"
-  OPENSHIFT_PASSWORD: "password"
-  JAVA_APP: true
+  SERVER_0: rhserver0.example.com
+  SERVER_1: rhserver1.example.com
+  SERVER_2: rhserver2.example.com
+  SERVER_DIST: dist.example.com
+
+  ROOT_USERNAME: "root"
+  ROOT_PASSWORD: "redhat"
+  JAVA_APP: false
   
 modules:
   activate:
