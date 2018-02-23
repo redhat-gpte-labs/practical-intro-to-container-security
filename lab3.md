@@ -33,7 +33,7 @@ Perform the following on both {{SERVER_1}} **and** {{SERVER_2}}.
 Expected Output:
 
 ~~~shell
-registry status goes here
+Registry status goes here
 ~~~
 
 ~~~shell
