@@ -4,7 +4,7 @@ This lab session is a low-level, hands-on introduction to container security usi
 
 ### Prerequisites
 
-* Fundamental user and administrative Red Hat Enterprise Linux concepts. 
+* Fundamental Red Hat Enterprise Linux user and administrator concepts. 
 * Basic text editing skills using vim or nano.
 * An introductory knowledge of Docker is helpful.
 

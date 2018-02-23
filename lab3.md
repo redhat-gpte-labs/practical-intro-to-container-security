@@ -21,14 +21,15 @@ Use CRI-O
 Perform the following on both {{SERVER_1}} **and** {{SERVER_2}}.
 
 ~~~shell
-# yum -y install docker-distribution firewalld wget
-# systemctl start docker-distribution
-# systemctl enable docker-distribution
-# systemctl start firewalld
-# systemctl enable firewalld
+# yum -y install docker-distribution firewalld
+# systemctl start docker-distribution firewalld
+# systemctl enable docker-distribution firewalld
 # firewall-cmd --add-port 5000/tcp --permanent
 # firewall-cmd --reload
 ~~~
+
+Checking the Registry
+
 ~~~shell
 # systemctl status docker-distribution
 ~~~~
@@ -77,48 +78,25 @@ Expected Output:
 
 ##### Howto
 
-Install your favorite text editor if you wish to use something other then **vi**.
+Perform the following on {{RHSERVER_0}}.
+
+Install **wget** and your favorite text editor if you wish to use something other then **vi**.
 ~~~
-# yum -y install vim nano
+# yum -y install wget vim nano
 ~~~
 
-Edit the `/etc/containers/registries.conf` file to include your registries.
+Edit the `/etc/containers/registries.conf` file to include your two registries.
 
 ~~~shell
 [registries.insecure]
 registries = ['rhserver1.example.com:5000','rhserver2.example.com:5000']
 ~~~~
 
-Check that you can restart the container run time service.
+Make sure you can restart the container run time service with no errors before proceeding.
 
 ~~~shell
 # systemctl restart docker
-# systemctl status docker
 ~~~
-Expected Output:
-
-~~~shell
-● docker.service - Docker Application Container Engine
-   Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; vendor preset: disabled)
-   Active: active (running) since Fri 2018-02-23 15:54:06 EST; 3s ago
-     Docs: http://docs.docker.com
- Main PID: 2184 (dockerd-current)
-   CGroup: /system.slice/docker.service
-           ├─2184 /usr/bin/dockerd-current --add-runtime docker-runc=/usr/libexec/docker/docker-runc-current --default-runtime=docker-runc --authorization-pl...
-           └─2190 /usr/bin/docker-containerd-current -l unix:///var/run/docker/libcontainerd/docker-containerd.sock --shim docker-containerd-shim --metrics-i...
-
-Feb 23 15:54:05 rhserver0.example.com dockerd-current[2184]: time="2018-02-23T15:54:05.260766730-05:00" level=info msg="libcontainerd: new containerd ...: 2190"
-Feb 23 15:54:06 rhserver0.example.com dockerd-current[2184]: time="2018-02-23T15:54:06.326661971-05:00" level=info msg="Graph migration to content-add...econds"
-Feb 23 15:54:06 rhserver0.example.com dockerd-current[2184]: time="2018-02-23T15:54:06.327740491-05:00" level=info msg="Loading containers: start."
-Feb 23 15:54:06 rhserver0.example.com dockerd-current[2184]: time="2018-02-23T15:54:06.344364014-05:00" level=info msg="Firewalld running: false"
-Feb 23 15:54:06 rhserver0.example.com dockerd-current[2184]: time="2018-02-23T15:54:06.550958269-05:00" level=info msg="Default bridge (docker0) is as...ddress"
-Feb 23 15:54:06 rhserver0.example.com dockerd-current[2184]: time="2018-02-23T15:54:06.624650802-05:00" level=info msg="Loading containers: done."
-Feb 23 15:54:06 rhserver0.example.com dockerd-current[2184]: time="2018-02-23T15:54:06.624750170-05:00" level=info msg="Daemon has completed initialization"
-Feb 23 15:54:06 rhserver0.example.com dockerd-current[2184]: time="2018-02-23T15:54:06.624774642-05:00" level=info msg="Docker daemon" commit="3e8e77d...=1.12.6
-Feb 23 15:54:06 rhserver0.example.com dockerd-current[2184]: time="2018-02-23T15:54:06.642692378-05:00" level=info msg="API listen on /var/run/docker.sock"
-Feb 23 15:54:06 rhserver0.example.com systemd[1]: Started Docker Application Container Engine.
-Hint: Some lines were ellipsized, use -l to show in full.
-~~~~
 
 #### Exercise: Tagging and pushing images to a remote registry
 
@@ -133,8 +111,42 @@ Load the *mystery* image from the content server {{SERVER_DIST}}.
 # wget -O - http://{{SERVER_DIST}}/content/images/mystery.tar | docker load
 ~~~
 
+Verify the image loaded.
+~~~shell
+# docker images
+~~~
+Expected Output:
+
+~~~shell
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+mystery                              latest              c82b952c1204        10 months ago       123.4 MB
+~~~
+
 Now tag and push the *mystery* image to the remote registry hosted at {{RHSERVER_1}}.
 ~~~
 # docker tag mystery {{RHSERVER_1}}:5000/mystery
-# docker push {{RHSERVER_1}}:5000/mytery
+~~~
+
+Confirm the tag is correct.
+~~~
+# docker images
+~~~
+Expected Output:
+~~~
+REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
+mystery                              latest              c82b952c1204        10 months ago       123.4 MB
+rhserver1.example.com:5000/mystery   latest              c82b952c1204        10 months ago       123.4 MB
+~~~
+
+Finally, push the image to the {{RHSERVER_1}} registry.
+~~~
+# docker push {{RHSERVER_1}}:5000/mystery
+~~~
+
+Expected Output:
+~~~
+The push refers to a repository [rhserver2.example.com:5000/mystery]
+86bac94d71f4: Pushed 
+5d6cbe0dbcf9: Pushed 
+latest: digest: sha256:e6f59879436cf2272c1ca14e69e09cb029d13592e38c3d95eee7162d8ef08560 size: 736
 ~~~
