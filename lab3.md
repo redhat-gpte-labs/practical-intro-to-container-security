@@ -7,7 +7,7 @@ Use CRI-O
 
 {% else %}
 
-#### Registries
+#### Exercise: Registry Configuration
 During this lab you will configure {{SERVER_1}} **and** {{SERVER_2}} as container registries. Most of the remaining lab exercises will be performed on {{SERVER_0}}. 
 
 ##### Goals 
@@ -47,7 +47,7 @@ Expected Output:
 
 {% endif %}
 
-#### Container Run Time
+#### Exercise: Container Run Time Configuration
 
 ##### Goals
 
