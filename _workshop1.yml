@@ -14,7 +14,7 @@ vars:
 
   ROOT_USERNAME: "root"
   ROOT_PASSWORD: "redhat"
-  JAVA_APP: false
+  USE_CRI-O: false
   
 modules:
   activate:

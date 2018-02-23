@@ -1,13 +1,9 @@
 ## Configuration
 
-{% if JAVA_APP == true %}
+{% if USE_CRI-O == true %}
 
-#### Deploy a Java Application
-Run the following to deploy a Java application
-
-~~~shell
-oc new-app https://github.com/sample/parksmap-java.git
-~~~
+#### Modified for CRI-O
+Use CRI-O
 
 {% else %}
 
@@ -16,7 +12,7 @@ During this lab you will configure {{SERVER_1}} **and** {{SERVER_2}} as containe
 
 ##### Goals 
 
-* Start and enable the registry service.
+* Install, start and enable the registry service.
 * Open tcp firewall port 5000. 
 * Use curl to test connectivity to the registry services.
 
@@ -25,8 +21,9 @@ During this lab you will configure {{SERVER_1}} **and** {{SERVER_2}} as containe
 Perform the following on both {{SERVER_1}} **and** {{SERVER_2}}.
 
 ~~~shell
-# systemctl enable docker-distribution
+# yum -y install docker-distribution
 # systemctl start docker-distribution
+# systemctl enable docker-distribution
 # firewall-cmd --add-port 5000/tcp --permanent
 # firewall-cmd --reload
 ~~~
