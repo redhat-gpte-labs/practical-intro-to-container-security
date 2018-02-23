@@ -17,9 +17,9 @@ You will be working with the following RHEL7.4 Server systems.
 * {{SERVER_2}} (Container Registry)
 * {{SERVER_DIST}} (Content Server)
 
-Login for all servers: User: {{ROOT_USERNAME}}. Password: {{ROOT_PASSWORD}}
+Login for all servers: User: {{ROOT_USERNAME}} Password: {{ROOT_PASSWORD}}
 
-To get prepared for the lab, open (3) windows and make sure you can login to {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}}.
+To prepare for the lab, use an ssh client and login to {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}}.
 
 Example
 
@@ -27,6 +27,3 @@ Example
 $ ssh {{ROOT_USERNAME}}@{{SERVER_0}}
 ~~~
 
-Image example
-
-![OpenShift Login]({% image_path ocp-login.png %}){:width="900px"}
