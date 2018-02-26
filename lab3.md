@@ -54,14 +54,17 @@ Hint: Some lines were ellipsized, use -l to show in full.
 ~~~
 
 See if you can `curl` the registry. Two braces `{}` should be returned.
-~~~shell
+
+~~~
 # curl localhost:5000/v2/
 ~~~
 
-To check the firewall, `curl` the {{RHSERVER_1}} and {{RHSERVER_2}} registries from {{RHSERVER_0}}.
-~~~shell
-# curl {{RHSERVER_1}}:5000/v2/
+To check the firewall, `curl` the {{SERVER_1}} and {{SERVER_2}} registries from {{SERVER_0}}.
+
 ~~~
+# curl {{SERVER_1}}:5000/v2/
+~~~
+
 Expected Output:
 
 ~~~shell
@@ -78,9 +81,10 @@ Expected Output:
 
 ##### Howto
 
-Perform the following on {{RHSERVER_0}}.
+Perform the following on {{SERVER_0}}.
 
 Install **wget** and your favorite text editor if you wish to use something other then **vi**.
+
 ~~~
 # yum -y install wget vim nano
 ~~~
@@ -89,7 +93,7 @@ Edit the `/etc/containers/registries.conf` file to include your two registries.
 
 ~~~shell
 [registries.insecure]
-registries = ['rhserver1.example.com:5000','rhserver2.example.com:5000']
+registries = ['{{SERVER_1}}:5000','{{SERVER_2}}:5000']
 ~~~~
 
 Make sure you can restart the container run time service with no errors before proceeding.
@@ -107,14 +111,17 @@ Make sure you can restart the container run time service with no errors before p
 ##### Howto
 
 Load the *mystery* image from the content server {{SERVER_DIST}}.
+
 ~~~
 # wget -O - http://{{SERVER_DIST}}/content/images/mystery.tar | docker load
 ~~~
 
 Verify the image loaded.
+
 ~~~shell
 # docker images
 ~~~
+
 Expected Output:
 
 ~~~shell
@@ -122,28 +129,34 @@ REPOSITORY                           TAG                 IMAGE ID            CRE
 mystery                              latest              c82b952c1204        10 months ago       123.4 MB
 ~~~
 
-Now tag and push the *mystery* image to the remote registry hosted at {{RHSERVER_1}}.
+Now tag and push the *mystery* image to the remote registry hosted at {{SERVER_1}}.
+
 ~~~
-# docker tag mystery {{RHSERVER_1}}:5000/mystery
+# docker tag mystery {{SERVER_1}}:5000/mystery
 ~~~
 
 Confirm the tag is correct.
+
 ~~~
 # docker images
 ~~~
+
 Expected Output:
+
 ~~~
 REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
 mystery                              latest              c82b952c1204        10 months ago       123.4 MB
 rhserver1.example.com:5000/mystery   latest              c82b952c1204        10 months ago       123.4 MB
 ~~~
 
-Finally, push the image to the {{RHSERVER_1}} registry.
+Finally, push the image to the {{SERVER_1}} registry.
+
 ~~~
-# docker push {{RHSERVER_1}}:5000/mystery
+# docker push {{SERVER_1}}:5000/mystery
 ~~~
 
 Expected Output:
+
 ~~~
 The push refers to a repository [rhserver2.example.com:5000/mystery]
 86bac94d71f4: Pushed 
