@@ -8,5 +8,5 @@ modules:
     name: Overview
   lab3:
     name: Configuration
-    requires:
-      - lab2
+  lab4:
+    name: Isolation

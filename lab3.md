@@ -1,5 +1,5 @@
 ## Configuration
-During this lab you will configure {{SERVER_1}} **and** {{SERVER_2}} as container registries then configure the container run-time on {{SERVER_0}} to use them. Most of the remaining lab exercises will be performed on {{SERVER_0}}. 
+During this lab you will configure {{SERVER_1}} **and** {{SERVER_2}} as container registries then configure the container run-time on {{SERVER_0}} to use them. Most of the remaining lab exercises will be performed on {{SERVER_0}}. These exercises represent the basics of using a container run time.
 
 {% if USE_CRI-O == true %}
 
@@ -162,4 +162,31 @@ The push refers to a repository [rhserver2.example.com:5000/mystery]
 86bac94d71f4: Pushed 
 5d6cbe0dbcf9: Pushed 
 latest: digest: sha256:e6f59879436cf2272c1ca14e69e09cb029d13592e38c3d95eee7162d8ef08560 size: 736
+~~~
+
+#### Exercise: Pulling images from a remote registry
+
+##### Goals
+
+* Saving and removing images from the container run-time.
+* Pulling an image from a remote registry.
+
+##### Howto
+
+If the push was successful, make a backup copy of the mystery image, delete the local cached images and pull a new image from the remote registry on {{SERVER_1}}. 
+
+~~~
+# docker save mystery > backup.tar
+# docker rmi mystery {{SERVER_1}}:5000/mystery
+# docker pull {{SERVER_1}}:5000/mystery
+~~~
+
+Expected Output:
+
+~~~
+Using default tag: latest
+Trying to pull repository rhserver1.example.com:5000/mystery ... 
+sha256:6b079ae764a6affcb632231349d4a5e1b084bece8c46883c099863ee2aeb5cf8: Pulling from triad.koz.laptop:5000/mystery
+Digest: sha256:6b079ae764a6affcb632231349d4a5e1b084bece8c46883c099863ee2aeb5cf8
+Status: Downloaded newer image for rhserver1.example.com:5000/mystery
 ~~~
