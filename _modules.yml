@@ -10,15 +10,15 @@ modules:
     name: Configuration
   lab4:
     name: Authorization 
-  lab 5: 
+  lab5: 
     name: Isolation
-  lab 6:
+  lab6:
     name: SELinux and Containers
-  lab 7:
+  lab7:
     name: Inspecting Content
-  lab 8:
+  lab8:
     name: Image Trust and Signing
-  lab 9:
+  lab9:
     name: The Atomic Scanner
-  lab 10:
+  lab10:
     name: Custom Scanners
