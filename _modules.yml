@@ -5,7 +5,7 @@ modules:
   lab1:
     name: Welcome
   lab2:
-    name: Overview
+    name: Introduction
   lab3:
     name: Configuration
   lab4:

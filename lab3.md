@@ -10,7 +10,7 @@ Use CRI-O
 
 #### Exercise: Registry Configuration
 
-##### Goals 
+##### Overview 
 
 * Install, start and enable the registry and firewalld services.
 * Open tcp firewall port 5000. 
@@ -75,7 +75,7 @@ Expected Output:
 
 #### Exercise: Container Run Time Configuration
 
-##### Goals
+##### Overview
 
 * Configure the container run time to use the registries.
 
@@ -104,7 +104,7 @@ Make sure you can restart the container run time service with no errors before p
 
 #### Exercise: Tagging and pushing images to a remote registry
 
-##### Goals
+##### Overview
 * Loading an image from an archive. 
 * Tag and push an image to a remote registry.
 
@@ -166,7 +166,7 @@ latest: digest: sha256:e6f59879436cf2272c1ca14e69e09cb029d13592e38c3d95eee7162d8
 
 #### Exercise: Pulling images from a remote registry
 
-##### Goals
+##### Overview
 
 * Saving and removing images from the container run-time.
 * Pulling an image from a remote registry.
