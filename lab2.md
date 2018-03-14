@@ -15,7 +15,13 @@ You will be working with the following RHEL7.4 Server systems.
 * {{SERVER_0}} (Container Host)
 * {{SERVER_1}}  (Container Registry)
 * {{SERVER_2}} (Container Registry)
-* {{SERVER_DIST}} (Content Server)
+* {{SERVER_DIST}} (Bastion host and content server)
+
+Only the {{SERVER_DIST}} is public accesible via ssh.
+
+How to login to the bastion host. 
+
+ssh GUID{{SERVER_DIST}}
 
 Login for all servers: User: {{ROOT_USERNAME}} Password: {{ROOT_PASSWORD}}
 
