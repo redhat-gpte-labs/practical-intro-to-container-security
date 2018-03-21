@@ -5,7 +5,7 @@ Containers provide a certain degree of process isolation via kernel namespaces. 
 
 ### Capabilities
 
-We’ll begin with looking at Linux capabilities as it relates to containers. Capabilities are distinct units of privilege that can be independently enabled or disabled. Start by examining the kernel header file [1] and the effective capabilities of a root process on a RHEL host {{SERVER_0}} by looking its status. Notice that all 37 capability bits are set indicating this process has a full set of capabilities. For more info, read Dan’s blog post [2]. 
+We’ll begin with looking at Linux capabilities as it relates to containers. Capabilities are distinct units of privilege that can be independently enabled or disabled. Start by examining the kernel header file [1] and the effective capabilities of a root process on {{SERVER_0}} by looking its status. Notice that all 37 capability bits are set indicating this process has a full set of capabilities. For more info, read Dan’s blog post [2]. 
 
 ~~~shell
 # yum -y install kernel-headers
