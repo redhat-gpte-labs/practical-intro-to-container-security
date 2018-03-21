@@ -17,13 +17,18 @@ You will be working with the following RHEL7.4 Server systems.
 * {{SERVER_2}} (Container Registry)
 * {{SERVER_DIST}} (Bastion host and content server)
 
-Only the {{SERVER_DIST}} is public accesible via ssh.
+NOTE: Only the bastion host is public accesible via ssh. You will log into the bastion host first, then login to the 
+individual servers from there.
 
-How to login to the bastion host. 
+Using the GUID you obtained from the registration page, login to the bastion host. 
 
-ssh GUID{{SERVER_DIST}}
+Example:
 
-Login for all servers: User: {{ROOT_USERNAME}} Password: {{ROOT_PASSWORD}}
+~~~shell
+ssh cloud-user@{{BASTION}}
+~~~
+
+Credentials for all servers: User: {{ROOT_USERNAME}} Password: {{ROOT_PASSWORD}}
 
 To prepare for the lab, use an ssh client and login to {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}}.
 

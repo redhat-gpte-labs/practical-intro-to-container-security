@@ -11,6 +11,7 @@ vars:
   SERVER_1: rhserver1.example.com
   SERVER_2: rhserver2.example.com
   SERVER_DIST: dist.example.com
+  BASTION: bastion-GUID.rhpds.opentlc.com
 
   ROOT_USERNAME: "root"
   ROOT_PASSWORD: "redhat"
