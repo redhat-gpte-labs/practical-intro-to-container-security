@@ -30,7 +30,7 @@ Substitute the global user id (GUID) you obtained from the registration page to 
 ssh cloud-user@{{BASTION}}
 ~~~
 
-Once you are logged into the bastion host, you can reach the remaining servers using the {{ROOT_USERNAME}} user name.
+Once you are logged into the bastion host, you can reach the remaining servers using the {{ROOT_USERNAME}} user name. A suggestion would be to establish (2) ssh sessions to {{SERVER_0}} and an (1) ssh session to {{SERVER_1}} and {{SERVER_2}}.
 
 Credentials for servers: User: {{ROOT_USERNAME}} Password: {{ROOT_PASSWORD}}
 
