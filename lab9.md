@@ -36,15 +36,15 @@ Look at the contents of the ```/var/lib/atomic/openscap``` directory on the {{SE
 
 #### Scan Types
 
-Scanners can support a number of different scan types. In the section, configure atomic to run the openscap scanner’s standards compliance scan type.
+Scanners can support a number of different scan types. In this section, configure atomic to run the openscap scanner’s ```standards_compliance``` scan type.
 
-Verify the scanner supports the standards-compliance scan type.
+Verify the scanner supports the ```standards_compliance``` scan type.
 
 ~~~shell
 # atomic scan --list
 ~~~
 
-Now run the scanner using the standards compliance scan type.
+Now run the scanner using the ```standards_compliance``` scan type.
 
 ~~~shell
 # atomic scan --scanner openscap --scan_type standards_compliance rhel7
