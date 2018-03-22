@@ -3,6 +3,8 @@
 Bob Kozdemba (bkozdemb@redhat.com)
 <br>
 Dan Walsh (dwalsh@redhat.com)
+<br>
+Mrunal Patel (mpatel@redhat.com)
 
 ### Red Hat Summit, May 2018
 

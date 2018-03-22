@@ -63,7 +63,7 @@ Now run a container and look at it’s capabilities. Run the rhel7 image and exa
 CapEff:	00000000a80425fb
 ~~~
 
-#### Capabilities Challenge #2
+#### Capabilities Challenge #1
 
 How could you determine which capabilities docker drops from a process running in a container? One solution is presented on the next slide.
 
