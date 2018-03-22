@@ -55,13 +55,13 @@ Hint: Some lines were ellipsized, use -l to show in full.
 
 See if you can `curl` the registry. Two braces `{}` should be returned.
 
-~~~
+~~~shell
 # curl localhost:5000/v2/
 ~~~
 
 To check the firewall, `curl` the {{SERVER_1}} and {{SERVER_2}} registries from {{SERVER_0}}.
 
-~~~
+~~~shell
 # curl {{SERVER_1}}:5000/v2/
 ~~~
 
@@ -85,7 +85,7 @@ Perform the following on {{SERVER_0}}.
 
 Install **wget** and your favorite text editor if you wish to use something other then **vi**.
 
-~~~
+~~~shell
 # yum -y install wget vim nano
 ~~~
 
@@ -112,7 +112,7 @@ Make sure you can restart the container run time service with no errors before p
 
 Load the *mystery* image from the content server {{SERVER_DIST}}.
 
-~~~
+~~~shell
 # wget -O - http://{{SERVER_DIST}}/content/images/mystery.tar | docker load
 ~~~
 
@@ -131,19 +131,19 @@ mystery                              latest              c82b952c1204        10 
 
 Now tag and push the *mystery* image to the remote registry hosted at {{SERVER_1}}.
 
-~~~
+~~~shell
 # docker tag mystery {{SERVER_1}}:5000/mystery
 ~~~
 
 Confirm the tag is correct.
 
-~~~
+~~~shell
 # docker images
 ~~~
 
 Expected Output:
 
-~~~
+~~~shell
 REPOSITORY                           TAG                 IMAGE ID            CREATED             SIZE
 mystery                              latest              c82b952c1204        10 months ago       123.4 MB
 rhserver1.example.com:5000/mystery   latest              c82b952c1204        10 months ago       123.4 MB
@@ -151,7 +151,7 @@ rhserver1.example.com:5000/mystery   latest              c82b952c1204        10 
 
 Finally, push the image to the {{SERVER_1}} registry.
 
-~~~
+~~~shell
 # docker push {{SERVER_1}}:5000/mystery
 ~~~
 
