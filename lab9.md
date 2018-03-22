@@ -28,7 +28,7 @@ Try running the scanner on an image in one of the remote registries.
 # atomic scan {{SERVER_1}}:5000/rhel7
 ~~~
 
-Look at the contents of the /var/lib/atomic/openscap directory on the {{SERVER_)}} host and you should see the scanner’s results. The scanner runs as a container and writes the results in the host’s file system using a bind mount. The scanning tools do not run as privileged containers but they are able to mount up a read-only rootfs along with a writeable directory on the host’s file system so the scanner can write the output. You’ll lean more about this feature in the final lab.
+Look at the contents of the ```/var/lib/atomic/openscap``` directory on the {{SERVER_)}} host and you should see the scanner’s results. The scanner runs as a container and writes the results in the host’s file system using a bind mount. The scanning tools do not run as privileged containers but they are able to mount up a read-only rootfs along with a writeable directory on the host’s file system so the scanner can write the output. You’ll lean more about this feature in the final lab.
 
 ~~~shell
 # ls -R /var/lib/atomic/openscap/
