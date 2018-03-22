@@ -157,7 +157,7 @@ Finally, push the image to the {{SERVER_1}} registry.
 
 Expected Output:
 
-~~~
+~~~shell
 The push refers to a repository [rhserver2.example.com:5000/mystery]
 86bac94d71f4: Pushed 
 5d6cbe0dbcf9: Pushed 
@@ -175,7 +175,7 @@ latest: digest: sha256:e6f59879436cf2272c1ca14e69e09cb029d13592e38c3d95eee7162d8
 
 If the push was successful, make a backup copy of the mystery image, delete the local cached images and pull a new image from the remote registry on {{SERVER_1}}. 
 
-~~~
+~~~shell
 # docker save mystery > backup.tar
 # docker rmi mystery {{SERVER_1}}:5000/mystery
 # docker pull {{SERVER_1}}:5000/mystery
@@ -183,7 +183,7 @@ If the push was successful, make a backup copy of the mystery image, delete the 
 
 Expected Output:
 
-~~~
+~~~shell
 Using default tag: latest
 Trying to pull repository rhserver1.example.com:5000/mystery ... 
 sha256:6b079ae764a6affcb632231349d4a5e1b084bece8c46883c099863ee2aeb5cf8: Pulling from triad.koz.laptop:5000/mystery
