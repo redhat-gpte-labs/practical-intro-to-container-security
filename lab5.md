@@ -78,7 +78,7 @@ One solution would be to use your favorite hex calculator and find the CapEff di
 
 #### Capabilities Challenge #2
 
-Let’s say you're working with a time/date sensitive application that gathers, logs and locks political election results. The application provider, Kernel Good Boys (KGB), tells you this container requires full privileges because it needs to set a file as immutable (via the chattr command). You remember that in compliance with your company’s security policy, this container should not be able to ping any host. Your challenge is to run the application safely yet produce the GOOD test results shown below.
+Let’s say you're working with a time/date sensitive application that gathers, logs and locks data. The application provider tells you this container requires full privileges because it needs to set a file as immutable (via the chattr command). You remember that in compliance with your company’s security policy, this container should not be able to ping any host. Your challenge is to run the application safely yet produce the GOOD test results shown below.
 
 ~~~shell
 # Installing Application...
