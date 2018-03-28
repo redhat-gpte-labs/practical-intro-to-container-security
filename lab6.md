@@ -6,38 +6,39 @@ In this section, we’ll cover the basics of SELinux and containers. SELinux pol
 
 #### !Namespaced
 
-SELinux is not namespaced. Since we do not want SELinux aware applications failing when they run in containers, it was decided to make libselinux **lie** to the container processes. The libselinux library checks if ```/sys/fs/selinux``` is mounted onto the system and whether it is mounted read/write. If ```/sys/fs/selinux``` is not mounted read/write, libselinux will report to calling applications that SELinux is disabled.  
+SELinux is not namespaced. Since we do not want SELinux aware applications failing when they run in containers, it was decided to make **libselinux** appear that SELinux is running to the container processes. In doing so, the **libselinux** library makes the following checks:
 
-To demonstrate this, run the following command on {{SERVER_0}} which attempts to execute an selinux operation in a container. It should fail since it tries to return the selinux context of the container.
+ * The ```/sys/fs/selinux``` directory is mounted read/write. 
+ * The ```/etc/selinux/config``` file exists.
 
-~~~shell
-# docker run --rm rhel7 id -Z
+ If both of these conditions are not met, **libselinux** will report to calling applications that SELinux is disabled.  
 
-id: --context (-Z) works only on an SELinux-enabled kernel
-~~~
+##### Exercise 
 
-With containers, we don't mount these file systems by default or we mount them read/only causing libselinux to report that it is disabled. Now run a container that mounts a host directory in read-only mode. 
+To demonstrate this, confirm the following commands on {{SERVER_0}} produce the expected output.
 
-Try the following example.
+Start by running a container that mounts ```/sys/fs/selinux``` as read-only then runs a command that requires an SELInux enabled kernel.
 
 ~~~shell
 # docker run --rm -v /sys/fs/selinux:/sys/fs/selinux:ro rhel7 id -Z
-
 id: --context (-Z) works only on an SELinux-enabled kernel
 ~~~
 
-Finally, run a container that mounts the ```/sys/fs/selinux``` directory as read/write. The expected selinux label should be printed to standard output.
+Next, run a container that mounts the ```/sys/fs/selinux``` directory as read/write. Confirm the expected SELinux label is reported.
 
 ~~~shell
-# docker run --rm -v /sys/fs/selinux:/sys/fs/selinux:rw rhel7 id -Z
-
-system_u:system_r:svirt_lxc_net_t:s0:c374,c1019
-
-BOB: Output is different from last year, check with Dan.
-
+# docker run --rm -v /sys/fs/selinux:/sys/fs/selinux:rw rhel7 bash 
+[root@container-id \]# id -Z
+id: --context (-Z) works only on an SELinux-enabled kernel
+[root@container-id \]# touch /etc/selinux/config
+[root@container-id \]# id -Z
+system_u:system_r:svirt_lxc_net_t:s0:c553,c697
+[root@container-id \]#  exit
 ~~~
 
 #### Bind Mounts
+
+BOB: This section needs proof reading for accuracy of proper flow, commands and output.
 
 Bind mounts alllow a container to mount a directory on the host for general application usage. This lab will help you understand how selinux behaves on different scenarioes. On {{SERVER_0}}, create the following directories.
 
@@ -45,12 +46,10 @@ Bind mounts alllow a container to mount a directory on the host for general appl
 # mkdir /data /shared /private
 ~~~
 
-Run bash in a rhel7 container and volume mount the ```/data``` directory on {{SERVER_0}} to the ```/data``` directory in the container’s file system. Once the container is running, verify the volume mount and try to list the contents of ```/data``` and the files.
-
+Run bash in a rhel7 container and volume mount the ```/data``` directory on {{SERVER_0}} to the ```/data``` directory in the container’s file system. Once the container is running, verify the volume mount and try to list the contents of ```/data```.
 
 ~~~shell
 # docker run --rm -it -v /data:/data rhel7 bash
-
 [container_id /]# df
 [container_id /]# ls /data
 ~~~
@@ -64,13 +63,13 @@ Now try to create a file in the ```/data``` directory? The command should fail e
 bash: /data/date.txt: Permission denied
 ~~~
 
-Can you examine the ```/data``` directory? How would you troubleshoot this issue? To get started, install the selinux troubleshooter.
+Can you list the ```/data``` directory? How would you troubleshoot this issue? To get started, install the selinux troubleshooter.
 
 ~~~shell
 # yum -y install setroubleshoot
 ~~~ 
 
-Try running ```sealert -a /var/log/audit/audit.log > /tmp/my-selinux-error-solutions.txt``` on {{SERVER_0}} then enter the container and try creating a file in ```/data``` as did you above. The ```sealert``` tool will analyze the ```audit.log``` and reveal some clues about the problem. Have a look at ```/tmp/my-selinux-error-solutions.txt``` to find out more.
+Try running ```sealert``` on {{SERVER_0}} then enter the container and try creating a file in ```/data``` as did you above. The ```sealert``` tool will analyze the ```audit.log``` and reveal some clues about the problem. Have a look at output file and make note of the source and target SELinux contexts.
 
 ~~~shell
 # sealert -a /var/log/audit/audit.log > /tmp/my-selinux-error-solutions.txt
@@ -81,12 +80,11 @@ bash: /data/date.txt: Permission denied
 [root@a72bd00b3356 /]# exit
 exit
 
-# tail /tmp/my-selinux-error-solutions.txt
+# cat /tmp/my-selinux-error-solutions.txt
 Local ID                      be4be986-a321-4e89-85cb-80bb3990ce8d
 
 Raw Audit Messages
 type=AVC msg=audit(1522186708.438:248): avc:  denied  { write } for  pid=3228 comm="bash" name="data" dev="vda1" ino=54526408 scontext=system_u:system_r:svirt_lxc_net_t:s0:c875,c1023 tcontext=system_u:object_r:root_t:s0 tclass=dir
-
 
 type=SYSCALL msg=audit(1522186708.438:248): arch=x86_64 syscall=open success=no exit=EACCES a0=100b080 a1=241 a2=1b6 a3=0 items=0 ppid=3195 pid=3228 auid=4294967295 uid=0 gid=0 euid=0 suid=0 fsuid=0 egid=0 sgid=0 fsgid=0 tty=pts1 ses=4294967295 comm=bash exe=/usr/bin/bash subj=system_u:system_r:svirt_lxc_net_t:s0:c875,c1023 key=(null)
 
