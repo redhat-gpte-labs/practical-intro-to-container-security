@@ -139,7 +139,15 @@ Make a backup copy of the ```list_rpms.py``` file then modify the custom scanner
 # cp list_rpms.py list_rpms.py.bak
 ~~~
 
-Feel free to do your own thing but a simple change would be at **line 39**. Insert an ```‘etc/debian_version’``` element into the array after the ```'etc/redhat-release'``` element. After opening the ```list_rpms.py``` file with ```vi``` editor, run the ```:set number``` command to turn on line numbering.
+Changing the custom scanner.
+
+Feel free to experiment but a simple change would be at **line 39**. Insert an ```‘etc/debian_version’``` element into the array after the ```'etc/redhat-release'``` element.
+
+TIP: Run ```vi``` with the ```"+set number"``` option to turn on line numbering.
+
+~~~shell
+# vi "+set number" list_rpms.py
+~~~
 
 Your source should look like the following.
 
