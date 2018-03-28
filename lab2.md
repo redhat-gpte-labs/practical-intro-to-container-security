@@ -12,12 +12,12 @@ This lab session is a low-level, hands-on introduction to container security usi
 
 ![Lab Diagram]({% image_path con-sec-lab.png %})
 
-You will be working with the following RHEL7.4 Server systems. 
+You will be working with the following systems running Red Hat Enterprise Linux (RHEL) version 7.4. 
 
 * {{SERVER_0}} (Container Host)
-* {{SERVER_1}}  (Container Registry)
+* {{SERVER_1}} (Container Registry)
 * {{SERVER_2}} (Container Registry)
-* {{SERVER_DIST}} (Content server)
+* {{SERVER_DIST}} (Bastion host and content server)
 
 These servers can only be accessed from a bastion host which is publicly accessible via ssh.
 
