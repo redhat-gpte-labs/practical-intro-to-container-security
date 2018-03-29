@@ -22,10 +22,23 @@ Now, open a new terminal window, ssh into rhserver0 and run atomic diff to see t
 
 Atomic will report a list of differences between the two file systems. The /var/tmp/date.txt file should appear in the report.
 
-Exit the container namespace when you're finished.
-
 ~~~shell
-[container_id /]# exit
+Files only in my_container:
+     var/tmp/date.txt
+
+Common files that are different: (reason)
+     dev (time)
+     etc/hostname (time)
+     dev/pts (time)
+     . (time)
+     dev/console (time)
+     etc/hosts (time)
+     dev/shm (time)
+     etc/resolv.conf (time)
+     var/tmp (size time)
+     etc (time)
+     .dockerenv (time)
+     etc/mtab (time)
 ~~~
 
 #### Atomic mount
@@ -58,48 +71,43 @@ Unmount the container when you're finished.
 
 #### Live Shared mount
 
-Use atomic to live mount a running a container. This option allows the user to modify the container's contents as it runs or updates the container's software without rebuilding the container.
+Use atomic to live mount the file system of a running container. This option allows the user to modify the container's contents as it runs or updates the container's software without rebuilding the container.
 
-~~~shell
-# docker run --rm --name sleepy rhel7 sleep 9999
-~~~
-
-Open a second window and mount the running container’s file system from the host.
+Mount the file system of the container you created above and modify the ```date.txt``` file.
 
 ~~~shell
 # mkdir /mnt/live
-# atomic mount --live sleepy /mnt/live
-# date > /mnt/live/usr/tmp/date.txt
+# atomic mount --live my_container /mnt/live
+# date >> /mnt/live/usr/tmp/date.txt
+# cat /mnt/live/var/tmp/date.txt 
+
+Thu Mar 29 19:46:24 UTC 2018
+Thu Mar 29 15:51:09 EDT 2018
 ~~~
 
-Use atomic to live mount a running a container. This option allows the user to modify the container's contents as it runs or updates the container's software without rebuilding the container.
+#### SELinux labels
+
+The ```--shared``` option mounts a container with a shared SELinux label. Compare the SELinux labels of the two mount points. The ```/mnt/shared`` directory should not have an SELInux MCS label.
+
 
 ~~~shell
-# docker run --rm --name sleepy rhel7 sleep 9999
+# mkdir /mnt/shared
+# atomic mount --shared my_container /mnt/shared
+# ls -Z /mnt
+
+dr-xr-xr-x. root root system_u:object_r:svirt_sandbox_file_t:s0:c139,c976 live
+dr-xr-xr-x. root root system_u:object_r:usr_t:s0       shared
+
 ~~~
 
-Open a second window and mount the running container’s file system from the host.
+Clean up.
 
 ~~~shell
-# mkdir /mnt/live
-# atomic mount --live sleepy /mnt/live
-# date > /mnt/live/usr/tmp/date.txt
+# atomic umount /mnt/live 
+# atomic umount /mnt/shared
 ~~~
 
-This option mounts a container with a shared SELinux label.
-
-~~~shell
-# atomic mount --shared sleepy /mnt/live
-# ls -dZ /mnt/live
-~~~
-
-Compare the SELinux label of the mount point to the live mount in the step above then unmount the container. It should not have an SELInux MCS label.
-
-~~~shell
-# atomic umount /mnt/live
-~~~
-
-Exit from the container namespace.
+Exit the running container.
 
 ~~~shell
 [container_id /] # exit
@@ -110,16 +118,31 @@ Exit from the container namespace.
 Have a look at the atomic-images man page to read about it’s useful commands then experiment by inspecting an image from a remote registry. Below is an example to get you started.
 
 ~~~shell
-# atomic images version rhserver1.example.com:5000/mystery
+# atomic images info rhserver1.example.com:5000/mystery
+# atomic images info rhserver1.example.com:5000/mystery
+# atomic images verify rhel7
 ~~~
 
-#### Inspecting images with Skopeo
+#### Working with Skopeo
 
-Skopeo is an additional tool that can perform image operations on remote registries. Run the skopeo command from rhserver0 and inspect one of the images that you pushed to the registry on rhserver1.
+Skopeo is an additional tool that can perform image operations on remote registries. Give the example below a try. What does it do? 
 
 ~~~shell
-# skopeo --tls-verify=false inspect docker://<remote-registry-host:port>/<image>
+# skopeo copy --dest-tls-verify=false docker-daemon:rhel7:latest docker://rhserver2.example.com:5000/rhel7
+Getting image source signatures
+Copying blob sha256:e9fb3906049428130d8fc22e715dc6665306ebbf483290dd139be5d7457d9749
+ 196.50 MB / 196.50 MB [=================================================] 1m10s
+Copying blob sha256:1b0bb3f6ad7e8dbdc1d19cf782dc06227de1d95a5d075efb592196a509e6e3a9
+ 10.00 KB / 10.00 KB [======================================================] 0s
+Copying config sha256:d01d4f01d3c4263a3adf535152c633a9ecfd37cdc262015867115028b1b874a8
+ 0 B / 6.24 KB [------------------------------------------------------------] 0s
+Writing manifest to image destination
+Storing signatures
 ~~~
+
+Extra Credit
+
+Have a look at the ```skopeo(1)``` man page and expiriment. See if you can copy an image from one registry to another.
 
 
 
