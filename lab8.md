@@ -90,7 +90,7 @@ Next, create policy to trust signed images from the registry on {{SERVER_1}}. Ve
 rhserver1.example.com:5000          signed
 ~~~
 
-Now try the pull the signed image from {{SERVER_1}} again and it should succeed.
+Now try to pull the image from the trusted registry {{SERVER_1}} and it should succeed.
 
 ~~~shell
 # docker pull rhserver1.example.com:5000/rhel7:latest
