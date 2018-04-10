@@ -51,6 +51,12 @@ rhel7@sha256=ffc945db45112eaccffabd760c3b09bccd58a27a455a39105f0b0df6295f60e7
 signature-1
 ~~~
 
+NOTE: The signature and push may be done in a single command.
+
+~~~shell
+# atomic push --sign-by=<key-name or email> --gnupghome /root/.gnupg rhserver1.example.com:5000/rhel7:latest
+~~~
+
 #### Pulling signed images
 
 ![Image Decryption]({% image_path decrypt.png %})
@@ -82,7 +88,7 @@ rhserver1.example.com:5000/rhel7:latest isn't allowed: Running image docker://rh
 Next, create policy to trust signed images from the registry on {{SERVER_1}}. Verify the trust you set up requires a signed image.
 
 ~~~shell
-# gpg --list-keys
+# gpg2 --list-keys
 # atomic trust add rhserver1.example.com:5000 --sigstoretype=local --sigstore=/var/lib/atomic/sigstore --pubkeys=<gpg-keyname>
 
 # atomic trust show
