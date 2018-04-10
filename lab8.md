@@ -89,7 +89,7 @@ Next, create policy to trust signed images from the registry on {{SERVER_1}}. Ve
 
 ~~~shell
 # gpg2 --list-keys
-# atomic trust add rhserver1.example.com:5000 --sigstoretype=local --sigstore=/var/lib/atomic/sigstore --pubkeys=<gpg-keyname>
+# atomic trust add rhserver1.example.com:5000 --sigstore=file:///var/lib/atomic/sigstore --pubkeys=<gpg-keyname>
 
 # atomic trust show
 
