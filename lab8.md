@@ -82,7 +82,6 @@ First, test that image pulls are rejected by default.
 
 Trying to pull repository rhserver1.example.com:5000/rhel7 ... 
 rhserver1.example.com:5000/rhel7:latest isn't allowed: Running image docker://rhserver1.example.com:5000/rhel7:latest is rejected by policy.
-
 ~~~
 
 Next, create policy to trust signed images from the registry on {{SERVER_1}}. The  ```--sigstore`` argument is used to locate the signature when the image is pulled.
