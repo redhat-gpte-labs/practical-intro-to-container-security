@@ -11,7 +11,7 @@ Start by editing ```/etc/sysconfig/docker``` and set **--signature-verification=
 Next, create a set of gpg keys on {{SERVER_0}}. In case you're interested, the ```rngd``` program feeds random numbers to the kernel’s entropy pool and will speed up the key generation process.
 
 ~~~shell
-# yum install rng-tools
+# yum -y install rng-tools
 # rngd -r /dev/urandom 
 # gpg --gen-key
 ~~~
@@ -22,8 +22,9 @@ Next, create a set of gpg keys on {{SERVER_0}}. In case you're interested, the `
 Use the ```atomic``` command to sign an image on rhserver0 with your private key and push it to the rhserver1 registry. Use the gpg-key name or email and don’t forget the image tag! Use root/redhat for the registry login credentials. When prompted, the passphrase is redhat.
 
 ~~~shell
-# gpg --list-keys
-# atomic push --sign-by <secret-key-id> rhserver1.example.com:5000/rhel7:latest
+# gpg2 --list-keys
+# atomic sign --sign-by=<key-name or email> --gnupghome /root/.gnupg rhserver1.example.com:5000/rhel7:latest
+# atomic push rhserver1.example.com:5000/rhel7:latest
 
 Registry username: root
 Registry password: 
