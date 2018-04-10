@@ -93,11 +93,23 @@ Next, create policy to trust signed images from the registry on {{SERVER_1}}. Th
 # atomic trust show
 
 * (default)                         reject                               
-rhserver1.example.com:5000          signed
+rhserver1.example.com:5000          signed dog@dogs.net
 ~~~
 
 Now try to pull the image from the trusted registry {{SERVER_1}} and it should succeed.
 
 ~~~shell
 # docker pull rhserver1.example.com:5000/rhel7:latest
+~~~
+
+Extra Credit.
+
+Create a trust policy that only allows images from Red Hat's registry to be pulled.
+
+~~~shell
+# atomic trust add registry.access.redhat.com --pubkeys /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release --sigstore https://access.redhat.com/webassets/docker/content/sigstore  --type signedBy
+
+# atomic trust show
+* (default)                         reject                               
+registry.access.redhat.com          signed security@redhat.com,security@redhat.com
 ~~~
