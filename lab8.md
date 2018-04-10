@@ -85,7 +85,7 @@ rhserver1.example.com:5000/rhel7:latest isn't allowed: Running image docker://rh
 
 ~~~
 
-Next, create policy to trust signed images from the registry on {{SERVER_1}}. Verify the trust you set up requires a signed image.
+Next, create policy to trust signed images from the registry on {{SERVER_1}}. The  ```--sigstore`` argument is used to locate the signature when the image is pulled.
 
 ~~~shell
 # gpg2 --list-keys
