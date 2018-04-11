@@ -4,9 +4,10 @@ Docker images can easily be pulled from any public registry and run on a contain
 
 #### Atomic diff
 
-The ```atomic``` command can help understand the difference between two images or an image and a running container. Run the rhel7 image and connect to it's namespace with bash. Then make some change like creating a file or something.
+The ```atomic``` command can help understand the difference between two images or an image and a running container. Run the rhel7 image and connect to it's namespace with bash. Then make some change like creating a file.
 
 ~~~shell
+# yum -y install atomic
 # atomic diff --help
 # man atomic-diff
 
