@@ -8,18 +8,43 @@ Start by editing ```/etc/sysconfig/docker``` and set **--signature-verification=
 # systemctl restart docker
 ~~~
 
-Next, create a set of gpg keys on {{SERVER_0}}. In case you're interested, the ```rngd``` program feeds random numbers to the kernel’s entropy pool and will speed up the key generation process.
+Confirm the system has enough entropy to quickly generate gpg keys.
+
+~~~shell
+# cat /proc/sys/kernel/random/entropy_avail
+3089
+~~~
+
+If the value returned is < 3000, run the following. The ```rngd``` program feeds random numbers to the kernel’s entropy pool 
+and will speed up the key generation process.
 
 ~~~shell
 # yum -y install rng-tools
-# rngd -r /dev/urandom 
-# gpg --gen-key
+# modprobe rng
+# rngd -r /dev/urandom
+~~~
+
+
+Next, create a set of gpg keys on {{SERVER_0}}. 
+
+~~~shell
+# gpg2 --gen-key
 ~~~
 
 #### Image signing
 
 ![Image Encryption]({% image_path encrypt.png %})
 Use the ```atomic``` command to sign an image on rhserver0 with your private key and push it to the rhserver1 registry. Use the gpg-key name or email and don’t forget the image tag! Use root/redhat for the registry login credentials. When prompted, the passphrase is redhat.
+
+Confirm you have an image with the proper tag.
+
+~~~shell
+# docker images
+REPOSITORY                      TAG                 IMAGE ID            CREATED             SIZE
+rhserver1.example.com:5000/rhel7   latest              d01d4f01d3c4        2 months ago        196 MB
+~~~
+
+Now create the signature and push it to the registry on {{SERVER_1}}.
 
 ~~~shell
 # gpg2 --list-keys
@@ -88,7 +113,7 @@ Next, create policy to trust signed images from the registry on {{SERVER_1}}. Th
 
 ~~~shell
 # gpg2 --list-keys
-# atomic trust add rhserver1.example.com:5000 --sigstore=file:///var/lib/atomic/sigstore --pubkeys=<gpg-keyname>
+# atomic trust add rhserver1.example.com:5000 --sigstore=file:///var/lib/atomic/sigstore --pubkeys=<email-from-key>
 
 # atomic trust show
 
