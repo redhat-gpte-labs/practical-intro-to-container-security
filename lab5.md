@@ -10,17 +10,39 @@ We’ll begin with looking at Linux capabilities as it relates to containers. Ca
 ~~~shell
 # yum -y install kernel-headers
 # less /usr/include/linux/capability.h
+~~~
+
+Examine the capabilities of a process running as root on the host.
+
+~~~shell
 # grep CapEff /proc/self/status
 
 CapEff:	0000001fffffffff
 ~~~
 
-The capsh and pscap commands provide a human readable output of the capabilities bitmask. Try it out! You may have to run yum install libcap-ng
+The ```capsh``` and ```pscap``` commands provide a human readable output of the capabilities bitmask. Try it out!
 
 ~~~shell
+# yum -y install libcap-ng
 # capsh --decode=01fffffffff
 
 0x0000001fffffffff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,35,36
+~~~
+
+Exploring the capabilities of containers.
+
+Start by loading the rhel7 image.
+
+~~~shell
+wget -O - http://{{SERVER_DIST}}/content/images/rhel7.tar | docker load
+~~~
+
+Run a rhel7 container as user 0 and look at it’s capabilities. A non-null CapEff value indicates the process has capabilities. Take note that the capabilities are less than what a root process has running on the host.
+
+~~~shell
+# docker run --rm -it rhel7 grep CapEff /proc/self/status
+
+CapEff:	00000000a80425fb
 ~~~
 
 Now run the same container as a non-root user and compare the results to the previous exercises.
@@ -42,7 +64,7 @@ CapEff: 0000001fffffffff
 Next, run the container as root but drop all capabilities.
 
 ~~~shell
-# docker run --rm -ti --name temp --cap-drop=all rhel7 grep CapEff /proc/self/status
+# docker run --rm -ti --user 0 --name temp --cap-drop=all rhel7 grep CapEff /proc/self/status
 
 CapEff:	0000000000000000
 ~~~
@@ -50,35 +72,30 @@ CapEff:	0000000000000000
 Now, run the container as root but add all capabilities.
 
 ~~~shell
-# docker run --rm -ti --name temp --cap-add=all rhel7 grep CapEff /proc/self/status
+# docker run --rm -ti --user 0 --name temp --cap-add=all rhel7 grep CapEff /proc/self/status
 
 CapEff: 0000001fffffffff
 ~~~
 
-Now run a container and look at it’s capabilities. Run the rhel7 image and examine it’s capabilities. A non-null CapEff value indicates the process has capabilities. Take note the capabilities are less than what a root process has running on the host.
-
-~~~shell
-# docker run --rm -it rhel7 grep CapEff /proc/self/status
-
-CapEff:	00000000a80425fb
-~~~
-
 #### Capabilities Challenge #1
 
-How could you determine which capabilities docker drops from a process running in a container? One solution is presented on the next slide.
+How could you determine which capabilities docker drops from a process running in a container? One solution is presented below.
 
-One solution would be to use your favorite hex calculator and find the CapEff difference between a host process (0x1fffffffff) and a containerized process (0xa80425fb) then use capsh to decode it.
+One approach would be to use your favorite binary calculator and find the CapEff difference between a host process (0x1fffffffff) and a containerized process (0xa80425fb) then use capsh to decode it.
 
 ~~~shell
+# yum -y install bc
 # echo 'obase=16;ibase=16;1FFFFFFFFF-A80425FB' | bc
 1F57FBDA04
 
-# capsh --decode=1F57FBDA04 0x0000001f57fbda04=cap_dac_read_search,cap_linux_immutable,cap_net_broadcast,cap_net_admin,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_lease,cap_audit_control,cap_mac_override,cap_mac_admin,cap_syslog,35,36
+# capsh --decode=1F57FBDA04 
+
+0x0000001f57fbda04=cap_dac_read_search,cap_linux_immutable,cap_net_broadcast,cap_net_admin,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_lease,cap_audit_control,cap_mac_override,cap_mac_admin,cap_syslog,35,36
 ~~~
 
 #### Capabilities Challenge #2
 
-Let’s say you're working with a time/date sensitive application that gathers, logs and locks data. The application provider tells you this container requires full privileges because it needs to set a file as immutable (via the chattr command). You remember that in compliance with your company’s security policy, this container should not be able to ping any host. Your challenge is to run the application safely yet produce the GOOD test results shown below.
+Let’s say you're working with a time/date sensitive application that gathers, logs and locks data. The application provider tells you this container requires full privileges because it needs to set a file as immutable (via the chattr command). You remember that in compliance with your company’s security policy, this container should not be able to ping any host. Your challenge is to run the application safely yet produce the (3) GOOD test results as shown below.
 
 ~~~shell
 # Installing Application...
@@ -89,7 +106,14 @@ chattr test: GOOD
 file immutable test: GOOD
 ~~~
 
-To get started, run the container and observe it produces several NOT GOOD messages. Use what you have learned so far about capabilities to pass the proper arguments to docker run to solve the challenge.
+Make sure the mystery container is loaded.
+
+~~~shell
+# wget -O - http://{{SERVER_DIST}}/content/images/mystery.tar | docker load
+~~~
+
+To get started, run the container and observe it produces several NOT GOOD messages. Use what you have learned so far about capabilities 
+to determine the proper arguments to pass to ```docker run``` and solve the challenge.
 
 ~~~shell
 # docker run --rm mystery
@@ -102,9 +126,14 @@ chattr failed: NOT GOOD
 file is not immutable: NOT GOOD
 ~~~
 
-Recall the risks of running a privileged container? In order to complete your investigation of this container, you may need to run it as privileged. If you do so, observe the output carefully and run tail -f /var/log/messages and look for clues of an exploitation. You’ll need to perform a minor repair to your container host (rhserver0) when you do this.
+WARNING: Recall the risks of running a privileged container? In order to complete your investigation of this container, you may 
+consider running the mystery container as privileged. If you do so, observe the output carefully and run tail -f /var/log/messages 
+to look for clues of an exploitation. You’ll need to perform a minor repair to your container host {{SERVER_0}} if you run
+the mystery container with ```--privileged```.
 
-~~~
+Proceed with caution.
+
+~~~shell
 # docker run --rm --privileged mystery 
 ~~~
  
@@ -122,18 +151,20 @@ An even better approach is to drop all capabilities and add only what is require
 
 #### Capabilities Challenge #3
 
-Suppose a container had a legitimate reason to change the date (ntpd, license testing, etc) How would you allow a container to change the date on the host? What capabilities are needed to allow this? One solution is on the next slide.
+Suppose a container had a legitimate reason to change the date (ntpd, license testing, etc) How would you allow a container to change the date on the host? What capabilities are needed to allow this? One solution is below.
 
-To allow a container to set the system clock, the sys_time capability must be added. Also, at the time of this writing, the seccomp security option must be set to unconfined. This will be fixed in a future minor release of RHEL7. Refer to http://bugzilla.redhat.com for details.
+To allow a container to set the system clock, the ```sys_time capability``` must be added. Also, at the time of this writing, the seccomp security option must be set to unconfined. This will be fixed in a future minor release of RHEL7. Refer to http://bugzilla.redhat.com for details.
 
 ~~~
 # docker run --rm --cap-drop=all --cap-add=sys_time --security-opt=seccomp=unconfined mystery
 ~~~
 
-Take note of the output and check the date on rhserver0
+Take note of the output and check the date on {{SERVER_0}}.
 
 ~~~
 # date
+
+Wed Dec 31 19:00:09 EST 1969
 ~~~
 
 IMPORTANT => Make sure to reset the date correctly to prevent issues with future labs.
