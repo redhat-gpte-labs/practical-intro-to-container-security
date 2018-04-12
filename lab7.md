@@ -129,7 +129,8 @@ Have a look at the atomic-images man page to read about it’s useful commands t
 Skopeo is an additional tool that can perform image operations on remote registries. Give the example below a try. What does it do? 
 
 ~~~shell
-# skopeo copy --dest-tls-verify=false docker-daemon:rhel7:latest docker://rhserver2.example.com:5000/rhel7
+# yum -y install skopeo
+# skopeo copy --dest-tls-verify=false docker-daemon:rhel7:latest docker://rhserver1.example.com:5000/rhel7
 
 Getting image source signatures
 Copying blob sha256:e9fb3906049428130d8fc22e715dc6665306ebbf483290dd139be5d7457d9749
