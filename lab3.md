@@ -164,6 +164,8 @@ The push refers to a repository [rhserver2.example.com:5000/mystery]
 latest: digest: sha256:e6f59879436cf2272c1ca14e69e09cb029d13592e38c3d95eee7162d8ef08560 size: 736
 ~~~
 
+IMPORTANT: Repeat the tag and push to {{SERVER_2}}.
+
 #### Exercise: Pulling images from a remote registry
 
 ##### Overview

@@ -25,6 +25,10 @@ registries = ['{{SERVER_2}}:5000']
 ~~~shell
 # systemctl restart docker
 # docker rmi {{SERVER_2}}:5000/mystery:latest
+
+Untagged: rhserver2.example.com:5000/mystery:latest
+Untagged: rhserver2.example.com:5000/mystery@sha256:e6f59879436cf2272c1ca14e69e09cb029d13592e38c3d95eee7162d8ef08560
+
 # docker pull {{SERVER_2}}:5000/mystery:latest
 ~~~
 

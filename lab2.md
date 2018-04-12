@@ -12,7 +12,7 @@ This lab session is a low-level, hands-on introduction to container security usi
 
 ![Lab Diagram]({% image_path con-sec-lab.png %})
 
-You will be working with the following systems running Red Hat Enterprise Linux (RHEL) version 7.4. 
+You will be working with the following systems running Red Hat Enterprise Linux (RHEL) version 7.5. 
 
 * {{SERVER_0}} (Container Host)
 * {{SERVER_1}} (Container Registry)
