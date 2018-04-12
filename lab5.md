@@ -5,7 +5,7 @@ Containers provide a certain degree of process isolation via kernel namespaces. 
 
 ### Capabilities
 
-We’ll begin with looking at Linux capabilities as it relates to containers. Capabilities are distinct units of privilege that can be independently enabled or disabled. Start by examining the kernel header file [1] and the effective capabilities of a root process on {{SERVER_0}} by looking its status. Notice that all 37 capability bits are set indicating this process has a full set of capabilities. For more info, read Dan’s blog post [2]. 
+We’ll begin with looking at Linux capabilities as it relates to containers. Capabilities are distinct units of privilege that can be independently enabled or disabled. Start by examining the kernel header file and the effective capabilities of a root process on {{SERVER_0}} by looking its status. Notice that all 37 capability bits are set indicating this process has a full set of capabilities. For more info, read [Dan’s blog post](http://rhelblog.redhat.com/2016/10/17/secure-your-containers-with-this-one-weird-trick/). 
 
 ~~~shell
 # yum -y install kernel-headers
@@ -153,7 +153,7 @@ An even better approach is to drop all capabilities and add only what is require
 
 Suppose a container had a legitimate reason to change the date (ntpd, license testing, etc) How would you allow a container to change the date on the host? What capabilities are needed to allow this? One solution is below.
 
-To allow a container to set the system clock, the ```sys_time capability``` must be added. Also, at the time of this writing, the seccomp security option must be set to unconfined. This is a known issue. Refer to the [RHEL7 release notes] (https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/release_notes/known_issues) for details.
+To allow a container to set the system clock, the ```sys_time capability``` must be added. Also, at the time of this writing, the seccomp security option must be set to unconfined. This is a known issue. Refer to the [RHEL7 release notes](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/release_notes/known_issues) for details.
 
 ~~~
 # docker run --rm --cap-drop=all --cap-add=sys_time --security-opt=seccomp=unconfined mystery
@@ -167,48 +167,8 @@ Take note of the output and check the date on {{SERVER_0}}.
 Wed Dec 31 19:00:09 EST 1969
 ~~~
 
-IMPORTANT => Make sure to reset the date correctly to prevent issues with future labs.
+**IMPORTANT** => Make sure to reset the date correctly to prevent issues with future labs.
 
 ~~~shell
 # date MMDDhhmmYYYY
 ~~~
-
-
-
-
-
-
-
-
-
-
-
-
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-##### References
-
-[1] /usr/include/linux/capability.h
-
-[2] http://rhelblog.redhat.com/2016/10/17/secure-your-containers-with-this-one-weird-trick/
