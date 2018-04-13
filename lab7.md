@@ -89,7 +89,7 @@ Thu Mar 29 15:51:09 EDT 2018
 
 #### SELinux labels
 
-The ```--shared``` option mounts a container with a shared SELinux label. Compare the SELinux labels of the two mount points. The ```/mnt/shared`` directory should not have an SELInux MCS label.
+The ```--shared``` option mounts a container with a shared SELinux label. Compare the SELinux labels of the two mount points. The ```/mnt/shared``` directory should not have an SELInux MCS label.
 
 
 ~~~shell
