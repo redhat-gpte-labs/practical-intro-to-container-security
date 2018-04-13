@@ -8,10 +8,9 @@ The ```atomic``` command can help understand the difference between two images o
 
 ~~~shell
 # yum -y install atomic
-# atomic diff --help
-# man atomic-diff
 
 # docker run --rm -it --name my_container rhel7:latest bash
+
 [container_id /]# date > /var/tmp/date.txt
 ~~~
 
@@ -56,7 +55,7 @@ Unmount the container from the previous exercise and try mounting an image from 
 
 ~~~shell
 # atomic umount /mnt/image
-# atomic mount rhserver1.example.com:5000/mystery /mnt/image
+# atomic mount rhserver1.example.com:5000/mystery:latest /mnt/image
 # ls /mnt/image/etc
 ~~~
 
@@ -148,8 +147,11 @@ Extra Credit
 
 Have a look at the ```skopeo(1)``` man page and expiriment. See if you can copy an image from one registry to another.
 
+Answer below.
+
 ~~~shell
 # skopeo copy --dest-tls-verify=false --src-tls-verify=false docker://rhserver1.example.com:5000/rhel7 docker://rhserver2.example.com:5000/rhel7
+
 Getting image source signatures
 Copying blob sha256:9a32f102e6778e4b3c677f1f93fa121808006d3c9e002237677248de9acb9589
  71.40 MB / 71.40 MB [======================================================] 1s
