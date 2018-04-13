@@ -165,12 +165,20 @@ Storing signatures
 
 Inspection
 
-Try the following ```skopeo``` commands to inspect an image.
+Try the following ```skopeo``` commands to inspect images.
+
+From a remote registry.
 
 ~~~shell
 # skopeo inspect --tls-verify=false docker://rhserver1.example.com:5000/rhel7
 ~~~
 
+From local container storage. Note the addtional information present in the RHEL image.
+
+~~~shell
+# skopeo inspect docker-daemon:mystery:latest
+# skopeo inspect docker-daemon:rhel7:latest
+~~~
 
 
 
