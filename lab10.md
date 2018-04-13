@@ -45,6 +45,7 @@ The ```example_plugin``` image should appear in the docker image cache.
 
 ~~~shell
 # docker images
+
 REPOSITORY                                  TAG                 IMAGE ID            CREATED             SIZE
 example_plugin                              latest              a0aae7f340e1        36 seconds ago      196.1 MB
 ~~~
@@ -59,6 +60,7 @@ Copying example_plugin configuration file to host filesystem...
 '/example_plugin' -> '/host/etc/atomic.d/example_plugin'
 
 # atomic scan --list
+
 ...
 Scanner: example_plugin 
   Image Name: example_plugin
@@ -89,6 +91,7 @@ Confirm the default setting.
 
 ~~~shell
 # atomic scan --list
+
 ...
 
 Scanner: example_plugin * 
@@ -98,6 +101,7 @@ Run the new scanner using the default scan type against the **rhel7** image. It 
 
 ~~~shell
 # atomic scan rhel7
+
 ...
 rhel7 (d01d4f01d3c4263)
 
@@ -148,13 +152,13 @@ Changing the custom scanner.
 
 Feel free to experiment but a simple change would be at **line 39**. Insert an ```‘etc/debian_version’``` element into the array after the ```'etc/redhat-release'``` element.
 
-TIP: Run ```vi``` with the ```"+set number"``` option to turn on line numbering.
+TIP: Run ```vim``` with the ```"+set number"``` option to turn on line numbering.
 
 ~~~shell
 # vim "+set number" list_rpms.py
 ~~~
 
-Your source should look like the following.
+Line 39 of your source should look like the following.
 
 ~~~shell
 35     def get_os(self):
