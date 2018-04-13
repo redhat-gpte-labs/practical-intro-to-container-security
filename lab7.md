@@ -165,7 +165,7 @@ Storing signatures
 
 Inspection
 
-Try the following ```skopeo``` commands.
+Try the following ```skopeo``` commands to inspect an image.
 
 ~~~shell
 skopeo inspect --tls-verify=false docker://rhserver1.example.com:5000/rhel7
