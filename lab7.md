@@ -170,7 +170,7 @@ Try the following ```skopeo``` commands to inspect images.
 From a remote registry.
 
 ~~~shell
-# skopeo inspect --tls-verify=false docker://rhserver1.example.com:5000/rhel7
+# skopeo inspect --tls-verify=false docker://{{SERVER_1}}:5000/rhel7
 ~~~
 
 From local container storage. Note the addtional information present in the RHEL image.
