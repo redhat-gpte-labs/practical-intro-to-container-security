@@ -11,14 +11,14 @@ The ```atomic``` command can help understand the difference between two images o
 # atomic diff --help
 # man atomic-diff
 
-# docker run --rm -it --name my_container rhel7 bash
+# docker run --rm -it --name my_container rhel7:latest bash
 [container_id /]# date > /var/tmp/date.txt
 ~~~
 
 Now, open a new terminal window, ssh into rhserver0 and run atomic diff to see the differences between the rhel7 image and the running container. 
 
 ~~~shell
-# atomic diff rhel7 my_container
+# atomic diff rhel7:latest my_container
 ~~~
 
 Atomic will report a list of differences between the two file systems. The /var/tmp/date.txt file should appear in the report.
@@ -48,7 +48,7 @@ Next we’ll use the atomic command to inspect a container’s filesystem by mou
 
 ~~~shell
 # mkdir /mnt/image
-# atomic mount rhel7 /mnt/image
+# atomic mount rhel7:latest /mnt/image
 # cat /mnt/image/etc/redhat-release
 ~~~
 
@@ -61,9 +61,11 @@ Unmount the container from the previous exercise and try mounting an image from 
 ~~~
 
 How might you search a container for all programs that are owned by root and have the SETUID bit set? Sound like a good idea for a custom container scanner?
+
 ~~~shell
 # find /mnt/image -user root -perm -4000 -exec ls -ldb {} \;
 ~~~
+
 Unmount the container when you're finished.
 
 ~~~shell
@@ -98,7 +100,6 @@ The ```--shared``` option mounts a container with a shared SELinux label. Compar
 
 dr-xr-xr-x. root root system_u:object_r:svirt_sandbox_file_t:s0:c139,c976 live
 dr-xr-xr-x. root root system_u:object_r:usr_t:s0       shared
-
 ~~~
 
 Clean up.
@@ -116,12 +117,12 @@ Exit the running container.
 
 #### Atomic images
 
-Have a look at the atomic-images man page to read about it’s useful commands then experiment by inspecting an image from a remote registry. Below is an example to get you started.
+Have a look at the atomic-images man page to read about it’s useful commands then experiment by inspecting an image from local container storage. Below is an example to get you started.
 
 ~~~shell
-# atomic images info rhserver1.example.com:5000/mystery
-# atomic images info rhserver1.example.com:5000/mystery
-# atomic images verify rhel7
+# atomic images info mystery:latest
+# atomic images info rhel7:latest
+# atomic images verify rhel7:latest
 ~~~
 
 #### Working with Skopeo
@@ -147,7 +148,18 @@ Extra Credit
 
 Have a look at the ```skopeo(1)``` man page and expiriment. See if you can copy an image from one registry to another.
 
-
+~~~shell
+# skopeo copy --dest-tls-verify=false --src-tls-verify=false docker://rhserver1.example.com:5000/rhel7 docker://rhserver2.example.com:5000/rhel7
+Getting image source signatures
+Copying blob sha256:9a32f102e6778e4b3c677f1f93fa121808006d3c9e002237677248de9acb9589
+ 71.40 MB / 71.40 MB [======================================================] 1s
+Copying blob sha256:b8aa42cec17a56aea47fa45bd8029d1e877b21213017e849a839aadba9e1486c
+ 1.21 KB / 1.21 KB [========================================================] 0s
+Copying config sha256:d01d4f01d3c4263a3adf535152c633a9ecfd37cdc262015867115028b1b874a8
+ 6.24 KB / 6.24 KB [========================================================] 0s
+Writing manifest to image destination
+Storing signatures
+~~~
 
 
 
