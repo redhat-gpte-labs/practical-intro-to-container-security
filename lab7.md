@@ -116,7 +116,7 @@ Exit the running container.
 
 #### Atomic images
 
-Have a look at the atomic-images man page to read about it’s useful commands then experiment by inspecting an image from local container storage. Below is an example to get you started.
+Have a look at the atomic-images man page to read about it’s useful commands then experiment by inspecting an image from local container storage. Below are a few examples to get you started.
 
 ~~~shell
 # atomic images info mystery:latest
@@ -144,7 +144,7 @@ Writing manifest to image destination
 Storing signatures
 ~~~
 
-Extra Credit
+##### Extra Credit
 
 Have a look at the ```skopeo(1)``` man page and expiriment. See if you can copy an image from one registry to another.
 
@@ -164,7 +164,7 @@ Writing manifest to image destination
 Storing signatures
 ~~~
 
-Inspection with Skopeo
+##### Inspection with Skopeo
 
 Try the following ```skopeo``` commands to inspect images.
 
