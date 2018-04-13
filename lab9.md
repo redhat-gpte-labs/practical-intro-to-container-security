@@ -61,9 +61,12 @@ In addition to container images, running containers can also be scanned. For exa
 # docker ps
 CONTAINER ID        IMAGE               COMMAND               CREATED             STATUS              PORTS               NAMES
 4bfab8d8fefd        rhel7               "tail -f /dev/null"   4 seconds ago       Up 2 seconds                            sleepy
+
 # atomic scan sleepy
 ...
 ~~~
+
+The output should be the same as the previous scan.
 
 Now stop and remove the container.
 
