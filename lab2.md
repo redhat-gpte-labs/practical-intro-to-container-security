@@ -18,6 +18,11 @@ You will be working with the following systems running Red Hat Enterprise Linux 
 * {{SERVER_1}} (Container Registry)
 * {{SERVER_2}} (Container Registry)
 * {{SERVER_DIST}} (Bastion host and content server)
+  * rhel-7-server-rpms 
+  * rhel-7-server-optional-rpms 
+  * rhel-7-server-extras-rpms 
+  * rhel-7-server-supplementary-rpms 
+
 
 These servers can only be accessed from a bastion host which is publicly accessible via ssh.
 
