@@ -22,3 +22,5 @@ modules:
     name: The Atomic Scanner
   lab10:
     name: Custom Scanners
+  lab11:
+    name: Extra Credit
