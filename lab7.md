@@ -116,7 +116,7 @@ Exit the running container.
 
 #### Atomic images
 
-Have a look at the atomic-images man page to read about it’s useful commands then experiment by inspecting an image from local container storage. Below are a few examples to get you started.
+Have a look at the ```atomic-images(1)``` man page to read about it’s useful commands then experiment by inspecting an image from local container storage. Below are a few examples to get you started.
 
 ~~~shell
 # atomic images info mystery:latest
