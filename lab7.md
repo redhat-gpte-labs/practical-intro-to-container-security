@@ -163,6 +163,14 @@ Writing manifest to image destination
 Storing signatures
 ~~~
 
+Inspection
+
+Try the following ```skopeo``` commands.
+
+~~~shell
+skopeo inspect --tls-verify=false docker://rhserver1.example.com:5000/rhel7
+~~~
+
 
 
 
