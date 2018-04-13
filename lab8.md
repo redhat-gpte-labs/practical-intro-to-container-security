@@ -2,7 +2,7 @@
 
 #### Image signing configuration
 
-Start by editing ```/etc/sysconfig/docker``` and set **--signature-verification=true** then restart the docker service.
+Start by editing ```/etc/sysconfig/docker``` and set ```--signature-verification=true``` then restart the docker service.
 
 ~~~shell
 # systemctl restart docker
