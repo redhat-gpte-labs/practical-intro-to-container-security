@@ -126,7 +126,8 @@ Have a look at the atomic-images man page to read about it’s useful commands t
 
 #### Working with Skopeo
 
-Skopeo is an additional tool that can perform image operations on remote registries. Give the example below a try. What does it do? 
+Skopeo is an additional low level tool that can perform image operations on local or remote images. 
+Give the example below a try.  
 
 ~~~shell
 # yum -y install skopeo
@@ -163,7 +164,7 @@ Writing manifest to image destination
 Storing signatures
 ~~~
 
-Inspection
+Inspection with Skopeo
 
 Try the following ```skopeo``` commands to inspect images.
 
