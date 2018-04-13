@@ -80,6 +80,8 @@ How would you scan all running containers on a given host?
 # atomic scan --help
 ~~~
 
+NOTE: This feature was removed in RHEL7.5
+
 Try running the scanner on an image in one of the remote registries.
 
 ~~~shell

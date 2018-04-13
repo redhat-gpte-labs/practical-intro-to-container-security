@@ -53,6 +53,11 @@ Now install the scanner and confirm it is configured.
 
 ~~~shell
 # atomic install --name example_plugin example_plugin
+
+docker run -it --rm --privileged -v /etc/atomic.d/:/host/etc/atomic.d/ example_plugin sh /install.sh
+Copying example_plugin configuration file to host filesystem...
+'/example_plugin' -> '/host/etc/atomic.d/example_plugin'
+
 # atomic scan --list
 ...
 Scanner: example_plugin 
@@ -146,7 +151,7 @@ Feel free to experiment but a simple change would be at **line 39**. Insert an `
 TIP: Run ```vi``` with the ```"+set number"``` option to turn on line numbering.
 
 ~~~shell
-# vi "+set number" list_rpms.py
+# vim "+set number" list_rpms.py
 ~~~
 
 Your source should look like the following.
@@ -176,6 +181,22 @@ Now run the modified example_plugin scanner on the mystery image again. If every
 
 ~~~shell
 # atomic scan --scanner example_plugin --scan_type=get-os mystery
+~~~
+
+Output
+
+~~~shell
+docker run -t --rm -v /etc/localtime:/etc/localtime -v /run/atomic/2018-04-13-11-53-20-983326:/scanin -v /var/lib/atomic/example_plugin/2018-04-13-11-53-20-983326:/scanout:rw,Z -v /tmp/foobar:/foobar example_plugin python list_rpms.py get-os
+
+mystery (c82b952c1204204)
+
+The following results were found:
+
+       os_release: 8.7
+
+
+
+Files associated with this scan are in /var/lib/atomic/example_plugin/2018-04-13-11-53-20-983326.
 ~~~
 
 #### The End
