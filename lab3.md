@@ -56,13 +56,13 @@ Hint: Some lines were ellipsized, use -l to show in full.
 See if you can `curl` the registry. Two braces `{}` should be returned.
 
 ~~~shell
-# curl localhost:5000/v2/
+# curl localhost:5000/v2/_catalog
 ~~~
 
 To check the firewall, `curl` the {{SERVER_1}} and {{SERVER_2}} registries from {{SERVER_0}}.
 
 ~~~shell
-# curl {{SERVER_1}}:5000/v2/
+# curl {{SERVER_1}}:5000/v2/_catalog
 ~~~
 
 Expected Output:
