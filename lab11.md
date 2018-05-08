@@ -1,28 +1,104 @@
 ## New Stuff
 
-### Getting started with runc
+### Getting started with CRI-O
 
-To become familiar with the tools based on the CRI-O spec, follow
-this simple example based on the run-spec (1) man page.
+CRI-O is an open source implementation of the [Open Container Initiative.](https://github.com/opencontainers/runtime-spec) To become familiar with the tools based on the CRI-O spec, follow
+this simple example which is based on the ```run-spec (1)``` man page. For further information, have a look at the documentation for [running containers without Docker.](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/managing_containers/finding_running_and_building_containers_without_docker)
 
-First, install the runc package.
+#### The ```runc``` command
+
+First, install the ```runc``` package.
 
 ~~~shell
 # yum -y install runc
 ~~~
 
-A runc container consists of a directory that contains a *spec* file and a *root* file system.
+A CRI-O container consists of a directory that contains a *spec* file and a *root* file system.
 
 ~~~shell 
-mkdir hello
-cd hello
-docker pull hello-world
-docker export $(docker create hello-world) > hello-world.tar
-mkdir rootfs
-tar -C rootfs -xf hello-world.tar
-runc spec
-sed -i 's;"sh";"/hello";' config.json
-runc run container1
+# mkdir lab11
+# cd lab11
+# docker export $(docker create rhel7) > rhel7-rootfs.tar
+# mkdir rootfs
+# tar -C rootfs -xf rhel7-rootfs.tar
 ~~~
 
+Use the ```runc``` command to create a template spec file. Have a look at the contents of the ```config.json``` file that was created.
+
+~~~shell
+# runc spec
+~~~
+
+Run the container.
+
+~~~shell
+# runc run mycontainer
+~~~
+
+Note the capabilities.
+~~~shell
+sh-4.2# capsh --print
+Current: = cap_kill,cap_net_bind_service,cap_audit_write+eip
+Bounding set =cap_kill,cap_net_bind_service,cap_audit_write
+Securebits: 00/0x0/1'b0
+ secure-noroot: no (unlocked)
+ secure-no-suid-fixup: no (unlocked)
+ secure-keep-caps: no (unlocked)
+uid=0(root)
+gid=0(root)
+groups=
+~~~
+
+Try to set the date backward (it should fail).
+
+~~~shell
+sh-4.2# moment=$(date) && date -s "$moment"
+date: cannot set date: Operation not permitted
+Tue May  8 00:58:00 UTC 2018
+~~~
+
+Exit the container.
+
+~~~shell
+sh-4.2# exit
+~~~
+
+Use what you learned in the isolation lab and make the necessary changes to the spec file to add the ```CAP_SYS_TIME``` capability.
+
+Run the container again. 
+
+~~~shell
+# runc run mycontainer
+~~~
+
+Confirm the capabilities were updated.
+
+~~~shell
+sh-4.2# capsh --print
+~~~
+
+~~~shell
+Current: = cap_kill,cap_net_bind_service,cap_sys_time,cap_audit_write+eip
+Bounding set =cap_kill,cap_net_bind_service,cap_sys_time,cap_audit_write
+Securebits: 00/0x0/1'b0
+ secure-noroot: no (unlocked)
+ secure-no-suid-fixup: no (unlocked)
+ secure-keep-caps: no (unlocked)
+uid=0(root)
+gid=0(root)
+groups=
+~~~
+
+Run the container and observe the output.
+
+~~~shell
+# runc run mycontainer
+~~~
+
+Now try to change the date backwards a few seconds. It should suceed.
+
+~~~shell
+sh-4.2# moment=$(date) && date -s "$moment"
+Tue May  8 01:29:43 UTC 2018
+~~~
 
