@@ -1,7 +1,7 @@
 ## Custom Scanners
 
 
-The atomic scanner was designed with a pluggable architecture to allow developers to write custom scanners using any programming language supported by RHEL. Adding a scanner plugin involves the following:
+The atomic scanner was designed with a plug-able architecture to allow developers to write custom scanners using any programming language supported by RHEL. Adding a scanner plugin involves the following:
 
 * Make atomic aware of your plug-in.
 * Ensure the plugin obtains the proper input from the /scanin directory. 

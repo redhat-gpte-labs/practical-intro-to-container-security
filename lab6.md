@@ -17,7 +17,7 @@ SELinux is not namespaced. Since we do not want SELinux aware applications faili
 
 To demonstrate this, confirm the following commands on {{SERVER_0}} produce the expected output.
 
-Start by running a container that mounts ```/sys/fs/selinux``` as read-only then runs a command that requires an SELInux enabled kernel.
+Start by running a container that mounts ```/sys/fs/selinux``` as read-only then runs a command that requires an SELinux enabled kernel.
 
 ~~~shell
 # docker run --rm -v /sys/fs/selinux:/sys/fs/selinux:ro rhel7 id -Z
@@ -41,7 +41,7 @@ system_u:system_r:svirt_lxc_net_t:s0:c553,c697
 
 #### Bind Mounts
 
-Bind mounts alllow a container to mount a directory on the host for general application usage. This lab will help you understand how selinux behaves on different scenarioes. On {{SERVER_0}}, create the following directories.
+Bind mounts allow a container to mount a directory on the host for general application usage. This lab will help you understand how selinux behaves on different scenarios. On {{SERVER_0}}, create the following directories.
 
 ~~~shell
 # mkdir /data /shared /private
@@ -195,7 +195,7 @@ Cleanup.
 
 Imagine a scenario where an application gets compromised. The first thing the bad guy wants to do is to write an exploit into the application, so that the next time the application starts up, it starts up with the exploit in place. If the container was read-only it would prevent leaving a backdoor in place and be forced to start the cycle from the beginning.
 
-Docker added a read-only feature but it presents challenges since many applications need to write to temporary directories like ```/run``` or ```/tmp``` and when these directories are read-only, the apps fail. Red Hat’s approach leverages tmpfs. It's a nice solution to this problem because it eliminates data exposure on the host. As a best practice, run all applications in production with this mode. 
+Docker added a read-only feature but it presents challenges since many applications need to write to temporary directories like ```/run``` or ```/tmp``` and when these directories are read-only, the apps fail. Red Hat’s approach leverages ```tmpfs```. It's a nice solution to this problem because it eliminates data exposure on the host. As a best practice, run all applications in production with this mode. 
 
 Run a read-only container and specify a few writable file systems using the ```--tmpfs``` option.
 
@@ -216,7 +216,7 @@ mkdir: cannot create directory '/newdir': Read-only file system
 exit
 ~~~
 
-We've covered a lot of ground here on Dan's favoite topic. You should feel good.
+We've covered a lot of ground here on Dan's favorite topic. You should feel good.
 
 
 

@@ -95,7 +95,7 @@ One approach would be to use your favorite binary calculator and find the CapEff
 
 #### Capabilities Challenge #2
 
-Let’s say you're working with a time/date sensitive application that gathers, logs and locks data. The application provider tells you this container requires full privileges because it needs to set a file as immutable (via the chattr command). You remember that in compliance with your company’s security policy, this container should not be able to ping any host. Your challenge is to run the application safely yet produce the (3) GOOD test results as shown below.
+Let’s say you're working with a time/date sensitive application that gathers, logs and locks data. The application provider tells you this container requires full privileges because it needs to set a file as immutable (via the ```chattr``` command). You remember that in compliance with your company’s security policy, this container should not be able to ping any host. Your challenge is to run the application safely yet produce the (3) GOOD test results as shown below.
 
 ~~~shell
 # Installing Application...
@@ -153,7 +153,7 @@ An even better approach is to drop all capabilities and add only what is require
 
 Suppose a container had a legitimate reason to change the date (ntpd, license testing, etc) How would you allow a container to change the date on the host? What capabilities are needed to allow this? One solution is below.
 
-To allow a container to set the system clock, the ```sys_time capability``` must be added. Also, at the time of this writing, the seccomp security option must be set to unconfined. This is a known issue. Refer to the [RHEL7 release notes](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/release_notes/known_issues) for details.
+To allow a container to set the system clock, the ```sys_time capability``` must be added. Also, at the time of this writing, the ```seccomp``` security option must be set to unconfined. This is a known issue. Refer to the [RHEL7 release notes](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/release_notes/known_issues) for details.
 
 ~~~
 # docker run --rm --cap-drop=all --cap-add=sys_time --security-opt=seccomp=unconfined mystery

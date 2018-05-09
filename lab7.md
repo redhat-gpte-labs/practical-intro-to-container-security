@@ -14,13 +14,13 @@ The ```atomic``` command can help understand the difference between two images o
 [container_id /]# date > /var/tmp/date.txt
 ~~~
 
-Now, open a new terminal window, ssh into rhserver0 and run atomic diff to see the differences between the rhel7 image and the running container. 
+Now, open a new terminal window, ssh into {{SERVER_0}} and run atomic diff to see the differences between the **rhel7** image and the running container. 
 
 ~~~shell
 # atomic diff rhel7:latest my_container
 ~~~
 
-Atomic will report a list of differences between the two file systems. The /var/tmp/date.txt file should appear in the report.
+Atomic will report a list of differences between the two file systems. The ```/var/tmp/date.txt``` file should appear in the report.
 
 ~~~shell
 Files only in my_container:
@@ -89,7 +89,7 @@ Thu Mar 29 15:51:09 EDT 2018
 
 #### SELinux labels
 
-The ```--shared``` option mounts a container with a shared SELinux label. Compare the SELinux labels of the two mount points. The ```/mnt/shared``` directory should not have an SELInux MCS label.
+The ```--shared``` option mounts a container with a shared SELinux label. Compare the SELinux labels of the two mount points. The ```/mnt/shared``` directory should not have an SELinux MCS label.
 
 
 ~~~shell
@@ -146,7 +146,7 @@ Storing signatures
 
 ##### Extra Credit
 
-Have a look at the ```skopeo(1)``` man page and expiriment. See if you can copy an image from one registry to another.
+Have a look at the ```skopeo(1)``` man page and experiment. See if you can copy an image from one registry to another.
 
 Answer below.
 
@@ -174,7 +174,7 @@ From a remote registry.
 # skopeo inspect --tls-verify=false docker://{{SERVER_1}}:5000/rhel7
 ~~~
 
-From local container storage. Note the addtional information present in the RHEL image.
+From local container storage. Note the additional information present in the RHEL image.
 
 ~~~shell
 # skopeo inspect docker-daemon:mystery:latest

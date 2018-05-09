@@ -8,7 +8,7 @@ The container run-time software that ships with RHEL has the ability to block re
 
 This lab builds on skills you learned in lab 1. On {{SERVER_0}}, perform the following:
 
-* Confirm that {{SERVER_2}} is configured as an insecure registry by tagging and verifing that you can push an image to it.
+* Confirm that {{SERVER_2}} is configured as an insecure registry by tagging and verifying that you can push an image to it.
 * Once the push succeeds, remove the local image that was tagged and pushed.
 * Next, configure the container run-time to block {{SERVER_2}} and restart the service.
 * Now try to pull or run the image that was pushed to the registry on {{SERVER_2}}. It should fail.

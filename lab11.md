@@ -115,7 +115,7 @@ Run the container and observe the output.
 # runc run mycontainer
 ~~~
 
-Now try to change the date backwards a few seconds. It should suceed.
+Now try to change the date backwards a few seconds. It should succeed.
 
 ~~~shell
 sh-4.2# moment=$(date) && date -s "$moment"

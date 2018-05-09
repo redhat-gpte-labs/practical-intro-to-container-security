@@ -12,7 +12,7 @@ Use CRI-O
 
 ##### Overview 
 
-* Install, start and enable the registry and firewalld services.
+* Install, start and enable the ```registry``` and ```firewalld``` services.
 * Open tcp firewall port 5000. 
 * Use curl to test connectivity to the registry services.
 
