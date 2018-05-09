@@ -5,20 +5,32 @@
 CRI-O is an open source implementation of the [Open Container Initiative.](https://github.com/opencontainers/runtime-spec) To become familiar with the tools based on the CRI-O spec, follow
 this simple example which is based on the ```run-spec (1)``` man page. For further information, have a look at the documentation for [running containers without Docker.](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/managing_containers/finding_running_and_building_containers_without_docker)
 
-#### The ```runc``` command
-
-First, install the ```runc``` package.
+To get started, install the ```runc``` package.
 
 ~~~shell
 # yum -y install runc
 ~~~
 
+##### Migrating a container image from Docker
+
 A CRI-O container consists of a directory that contains a *spec* file and a *root* file system.
+
+Create a directory for your work.
 
 ~~~shell 
 # mkdir lab11
 # cd lab11
+~~~
+
+Now use Docker to export the file system of a newly created rhel7 container.
+
+~~~shell
 # docker export $(docker create rhel7) > rhel7-rootfs.tar
+~~~
+
+Use ```tar``` to extract the file system into the ```rootfs``` directory.
+
+~~~shell
 # mkdir rootfs
 # tar -C rootfs -xf rhel7-rootfs.tar
 ~~~
@@ -29,15 +41,19 @@ Use the ```runc``` command to create a template spec file. Have a look at the co
 # runc spec
 ~~~
 
-Run the container.
+Now it time to run the container.
 
 ~~~shell
 # runc run mycontainer
 ~~~
 
-Note the capabilities.
+Print the capabilities.
+
 ~~~shell
 sh-4.2# capsh --print
+~~~
+
+~~~shell
 Current: = cap_kill,cap_net_bind_service,cap_audit_write+eip
 Bounding set =cap_kill,cap_net_bind_service,cap_audit_write
 Securebits: 00/0x0/1'b0
@@ -49,7 +65,7 @@ gid=0(root)
 groups=
 ~~~
 
-Try to set the date backward (it should fail).
+Try to set the date backwards. It should fail since it lacks the necessary capabilities.
 
 ~~~shell
 sh-4.2# moment=$(date) && date -s "$moment"
