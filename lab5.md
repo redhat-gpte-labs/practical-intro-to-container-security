@@ -131,12 +131,26 @@ consider running the mystery container as privileged. If you do so, observe the 
 to look for clues of an exploitation. You’ll need to perform a minor repair to your container host {{SERVER_0}} if you run
 the mystery container with ```--privileged```.
 
+-> Might want to save the date first.
+
+~~~shell
+# savethedate=$(date)
+~~~
+
 Proceed with caution.
 
 ~~~shell
 # docker run --rm --privileged mystery 
 ~~~
- 
+
+What happened?
+
+-> Fix the date. At least, get it close.
+
+~~~shell
+# date -s "$savethedate"
+~~~
+
 One solution is to add the linux_immutable and drop the net_raw capabilities.
  
 ~~~shell
