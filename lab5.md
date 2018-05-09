@@ -178,7 +178,7 @@ Take note of the output and check the date on {{SERVER_0}}.
 Wed Dec 31 19:00:09 EST 1969
 ~~~
 
-Now run the *mystery* container with the CAP_SYS_TIME capability set.
+Now run the *mystery* container with the CAP_SYS_TIME capability added.
 
 ~~~shell
 # docker run --rm --cap-drop=all --cap-add=sys_time --security-opt=seccomp=unconfined mystery
