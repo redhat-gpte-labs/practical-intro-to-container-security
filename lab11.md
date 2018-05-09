@@ -11,7 +11,7 @@ A CRI-O container consists of a directory that contains a *spec* file and a *roo
 exercise, you will use ```runc``` to create a *spec* file and export a file system from an existing Docker container. Then 
 you will modify the *spec* file to change the container's capabilities. 
 
-Perform this lab on {{SERVER_0}}.
+Perform this lab on *{{SERVER_0}}*.
 
 To get started, install the ```runc``` package.
 
