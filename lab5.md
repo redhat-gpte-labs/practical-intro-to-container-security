@@ -169,20 +169,23 @@ Suppose a container had a legitimate reason to change the date (ntpd, license te
 
 To allow a container to set the system clock, the ```sys_time capability``` must be added. Also, at the time of this writing, the ```seccomp``` security option must be set to unconfined. This is a known issue. Refer to the [RHEL7 release notes](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux_atomic_host/7/html/release_notes/known_issues) for details.
 
-~~~
-# docker run --rm --cap-drop=all --cap-add=sys_time --security-opt=seccomp=unconfined mystery
-~~~
-
 Take note of the output and check the date on {{SERVER_0}}.
 
-~~~
+~~~shell
 # date
+# savethedate=$(date)
 
 Wed Dec 31 19:00:09 EST 1969
+~~~
+
+Now run the *mystery* container with the CAP_SYS_TIME capability set.
+
+~~~shell
+# docker run --rm --cap-drop=all --cap-add=sys_time --security-opt=seccomp=unconfined mystery
 ~~~
 
 **IMPORTANT** => Make sure to reset the date correctly to prevent issues with future labs.
 
 ~~~shell
-# date MMDDhhmmYYYY
+# date -s "$savethedate"
 ~~~
