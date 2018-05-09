@@ -53,23 +53,23 @@ Feb 23 15:33:28 rhserver1.example.com registry[1277]: time="2018-02-23T15:33:28-
 Hint: Some lines were ellipsized, use -l to show in full.
 ~~~
 
-See if you can `curl` the registry. Two braces `{}` should be returned.
+See if you can `curl` the registry.
 
 ~~~shell
 # curl localhost:5000/v2/_catalog
 ~~~
+
+Expected Output:
+
+~~~shell
+{"repositories":[]}
+~~~~
 
 To check the firewall, `curl` the {{SERVER_1}} and {{SERVER_2}} registries from {{SERVER_0}}.
 
 ~~~shell
 # curl {{SERVER_1}}:5000/v2/_catalog
 ~~~
-
-Expected Output:
-
-~~~shell
-{}
-~~~~
 
 {% endif %}
 
@@ -81,9 +81,9 @@ Expected Output:
 
 ##### Howto
 
-Perform the following on {{SERVER_0}}.
+-> Perform the following on {{SERVER_0}}.
 
-Install **wget** and your favorite text editor if you wish to use something other then **vi**.
+Install **wget** and your favorite text editor if you wish to use something other then **vim**.
 
 ~~~shell
 # yum -y install wget vim nano
