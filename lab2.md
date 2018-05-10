@@ -29,27 +29,23 @@ These servers can only be accessed from a bastion host which is publicly accessi
 #### Exercise
 
 To get started, make sure you can connect to the bastion host and
-the container servers listed above.
+the servers listed above.
 
-Right click on the desktop to open a terminal window.
+1) Right click on the desktop to open a terminal window.
 
-Substitute the global user id (GUID) you obtained from the registration page to login to the bastion host as the cloud-user login name.
-
-From your laptop, login to the bastion host.
+2) Substitute the global user id (GUID) you obtained from the registration page to login to the bastion host.
 
 ~~~shell
 $ ssh {{BASTION}}
 ~~~
 
-Now switch to the **cloud-user**.
+3) From the bastion host, switch to the **cloud-user** user.
 
 ~~~shell
 $ sudo -iu cloud-user
 ~~~
 
-Now you can reach the remaining servers using the {{ROOT_USERNAME}} user name. A suggestion would be to establish (2) ssh sessions to {{SERVER_0}} and an (1) ssh session to {{SERVER_1}} and {{SERVER_2}}.
-
-Credentials for servers: User: {{ROOT_USERNAME}} Password: {{ROOT_PASSWORD}}
+4) As the **cloud-user**, login to the servers as {{ROOT_USERNAME}}@{{SERVER_0}}
 
 ~~~shell
 $ ssh {{ROOT_USERNAME}}@{{SERVER_0}}
