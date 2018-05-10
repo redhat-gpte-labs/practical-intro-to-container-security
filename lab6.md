@@ -2,7 +2,7 @@
 
 ### Overview
 
-In this section, we’ll cover the basics of SELinux and containers. SELinux policy prevents a lot of break out situations where the other security mechanisms fail. By default, Docker processes are labeled with ```svirt_lxc_net_t``` and they are prevented from doing (almost) all SELinux operations.  But processes within containers do not know that they are running within a container.  SELinux-aware applications are going to attempt to do SELinux operations, especially if they are running as root. With SELinux on Docker, we write a policy that says that the container process running as ```svirt_lxc_net_t``` can only read/write files with the ```svirt_sandbox_file_t``` label.
+In this section, we’ll cover the basics of SELinux and containers. SELinux policy prevents a lot of break out situations where the other security mechanisms fail. By default, Docker processes are labeled with ```svirt_lxc_net_t``` and they are prevented from doing (almost) all SELinux operations.  But processes within containers do not know that they are running within a container.  SELinux-aware applications are going to attempt to do SELinux operations, especially if they are running as root. With SELinux on Docker, we write a policy that says that the container process running as ```svirt_lxc_net_t``` can only read/write files with the ```svirt_sandbox_file_t``` or ```container_file_t``` label.
 
 #### !Namespaced
 
