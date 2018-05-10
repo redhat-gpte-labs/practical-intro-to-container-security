@@ -38,7 +38,7 @@ Substitute the global user id (GUID) you obtained from the registration page to 
 From your laptop, login to the bastion host.
 
 ~~~shell
-ssh {{BASTION}}
+$ ssh {{BASTION}}
 ~~~
 
 Now switch to the **cloud-user**.
