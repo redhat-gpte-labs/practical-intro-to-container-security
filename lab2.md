@@ -33,7 +33,7 @@ the servers listed above.
 
 1) Right click on the desktop to open a terminal window.
 
-2) Substitute the global user id (GUID) you obtained from the registration page to login to the bastion host.
+2) Substitute the global user id (**GUID**) you obtained from the registration page to login to the bastion host.
 
 ~~~shell
 $ ssh {{BASTION}}
