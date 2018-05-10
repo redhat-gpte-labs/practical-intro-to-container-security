@@ -131,7 +131,7 @@ Repeat the scenario above but instead add the ```:Z``` option to bind mount the 
 First examine the label.
 
 ~~~shell
-# ls -dZ /shared
+# ls -dZ /private
 
 drwxr-xr-x. root root unconfined_u:object_r:default_t:s0 /shared
 ~~~
