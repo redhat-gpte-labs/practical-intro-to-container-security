@@ -64,8 +64,6 @@ ls: cannot open directory /data: Permission denied
 
 bash: /data/date.txt: Permission denied
 
-# docker run --rm -it -v /data:/data rhel7 bash
-
 [container_id /]# exit
 ~~~
 

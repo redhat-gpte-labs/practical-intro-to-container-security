@@ -35,12 +35,19 @@ Right click on the desktop to open a terminal window.
 
 Substitute the global user id (GUID) you obtained from the registration page to login to the bastion host as the cloud-user login name.
 
+From your laptop, login to the bastion host.
+
 ~~~shell
 ssh {{BASTION}}
+~~~
+
+Now switch to the **cloud-user**.
+
+~~~shell
 $ sudo -iu cloud-user
 ~~~
 
-Once you are logged into the bastion host, you can reach the remaining servers using the {{ROOT_USERNAME}} user name. A suggestion would be to establish (2) ssh sessions to {{SERVER_0}} and an (1) ssh session to {{SERVER_1}} and {{SERVER_2}}.
+Now you can reach the remaining servers using the {{ROOT_USERNAME}} user name. A suggestion would be to establish (2) ssh sessions to {{SERVER_0}} and an (1) ssh session to {{SERVER_1}} and {{SERVER_2}}.
 
 Credentials for servers: User: {{ROOT_USERNAME}} Password: {{ROOT_PASSWORD}}
 
