@@ -133,7 +133,7 @@ First examine the label.
 ~~~shell
 # ls -dZ /private
 
-drwxr-xr-x. root root unconfined_u:object_r:default_t:s0 /shared
+drwxr-xr-x. root root unconfined_u:object_r:default_t:s0 /private
 ~~~
 
 Now run a container in the background that bind mounts ```/private``` using ```:Z```.
