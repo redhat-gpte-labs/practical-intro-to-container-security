@@ -21,6 +21,18 @@ and will speed up the key generation process.
 ~~~shell
 # yum -y install rng-tools
 # rngd -r /dev/urandom
+~~~
+
+You can safely ignore the following message.
+
+~~~shell
+Failed to init entropy source 1: TPM RNG Device
+Failed to init entropy source 2: Intel RDRAND Instruction RNG
+~~~
+
+Confirm the entropy pool is now > 3000.
+
+~~~shell
 # ps -ef | grep rngd
 root      2079     1  0 17:41 ?        00:00:00 rngd -r /dev/urandom
 
