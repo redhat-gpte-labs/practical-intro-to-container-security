@@ -31,9 +31,11 @@ You will be working with the following systems running Red Hat Enterprise Linux 
 
 You can easily build out this lab yourself. Just get a hold of (3) RHEL7.5 servers that are subscribed to the repos listed above. Contact bkozdemb@redhat.com for the image content (I can't host it to the general public ). The bastion host is optional.
 
-If you are internal to Red Hat, this lab is available as a [Ravello](https://cloud.ravellosystems.com/) blueprint (SUMMIT-L1007-bp).
+If you are internal to Red Hat, this lab is available as a [Ravello](https://cloud.ravellosystems.com/) blueprint (SUMMIT-L1007-bp). Make sure to enable cloud-init with your ssh key so you can access the bastion host as the **cloud-user** user. 
 
 #### Exercise
+
+**The following steps are unique for the Red Hat Summit.**
 
 To get started, make sure you can connect to the bastion host and
 the servers listed above.
@@ -43,7 +45,7 @@ the servers listed above.
 2) Substitute the global user id (**GUID**) you obtained from the registration page to login to the bastion host.
 
 ~~~shell
-$ ssh {{BASTION}}
+$ ssh lab-user{{BASTION}}
 ~~~
 
 3) From the bastion host, switch to the **cloud-user** user.
