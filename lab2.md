@@ -8,7 +8,7 @@ This lab session is a low-level, hands-on introduction to container security usi
 * Basic text editing skills using vim or nano.
 * An introductory knowledge of Docker is helpful.
 
-#### Lab Enviroment
+#### Lab Environment
 
 ![Lab Diagram]({% image_path con-sec-lab.png %})
 
@@ -18,13 +18,20 @@ You will be working with the following systems running Red Hat Enterprise Linux 
 * {{SERVER_1}} (Container Registry)
 * {{SERVER_2}} (Container Registry)
 * {{SERVER_DIST}} (Bastion host and content server)
-  * rhel-7-server-rpms 
-  * rhel-7-server-optional-rpms 
-  * rhel-7-server-extras-rpms 
-  * rhel-7-server-supplementary-rpms 
+  * Repos
+    * rhel-7-server-rpms 
+    * rhel-7-server-optional-rpms 
+    * rhel-7-server-extras-rpms 
+    * rhel-7-server-supplementary-rpms
+  * Content (container images, scanner example code) 
 
+{{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}} can only be accessed from a bastion host which is publicly accessible via ssh.
 
-These servers can only be accessed from a bastion host which is publicly accessible via ssh.
+##### DIY Lab Environment
+
+You can easily build out this lab yourself. Just get a hold of (3) RHEL7.5 servers that are subscribed to the repos listed above. Contact bkozdemb@redhat.com for the image content (I can't host it to the general public ). The bastion host is optional.
+
+If you are internal to Red Hat, this lab is available as a [Ravello](https://cloud.ravellosystems.com/) blueprint (SUMMIT-L1007-bp).
 
 #### Exercise
 
