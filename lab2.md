@@ -33,7 +33,11 @@ You will be working with the following systems running Red Hat Enterprise Linux 
 You can easily build out this lab yourself. Just get a hold of (3) RHEL7.5 servers that are subscribed to the repos listed above. Contact bkozdemb@redhat.com for the image content (I can't host it to the general public ). The bastion host is optional.
 
 ##### Red Hat Internal
-If you are internal to Red Hat, this lab is available via the [RHPDS](https://rhpds.redhat.com/service/explorer). Make sure to upload your ssh key so you can access the bastion host as the **cloud-user** user. 
+If you are internal to Red Hat, this lab is available via the [RHPDS](https://rhpds.redhat.com/service/explorer). Make sure to upload your ssh key so you can access the bastion host as the **cloud-user** user. Once your bastion host has been provisioned, you should receive an email from OPENTLC similar to the following.
+
+~~~shell
+Your Red Hat Product Demo System application RHPDS-RH-user-redhat.com-SUMMIT-L1007-GUID host {{BASTION}} can now authenticate. Take note that your lab environment may still have other hosts building, so please make sure they are all running before starting your demo/lab.
+~~~
 
 #### Exercise
 
