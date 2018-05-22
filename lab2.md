@@ -29,7 +29,7 @@ You will be working with the following systems running Red Hat Enterprise Linux 
 
 ##### Lab Environment
 
-##### DIY
+##### DIY (External to Red Hat)
 You can easily build out this lab yourself. Just get a hold of (3) RHEL7.5 servers that are subscribed to the repos listed above. Contact bkozdemb@redhat.com for the image content (I can't host it to the general public ). The bastion host is optional.
 
 ##### Red Hat Internal
