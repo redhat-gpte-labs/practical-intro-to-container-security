@@ -48,12 +48,12 @@ $ ssh user-redhat.com@{{BASTION}}
 2) ```sudo``` to the **cloud-user**
 
 ~~~shell
-$ sudo -iu cloud-user
+[user-redhat.com@bastion-GUID ~]$ sudo -iu cloud-user
 ~~~
 
 3) Now, as **cloud-user**, login to the servers as {{ROOT_USERNAME}}.
 
 ~~~shell
-$ ssh {{ROOT_USERNAME}}@{{SERVER_0}}
+[cloud-user@bastion-GUID ~]$ ssh {{ROOT_USERNAME}}@{{SERVER_0}}
 ~~~
 
