@@ -45,7 +45,7 @@ Access the {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}} systems as follows.
 $ ssh user-redhat.com@{{BASTION}}
 ~~~
 
-2) ```sudo`` to the **cloud-user**
+2) ```sudo``` to the **cloud-user**
 
 ~~~shell
 $ sudo -iu cloud-user
