@@ -37,19 +37,21 @@ If you are internal to Red Hat, this lab is available via the [RHPDS](https://rh
 
 #### Exercise
 
-To get started, make sure you can connect to the bastion host and the servers listed above.
+Access the {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}} systems as follows.
 
-=> Using an ssh client, substitute the global user id (**GUID**) you obtained from the RHPDS to login to the bastion host.
-
-Example
+1) Using an ssh client, substitute the global user id (**GUID**) and your RHPDS user-name to login to the bastion host.
 
 ~~~shell
-$ ssh cloud-user@{{BASTION}}
+$ ssh user-redhat.com@{{BASTION}}
 ~~~
 
-3) As **cloud-user**, login to the servers as {{ROOT_USERNAME}}.
+2) ```sudo`` to the **cloud-user**
 
-Example
+~~~shell
+$ sudo -iu cloud-user
+~~~
+
+3) Now, as **cloud-user**, login to the servers as {{ROOT_USERNAME}}.
 
 ~~~shell
 $ ssh {{ROOT_USERNAME}}@{{SERVER_0}}
