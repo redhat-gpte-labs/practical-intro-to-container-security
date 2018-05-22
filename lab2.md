@@ -30,7 +30,7 @@ You will be working with the following systems running Red Hat Enterprise Linux 
 ##### Lab Environment
 
 ##### DIY (External to Red Hat)
-You can easily build out this lab yourself. Just get a hold of (3) RHEL7.5 servers that are subscribed to the repos listed above. Contact bkozdemb@redhat.com for the image content (I can't host it to the general public ). The bastion host is optional.
+You can easily build out this lab yourself. Just get a hold of (3) RHEL7.5 servers that are subscribed to the repos listed above. Contact bkozdemb@redhat.com for the image content (I can't host it external to Red Hat). The bastion host is optional.
 
 ##### Red Hat Internal
 If you are internal to Red Hat, this lab and the image content is available via the [RHPDS](https://rhpds.redhat.com/service/explorer). Make sure to upload your ssh key to RHPDS so you can use ```ssh``` to login the bastion host. Once your bastion host has been provisioned, you should receive an email from OPENTLC similar to the following.
