@@ -77,9 +77,7 @@ podman login -u="coreos+rhcp" -p="L6ZXXVHD9XLQ7PR7HBNRW2FAIZQNJYHREISFGCUBIB45C4
 Login Succeeded!
 ```
 
-Follow the steps to install Quay in this [kbase](
-https://access.redhat.com/solutions/3533201
-https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_-_basic/#installing_red_hat_quay_basic) article.
+Follow the steps to install Quay in this [kbase][2] article.
 
 
 
@@ -87,3 +85,7 @@ Questions
 
 1) The atomic command seems to be missing, what takes it's place? Looks like podman covers some. What about scanning (Quay)?
 
+References
+
+[1]: https://access.redhat.com/solutions/3533201
+[2]: https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_-_basic/#installing_red_hat_quay_basic
