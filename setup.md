@@ -66,25 +66,23 @@ Description  : Manage Pods, Containers and Container Images
 ```
 
 Package installs
-`` 
+
+``` 
 dnf -y install podman skopeo vim
 ```
-
 Registry installation
 
 ```
-# podman login -u="coreos+rhcp" -p="L6ZXXVHD9XLQ7PR7HBNRW2FAIZQNJYHREISFGCUBIB45C43WCWYU3DZ0FHJH2AY5" quay.io
+podman login -u="coreos+rhcp" -p="L6ZXXVHD9XLQ7PR7HBNRW2FAIZQNJYHREISFGCUBIB45C43WCWYU3DZ0FHJH2AY5" quay.io
 Login Succeeded!
 ```
+
 Follow 
 https://access.redhat.com/solutions/3533201
 https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_-_basic/#installing_red_hat_quay_basic
 
 
 
-
-
-```
 Questions
 
 1) The atomic command seems to be missing, what takes it's place? Looks like podman covers some. What about scanning (Quay)?
