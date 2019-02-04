@@ -77,7 +77,7 @@ podman login -u="coreos+rhcp" -p="L6ZXXVHD9XLQ7PR7HBNRW2FAIZQNJYHREISFGCUBIB45C4
 Login Succeeded!
 ```
 
-Follow the steps to install Quay in this [kbase][2] article.
+Follow the steps to install Quay in this [kbase][1] article and [installation manual][2].
 
 
 
