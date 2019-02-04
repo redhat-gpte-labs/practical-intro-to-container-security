@@ -77,9 +77,9 @@ podman login -u="coreos+rhcp" -p="L6ZXXVHD9XLQ7PR7HBNRW2FAIZQNJYHREISFGCUBIB45C4
 Login Succeeded!
 ```
 
-Follow 
+Follow the steps to install Quay in this [kbase](
 https://access.redhat.com/solutions/3533201
-https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_-_basic/#installing_red_hat_quay_basic
+https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_-_basic/#installing_red_hat_quay_basic) article.
 
 
 
