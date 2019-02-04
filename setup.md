@@ -79,7 +79,23 @@ Login Succeeded!
 
 Follow the steps to install Quay in this [kbase article][1] and [installation manual][2].
 
+First setup screen:
 
+hostname: container IP
+User: root
+passwdord: Taken from the (documentation)[2].
+
+Use ```podman restart quay``` to restart the quay continer.
+
+2nd setup screen:
+
+user: quayuser
+passwdord: Taken from the (documentation)[2].
+
+
+Checked: Allow repository pulls even if audit logging fails.
+
+Use IP address of the redis container.
 
 Questions
 
