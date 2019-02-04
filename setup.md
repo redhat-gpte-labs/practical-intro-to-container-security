@@ -112,6 +112,20 @@ Login Succeeded!
 # podman push --tls-verify=false rhel8.koz.lab/quayuser/hello-openshift:latest
 # podman pull --tls-verify=false rhel8.koz.lab/quayuser/hello-openshift:latest
 ```
+Set registry to be insecure at ```/etc/containers/registry.conf```
+
+Image Signing
+
+Configure gpg key
+
+```
+podman image sign --directory /usr/tmp --sign-by redhat@redhat.com docker://rhel8.koz.lab/quayuser/hello-openshift:latest
+podman image push --sign-by redhat@redhat.com docker://rhel8.koz.lab/quayuser/hello-openshift:latest
+podman image trust show
+podman image trust set -t reject default
+podman image trust set --type accept rhel8.koz.lab
+podman pull --tls-verify=false rhel8.koz.lab/quayuser/hello-openshift:latest
+```
 
 Questions
 
