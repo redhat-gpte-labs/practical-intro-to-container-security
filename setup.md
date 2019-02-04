@@ -108,6 +108,7 @@ Check:
 Username: quayuser
 Password: 
 Login Succeeded!
+podman push --tls-verify=false rhel8kozlab-fedsledsabkozdembr-rcdy9tus.srv.ravcloud.com/quayuser/hello-openshift:latest
 ```
 
 Questions
