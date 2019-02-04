@@ -109,7 +109,8 @@ Username: quayuser
 Password: 
 Login Succeeded!
 
-podman push --tls-verify=false rhel8kozlab-fedsledsabkozdembr-rcdy9tus.srv.ravcloud.com/quayuser/hello-openshift:latest
+# podman push --tls-verify=false rhel8.koz.lab/quayuser/hello-openshift:latest
+# podman pull --tls-verify=false rhel8.koz.lab/quayuser/hello-openshift:latest
 ```
 
 Questions
