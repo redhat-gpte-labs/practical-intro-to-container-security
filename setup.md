@@ -1,6 +1,6 @@
 # Setup notes for summit 2019 
 
-This image started with RHEL8 beta 1v1.7
+This image started with RHEL8 beta 1v1.7 (internal)
 
 Register 
 
