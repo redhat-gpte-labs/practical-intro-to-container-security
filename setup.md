@@ -81,21 +81,35 @@ Follow the steps to install Quay in this [kbase article][1] and [installation ma
 
 First setup screen:
 
+```
 hostname: container IP
 User: root
 passwdord: Taken from the (documentation)[2].
+```
 
 Use ```podman restart quay``` to restart the quay continer.
 
 2nd setup screen:
 
+```
 user: quayuser
 passwdord: Taken from the (documentation)[2].
-
+```
 
 Checked: Allow repository pulls even if audit logging fails.
 
 Use IP address of the redis container.
+
+Check:
+
+```
+# podman login --tls-verify=false rhel8kozlab-fedsledsabkozdembr-rcdy9tus.srv.ravcloud.com
+Authenticating with existing credentials...
+Existing credentials are invalid, please enter valid username and password
+Username: quayuser
+Password: 
+Login Succeeded!
+```
 
 Questions
 
