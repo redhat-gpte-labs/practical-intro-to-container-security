@@ -103,9 +103,8 @@ Use IP address of the redis container.
 Check:
 
 ```
-# podman login --tls-verify=false rhel8kozlab-fedsledsabkozdembr-rcdy9tus.srv.ravcloud.com
-Authenticating with existing credentials...
-Existing credentials are invalid, please enter valid username and password
+# podman login --tls-verify=false --username=quayuser --password=L36PrivxRB02bqOB9jtZtWiCcMsApOGn quayhost
+
 Username: quayuser
 Password: 
 Login Succeeded!
