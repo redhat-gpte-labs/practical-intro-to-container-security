@@ -135,3 +135,4 @@ References
 
 [1]: https://access.redhat.com/solutions/3533201
 [2]: https://access.redhat.com/documentation/en-us/red_hat_quay/2.9/html-single/deploy_red_hat_quay_-_basic/#installing_red_hat_quay_basic
+[3]: https://docs.openshift.com/container-platform/3.11/crio/crio_runtime.html
