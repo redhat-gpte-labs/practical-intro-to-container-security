@@ -2,7 +2,7 @@ id: "workshop1"
 name: "A Practical Introduction to Container Security"
 
 content:
-  url: https://raw.githubusercontent.com/bkoz/container-security/master
+  url: https://raw.githubusercontent.com/bkoz/container-security/2019
 
 vars:
   OPENSHIFT_DOCS_BASE: "https://docs.openshift.com/container-platform/3.7"
