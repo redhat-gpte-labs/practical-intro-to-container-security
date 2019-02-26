@@ -1,6 +1,6 @@
 ## Introduction
 
-This lab session is a low-level, hands-on introduction to container security using Red Hat Enterprise Linux 7. It can be delivered by an instructor or consumed as a series of self paced exercises.
+This lab session is a low-level, hands-on introduction to container security using Red Hat Enterprise Linux 8. It can be delivered by an instructor or consumed as a series of self paced exercises.
 
 ### Prerequisites
 
@@ -12,17 +12,14 @@ This lab session is a low-level, hands-on introduction to container security usi
 
 ![Lab Diagram]({% image_path con-sec-lab.png %})
 
-You will be working with the following systems running Red Hat Enterprise Linux (RHEL) version 7.5. 
+You will be working with the following systems running Red Hat Enterprise Linux (RHEL) version 8.0. 
 
-* {{SERVER_0}} (Container Host)
+* {{SERVER_0}} (Container Engine)
 * {{SERVER_1}} (Container Registry)
 * {{SERVER_2}} (Container Registry)
-* {{SERVER_DIST}} (Bastion host and content server)
+* {{SERVER_DIST}} (Bob to try reposync)
   * Repos
-    * rhel-7-server-rpms 
-    * rhel-7-server-optional-rpms 
-    * rhel-7-server-extras-rpms 
-    * rhel-7-server-supplementary-rpms
+    * rhel-8-server-rpms 
   * Content (container images, scanner example code) 
 
 {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}} can only be accessed from a bastion host which is publicly accessible via ssh.
@@ -30,14 +27,7 @@ You will be working with the following systems running Red Hat Enterprise Linux 
 ##### Lab Environment
 
 ##### DIY (External to Red Hat)
-You can easily build out this lab yourself. Just get a hold of (3) RHEL7.5 servers that are subscribed to the repos listed above then contact bkozdemb@redhat.com for the image content (I can't host it external to Red Hat). The bastion host is optional.
-
-##### Red Hat Internal
-If you are internal to Red Hat, this lab and the image content is available via the [RHPDS](https://rhpds.redhat.com/service/explorer). Make sure to upload your ssh key to RHPDS so you can use ```ssh``` to login the bastion host. Once your bastion host has been provisioned, you should receive an email from OPENTLC similar to the following.
-
-~~~shell
-Your Red Hat Product Demo System application RHPDS-RH-user-redhat.com-SUMMIT-L1007-GUID host {{BASTION}} can now authenticate. Take note that your lab environment may still have other hosts building, so please make sure they are all running before starting your demo/lab.
-~~~
+You can easily build out this lab yourself. Just get a hold of (3) RHEL8.0 servers that are subscribed to the repos listed above then contact bkozdemb@redhat.com for the image content (I can't host it external to Red Hat). The bastion host is optional.
 
 #### Exercise
 
@@ -47,11 +37,5 @@ Access the {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}} systems as follows.
 
 ~~~shell
 $ ssh -i .ssh/summit-key.pem lab-user@{{BASTION}}
-~~~
-
-Now, as **cloud-user**, login to the servers as {{ROOT_USERNAME}}.
-
-~~~shell
-[cloud-user@bastion-GUID ~]$ ssh {{ROOT_USERNAME}}@{{SERVER_0}}
 ~~~
 
