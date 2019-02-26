@@ -46,16 +46,10 @@ Access the {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}} systems as follows.
 1) Using an ssh client, substitute the global user id (**GUID**) and your RHPDS user-name to login to the bastion host.
 
 ~~~shell
-$ ssh user-redhat.com@{{BASTION}}
+$ ssh -i .ssh/summit-key.pem lab-user@{{BASTION}}
 ~~~
 
-2) ```sudo``` to the **cloud-user**
-
-~~~shell
-[user-redhat.com@bastion-GUID ~]$ sudo -iu cloud-user
-~~~
-
-3) Now, as **cloud-user**, login to the servers as {{ROOT_USERNAME}}.
+Now, as **cloud-user**, login to the servers as {{ROOT_USERNAME}}.
 
 ~~~shell
 [cloud-user@bastion-GUID ~]$ ssh {{ROOT_USERNAME}}@{{SERVER_0}}
