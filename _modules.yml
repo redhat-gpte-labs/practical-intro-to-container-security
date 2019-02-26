@@ -9,7 +9,7 @@ modules:
   lab3:
     name: Configuration
   lab4:
-    name: Authorization 
+    name: Pod Basics 
   lab5: 
     name: Isolation
   lab6:
@@ -19,8 +19,8 @@ modules:
   lab8:
     name: Image Trust and Signing
   lab9:
-    name: The Atomic Scanner
+    name: Building Container Images
   lab10:
-    name: Custom Scanners
+    name: Lab 10
   lab11:
-    name: New Stuff
+    name: Extra Credit

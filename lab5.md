@@ -1,5 +1,7 @@
 ## Isolation
 
+port this to podman...
+
 ### Overview
 Containers provide a certain degree of process isolation via kernel namespaces. In this lab, we’ll examine the capabilities of a process running in a containerized namespace. We’ll begin by running a container and looking at it’s capabilities.
 
