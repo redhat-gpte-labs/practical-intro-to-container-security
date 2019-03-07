@@ -53,7 +53,7 @@ Checking the Registry
 # curl http://localhost:/v2/_catalog
 ~~~
 
-Expected output
+Expected output:
 
 ~~~shell
 {"repositories":[]}
