@@ -1,7 +1,6 @@
 ## Configuration
 During this lab you will configure {{SERVER_1}} to host a container registry.
 
-
 #### Exercise: Registry Configuration
 
 ##### Overview 
@@ -12,34 +11,68 @@ During this lab you will configure {{SERVER_1}} to host a container registry.
 
 ##### Howto
 
+Perform this lab exercise on the ${{SERVER_1}} server.
+
+Start the ```mysql``` and ```redis``` containers.
 
 ~~~shell
-# Commands go here.
+# podman start mysql redis
+~~~
+
+Next, obtain the IP addresses of the ```mysql``` and ```redis```
+containers and use them to configure the ```quay``` container.
+
+~~~shell
+# podman inspect mysql | grep IPAddress
+# podman inspect redis | grep IPAddress
+~~~
+
+Use a text editor to modify ```/pv/quay/config/config.yaml``` at
+the following lines:
+
+Modify Line 5 with the correct IP of the ```mysql``` container.
+
+Line 5:```DB_URI: mysql+pymysql://root:L36PrivxRB02bqOB9jtZtWiCcMsApOGn@10.88.0.X/enterpriseregistrydb```
+
+Modify Lines 4 and 49 with the correct IP of the ```redis``` container.
+
+Line 4:```BUILDLOGS_REDIS: {host: 10.88.0.X, port: 6379}```
+
+Line 49:```USER_EVENTS_REDIS: {host: 10.88.0.X, port: 6379}```
+
+Now start the quay container and test it. It may take a minute 
+or so for the Quay registry to become ready.
+
+~~~shell
+# podman start quay
 ~~~
 
 Checking the Registry
 
-See if you can `curl` the registry.
-
 ~~~shell
-# curl localhost:5000/v2/_catalog
+# curl http://localhost:/v2/_catalog
 ~~~
 
-Expected Output:
-
+Expected output:
 ~~~shell
 {"repositories":[]}
-~~~~
-
-To check the firewall, `curl` the {{SERVER_1}} and {{SERVER_2}} registries from {{SERVER_0}}.
-
-~~~shell
-# curl {{SERVER_1}}:5000/v2/_catalog
 ~~~
 
-{% endif %}
+Visit the [quay registry](http://rhel8kozlab-fedsledsabkozdembr-rcdy9tus.srv.ravcloud.com) from a web browser.
 
-#### Exercise: Container Run Time Configuration
+Use ```podman``` to login to the Quay registry.
+
+~~~shell
+$ podman login --tls-verify=false --username=quayuser --password=L36PrivxRB02bqOB9jtZtWiCcMsApOGn ${{SERVER_1}}
+~~~
+
+Expected output:
+
+~~~shell
+Login Succeeded!
+~~~
+
+#### Exercise: Container Engine Time Configuration
 
 ##### Overview
 

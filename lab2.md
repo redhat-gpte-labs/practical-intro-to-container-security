@@ -31,11 +31,25 @@ You can easily build out this lab yourself. Just get a hold of (3) RHEL8.0 serve
 
 #### Exercise
 
-Access the {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}} systems as follows.
+Confirm you can access the {{SERVER_0}}, {{SERVER_1}} and {{SERVER_2}} systems.
 
-1) Using an ssh client, substitute the global user id (**GUID**) and your RHPDS user-name to login to the bastion host.
+1) Using an ssh client on your laptop, login to the bastion host as ```lab-user```.
 
 ~~~shell
-$ ssh -i .ssh/summit-key.pem lab-user@{{BASTION}}
+$ ssh lab-user@{{BASTION}}
 ~~~
+
+2) From the ${{BASTION}} use ```ssh``` to login to ${{SERVER_1}}.
+
+~~~shell
+$ ssh root@${{SERVER_1}}
+~~~
+
+3) Check that you can become root.
+
+~~~shell
+$ sudo -i
+#
+~~~
+
 
