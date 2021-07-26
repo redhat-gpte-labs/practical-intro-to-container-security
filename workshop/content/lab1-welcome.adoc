@@ -1,7 +1,7 @@
 :imagesdir: images
 
 == A PRACTICAL INTRODUCTION TO CONTAINER SECURITY
-=== Red Hat Summit 2020
+=== Red Hat Summit 2021
 
 Bob Kozdemba (bkozdemb@redhat.com)
 Dan Walsh (dwalsh@redhat.com)
