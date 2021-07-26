@@ -1,0 +1,27 @@
+id: "workshop1"
+name: "A Practical Introduction to Container Security"
+
+vars:
+  BOOKBAG_PROMPT: "[~] $"
+  BASTION_PROMPT: "$"
+  ROOT_PROMPT: "#"
+  CONTAINER_PROMPT: "[root@a6c3539285a7 /]#"
+  SERVER_0: node1.$GUID.internal
+  SERVER_1: node2.$GUID.internal
+  SERVER_2: server2.summit.lab
+  BASTION: bastion.$GUID.sandbox1485.opentlc.com
+  RHEL_CONTAINER: registry.access.redhat.com/ubi8/ubi:8.1
+  USERNAME: lab-user
+
+modules:
+  activate:
+  - lab1-welcome
+  - lab2-intro
+  - lab3-registry
+  - lab4-podman
+  - lab5-isolation
+  - lab6-selinux
+  - lab7-inspecting
+  - lab8-signing
+  - lab9-builds
+  - lab10-thanks

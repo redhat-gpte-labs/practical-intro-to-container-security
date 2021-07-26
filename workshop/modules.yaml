@@ -1,0 +1,23 @@
+
+
+modules:
+  lab1-welcome:
+    name: Welcome
+  lab2-intro:
+    name: Introduction
+  lab3-registry:
+    name: Registry Configuration 
+  lab4-podman:
+    name: Podman Basics
+  lab5-isolation: 
+    name: Isolation
+  lab6-selinux:
+    name: SELinux and Containers
+  lab7-inspecting:
+    name: Inspecting Content
+  lab8-signing:
+    name: Image Trust and Signing
+  lab9-builds:
+    name: Secure Builds
+  lab10-thanks:
+    name: Thanks

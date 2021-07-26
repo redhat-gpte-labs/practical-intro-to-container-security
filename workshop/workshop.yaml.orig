@@ -1,0 +1,9 @@
+name: OpenShift 4 UPI Disconnected Deployment
+
+modules:
+    activate:
+    - overview
+    - prepare-environment
+    - exercises
+    - cleanup
+    - solving-resetting
