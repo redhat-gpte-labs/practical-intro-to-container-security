@@ -22,6 +22,6 @@ modules:
   - lab5-isolation
   - lab6-selinux
   - lab7-inspecting
-  - lab8-signing
+  - lab8-podmanapi
   - lab9-builds
   - lab10-thanks
