@@ -15,7 +15,7 @@ modules:
     name: SELinux and Containers
   lab7-inspecting:
     name: Inspecting Content
-  lab8-podman-api:
+  lab8-podmanapi:
     name: Podman API
   lab9-builds:
     name: Secure Builds

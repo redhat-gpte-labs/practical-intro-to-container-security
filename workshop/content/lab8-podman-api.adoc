@@ -1,6 +1,0 @@
-:imagesdir: images
-:GUID: %guid%
-:markup-in-source: verbatim,attributes,quotes
-:toc:
-
-In this lab, you will use `podman` in a client/server manner. 
