@@ -1,7 +1,7 @@
 # A Practical Introduction to Container Security - a hands on lab.
 
 ## This repo is work in progress for summit 2021.
-## [2021 lab](https://gitlab.com/2020-summit-labs/a-practical-introduction-to-container-security)
+## [2020 lab on GitLab](https://gitlab.com/2020-summit-labs/a-practical-introduction-to-container-security)
 
 ### Red Hat Summit 2021
 
