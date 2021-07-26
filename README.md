@@ -31,7 +31,7 @@ Substitute your `bastion-public-hostname` and `bastion-ssh-password` in the comm
 lab guide on the bastion.
 
 ```
-$ bash <(wget -qO- https://gitlab.com/2020-summit-labs/a-practical-introduction-to-container-security/-/raw/master/deploy-lab-guide.sh) <bastion-public-hostname> <bastion-ssh-password>
+$ bash <(wget -qO- https://raw.githubusercontent.com/bkoz/container-security/2021/deploy-lab-guide.sh) <bastion-public-hostname> <bastion-ssh-password>
 ```
 
 Example output:

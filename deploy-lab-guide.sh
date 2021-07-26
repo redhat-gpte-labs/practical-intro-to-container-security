@@ -37,7 +37,7 @@ if [ ${stopped} ]; then
 	podman rm ${name}
 fi
 
-podman run -d --restart=no --pull=always --name=${name} -p ${port}:10080 -e WORKSHOP_VARS="${MY_VARS}" quay.io/bkozdemb/labguide
+podman run -d --restart=no --pull=always --name=${name} -p ${port}:10080 -e WORKSHOP_VARS="${MY_VARS}" quay.io/bkozdemb/labguide:2021
 
 echo
 echo "==================================================================="
