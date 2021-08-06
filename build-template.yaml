@@ -37,7 +37,7 @@ objects:
           name: ${NAME}:latest
       source:
         git:
-          ref: master
+          ref: '2021'
           uri: ${GIT_REPO}
         type: Git
       strategy:
