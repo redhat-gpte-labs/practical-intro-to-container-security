@@ -18,7 +18,7 @@ parameters:
     required: true
     value: quay.io/openshifthomeroom/workshop-dashboard:5.0.0
   - name: GIT_REPO
-    value: https://gitlab.com/2020-summit-labs/a-practical-introduction-to-container-security.git
+    value: https://github.com/bkoz/container-security
 
 objects:
   - apiVersion: image.openshift.io/v1
