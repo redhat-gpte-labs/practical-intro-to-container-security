@@ -123,7 +123,7 @@ Docker compose looks for docker's socket, which is normally `/var/run/docker.soc
 We need to symlink podman's rootful socket there, something like `ln -s /run/podman/podman.sock /var/run/docker.sock`
 The podman-docker package also makes a symlink between podman binary and docker. (i.e. `ln -s /usr/bin/podman /usr/bin/docker`)
 
-.To get started, set up a Python environment
+.To get started, set up a Python environment.
 [source,subs="{markup-in-source}",role=execute]
 ```
 sudo yum install python38 -y
@@ -135,7 +135,7 @@ sudo yum install python38 -y
 podman --log-level=debug system service -t0
 ```
 
-.In a separate terminal window as root, create a compose file called `docker-compose.yml`
+.In a separate terminal window as root, create a compose file called `docker-compose.yml`.
 
 [source,subs="{markup-in-source}",role=execute]
 ```
@@ -175,7 +175,7 @@ pip install pip docker-compose -U
 ```
 docker-compose up -d
 ```
-Expected output.
+Expected output:
 ```
 Creating network "lab-user_default" with the default driver
 Creating lab-user_hello_1 ... done
@@ -186,7 +186,7 @@ Creating lab-user_hello_1 ... done
 ```
 docker ps
 ```
-Sample output.
+Sample output:
 ```
 Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
 CONTAINER ID  IMAGE                          COMMAND               CREATED        STATUS            PORTS                   NAMES
@@ -199,7 +199,7 @@ ae404eeedcc7  quay.io/bkozdemb/hello:latest  /usr/bin/python3 ...  6 seconds ago
 curl http://127.0.0.1:8080
 ```
 
-Expected output.
+Expected output:
 ```
 The Python http server is listening on port 8080
 ```
