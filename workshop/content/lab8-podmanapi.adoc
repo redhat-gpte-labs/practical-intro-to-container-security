@@ -7,16 +7,22 @@ In this lab, you will use `podman` in a client/server manner.
 
 ==== Podman API demo
 
+This exercise can be performed on the bastion as a **rootless** user.
+
 ===== Set up a Python environment
 
 ```
 sudo yum install python38 -y
 ```
 ```
-sudo alternative <automatically configure for python38
+sudo alternatives --set python /usr/bin/python3.8
 ```
 ```
 python --version
+```
+Output
+```
+Python 3.8.6
 ```
 ```
 python -m venv ~/venv
@@ -25,18 +31,24 @@ python -m venv ~/venv
 source ~/venv/bin/activate
 ```
 
-Example output
+The shell prompt should change.
 ```
-virtual env prompt
+(venv) [lab-user@bastion 0 ~]$
 ```
 
-Add the following Python client code into a file called `podman-client.py`
+Install a few dependencies.
+```
+pip install pip requests -U
+```
+
+Add the following Python client code into a file called `podman-client.py`. Copy/paste should work here.
 
 ```
+cat >> podman-client.py <<EOF
 import json
 import requests
 
-url = "http://node2.kq8cj.internal:8080"
+url = "http://localhost:8080"
 req = f'{url}/v1.40.0/libpod/info'
 response = requests.get(req)
 print(response)
@@ -46,7 +58,26 @@ response.raise_for_status()
 info = json.loads(response.text)
 print(type(info))
 print(info['host']['security'])
+EOF
 ```
+
+In the upper terminal, launch the podman API service.
+```
+podman system service tcp:localhost:8080 --log-level=debug --time=0
+```
+
+In the lower termnal, run the `podman-client.py`  that was just created.
+```
+python podman-client.py
+```
+
+Expected output.
+```
+<Response [200]>
+<class 'dict'>
+{'apparmorEnabled': False, 'capabilities': 'CAP_NET_RAW,CAP_CHOWN,CAP_DAC_OVERRIDE,CAP_FOWNER,CAP_FSETID,CAP_KILL,CAP_NET_BIND_SERVICE,CAP_SETFCAP,CAP_SETGID,CAP_SETPCAP,CAP_SETUID,CAP_SYS_CHROOT', 'rootless': True, 'seccompEnabled': True, 'selinuxEnabled': True}
+```
+
 
 ==== Docker Compose 
 
