@@ -13,14 +13,16 @@ client, and many others.
 
 This exercise can be performed on the bastion as a **rootless** user.
 
-===== Set up a Python environment
-
+.To get started, set up a Python environment
+[source,subs="{markup-in-source}",role=execute]
 ```
 sudo yum install python38 -y
 ```
+[source,subs="{markup-in-source}",role=execute]
 ```
 sudo alternatives --set python /usr/bin/python3.8
 ```
+[source,subs="{markup-in-source}",role=execute]
 ```
 python --version
 ```
@@ -28,9 +30,13 @@ Output
 ```
 Python 3.8.6
 ```
+
+.Create a python virtual environment and activate it.
+[source,subs="{markup-in-source}",role=execute]
 ```
 python -m venv ~/venv
 ```
+[source,subs="{markup-in-source}",role=execute]
 ```
 source ~/venv/bin/activate
 ```
@@ -40,13 +46,15 @@ The shell prompt should change.
 (venv) [lab-user@bastion 0 ~]$
 ```
 
-Install a few dependencies.
+.Install a few dependencies.
+[source,subs="{markup-in-source}",role=execute]
 ```
 pip install pip requests -U
 ```
 
-Add the following Python client code into a file called `podman-client.py`. Copy/paste should work here.
+.Add the following Python client code into a file called `podman-client.py`. Copy/paste should work here.
 
+[source,subs="{markup-in-source}",role=execute]
 ```
 cat >> podman-client.py <<EOF
 import json
@@ -65,12 +73,14 @@ print(info['host']['security'])
 EOF
 ```
 
-In the upper terminal, launch the podman API service.
+.In the upper terminal, launch the podman API service.
+[source,subs="{markup-in-source}",role=execute]
 ```
 podman system service tcp:localhost:8080 --log-level=debug --time=0
 ```
 
-In the lower termnal, run the `podman-client.py`  that was just created.
+.In the lower termnal, run the `podman-client.py`  that was just created.
+[source,subs="{markup-in-source}",role=execute]
 ```
 python podman-client.py
 ```
@@ -88,21 +98,25 @@ Expected output.
 This exercise must be performed as a **rootful** user. In a future version of
 RHEL, this restriction will be lifted.
 
+[source,subs="{markup-in-source}",role=execute]
 ```
 sudo -i
 ```
 
-As root, start the podman service.
+.As root, start the podman service.
+[source,subs="{markup-in-source}",role=execute]
 ```
 podman --log-level=debug system service -t0
 ```
 
-In a separate terminal window as root, create a compose file called `docker-compose.yml`
+.In a separate terminal window as root, create a compose file called `docker-compose.yml`
 
+[source,subs="{markup-in-source}",role=execute]
 ```
 sudo -i
 ```
 
+[source,subs="{markup-in-source}",role=execute]
 ```
 cat >> docker-compose.yml << EOF
 version: "3.9"
@@ -114,20 +128,24 @@ services:
 EOF
 ```
 
-Setup a Python environment.
+.Setup a Python environment.
+[source,subs="{markup-in-source}",role=execute]
 ```
 python -m venv venv
 ```
+[source,subs="{markup-in-source}",role=execute]
 ```
 source venv/bin/activate
 ```
 
-Upgrade `pip` and install `docker-compose`.
+.Upgrade `pip` and install `docker-compose`.
+[source,subs="{markup-in-source}",role=execute]
 ```
 pip install pip docker-compose -U
 ```
 
-Run the application in the background.
+.Run the application in the background.
+[source,subs="{markup-in-source}",role=execute]
 ```
 docker-compose up -d
 ```
@@ -137,7 +155,8 @@ Creating network "lab-user_default" with the default driver
 Creating lab-user_hello_1 ... done
 ```
 
-Confirm the application is running.
+.Confirm the application is running.
+[source,subs="{markup-in-source}",role=execute]
 ```
 docker ps
 ```
@@ -148,7 +167,8 @@ CONTAINER ID  IMAGE                          COMMAND               CREATED      
 ae404eeedcc7  quay.io/bkozdemb/hello:latest  /usr/bin/python3 ...  6 seconds ago  Up 6 seconds ago  0.0.0.0:8080->8080/tcp  lab-user_hello_1
 ```
 
-Visit the application on port 8080.
+.Visit the application on port 8080.
+[source,subs="{markup-in-source}",role=execute]
 ```
 curl http://127.0.0.1:8080
 ```
@@ -158,7 +178,8 @@ Expected output.
 The Python http server is listening on port 8080
 ```
 
-Shutdown the application.
+.Shutdown the application.
+[source,subs="{markup-in-source}",role=execute]
 ```
 docker-compose down
 ```
