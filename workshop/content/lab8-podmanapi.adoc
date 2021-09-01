@@ -79,7 +79,14 @@ EOF
 podman system service tcp:localhost:8080 --log-level=debug --time=0
 ```
 
-.In the lower termnal, run the `podman-client.py`  that was just created.
+.In the lower termnal, activate the python environment then run the `podman-client.py`  that was just created.
+
+```
+[source,subs="{markup-in-source}",role=execute]
+```
+source ~/venv/bin/activate
+```
+
 [source,subs="{markup-in-source}",role=execute]
 ```
 python podman-client.py
@@ -94,7 +101,9 @@ Expected output.
 
 ==== Bonus exercise
 
-Login to one of the nodes, and run the podman service. Then on the bastion, change the `url`
+Bastion Client and Node Service
+
+.Login to one of the nodes, and run the podman service. Then on the bastion, change the `url`
 variable in the `podman-client.py` so API calls are made to the podman service running
 on the remote node.
 
@@ -106,6 +115,20 @@ RHEL, this restriction will be lifted.
 [source,subs="{markup-in-source}",role=execute]
 ```
 sudo -i
+```
+
+.Install the `podman-docker` package. 
+
+Here is why
+
+Docker compose looks for docker's socket, which is normally `/var/run/docker.sock`
+We need to symlink podman's rootful socket there, something like `ln -s /run/podman/podman.sock /var/run/docker.sock`
+The podman-docker package also makes a symlink between podman binary and docker. (i.e. `ln -s /usr/bin/podman /usr/bin/docker`)
+
+.To get started, set up a Python environment
+[source,subs="{markup-in-source}",role=execute]
+```
+sudo yum install python38 -y
 ```
 
 .As root, start the podman service.
@@ -191,10 +214,10 @@ docker-compose down
 
 References
 
-[Python example Blog post](https://www.redhat.com/sysadmin/podman-python-bash)
-[Clean storage code](https://raw.githubusercontent.com/containers/Demos/main/restful_api/clean_storage.py)
-[Docker compose example](https://docs.docker.com/compose/gettingstarted/)
-[Docker-Compose python](https://pypi.org/project/docker-compose/)
-[Podman compose tests](https://github.com/containers/podman/tree/main/test/compose)
-[Red Hat container docs](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#assembly_using-the-container-tools-api_using-the-container-tools-cli)
+https://www.redhat.com/sysadmin/podman-python-bash[Python example Blog post]
+https://raw.githubusercontent.com/containers/Demos/main/restful_api/clean_storage.py[Clean storage code]
+https://docs.docker.com/compose/gettingstarted/[Docker compose example]
+https://pypi.org/project/docker-compose/[Docker-Compose python]
+https://github.com/containers/podman/tree/main/test/compose[Podman compose tests]
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#assembly_using-the-container-tools-api_using-the-container-tools-cli[Red Hat container docs]
 
