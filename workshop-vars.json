@@ -1,5 +1,8 @@
 {
     "user_info": "user_info string",
     "username": "lab-user",
-    "SUBDOMAIN": "subdomain_base_suffix"
+    "SUBDOMAIN": "subdomain_base_suffix",
+    "student_ssh_command", "student_ssh_command",
+    "student_ssh_password", "student_ssh_password",
+    "student_bastion_hostname", "student_bastion_hostname"
 }
