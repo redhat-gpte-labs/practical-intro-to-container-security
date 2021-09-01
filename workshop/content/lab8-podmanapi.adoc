@@ -100,9 +100,9 @@ Expected output.
 
 ==== Bonus exercise
 
-Bastion Client and Node Service
+Bastion Client and Remote Node Service
 
-.Login to one of the nodes, and run the podman service. Then on the bastion, change the `url` variable in the `podman-client.py` so API 
+Login to either one of the nodes, and run the podman service. Then on the bastion, change the `url` variable in the `podman-client.py` file so API 
 calls are made to the podman service running on the remote node instead of the bastion.
 
 ==== Docker Compose 
