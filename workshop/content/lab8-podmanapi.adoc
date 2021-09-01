@@ -81,7 +81,6 @@ podman system service tcp:localhost:8080 --log-level=debug --time=0
 
 .In the lower termnal, activate the python environment then run the `podman-client.py`  that was just created.
 
-```
 [source,subs="{markup-in-source}",role=execute]
 ```
 source ~/venv/bin/activate
