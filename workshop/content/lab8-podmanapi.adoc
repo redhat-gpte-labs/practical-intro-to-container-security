@@ -102,9 +102,8 @@ Expected output.
 
 Bastion Client and Node Service
 
-.Login to one of the nodes, and run the podman service. Then on the bastion, change the `url`
-variable in the `podman-client.py` so API calls are made to the podman service running
-on the remote node.
+.Login to one of the nodes, and run the podman service. Then on the bastion, change the `url` variable in the `podman-client.py` so API 
+calls are made to the podman service running on the remote node instead of the bastion.
 
 ==== Docker Compose 
 
@@ -214,9 +213,14 @@ docker-compose down
 References
 
 https://www.redhat.com/sysadmin/podman-python-bash[Python example Blog post]
+
 https://raw.githubusercontent.com/containers/Demos/main/restful_api/clean_storage.py[Clean storage code]
+
 https://docs.docker.com/compose/gettingstarted/[Docker compose example]
+
 https://pypi.org/project/docker-compose/[Docker-Compose python]
+
 https://github.com/containers/podman/tree/main/test/compose[Podman compose tests]
+
 https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#assembly_using-the-container-tools-api_using-the-container-tools-cli[Red Hat container docs]
 
