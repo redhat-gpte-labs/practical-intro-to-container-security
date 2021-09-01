@@ -4,3 +4,59 @@
 :toc:
 
 In this lab, you will use `podman` in a client/server manner. 
+
+==== Podman API demo
+
+===== Set up a Python environment
+
+```
+sudo yum install python38 -y
+```
+```
+sudo alternative <automatically configure for python38
+```
+```
+python --version
+```
+```
+python -m venv ~/venv
+```
+```
+source ~/venv/bin/activate
+```
+
+Example output
+```
+virtual env prompt
+```
+
+Add the following Python client code into a file called `podman-client.py`
+
+```
+import json
+import requests
+
+url = "http://node2.kq8cj.internal:8080"
+req = f'{url}/v1.40.0/libpod/info'
+response = requests.get(req)
+print(response)
+
+response.raise_for_status()
+
+info = json.loads(response.text)
+print(type(info))
+print(info['host']['security'])
+```
+
+==== Docker Compose 
+
+
+References
+
+[Python example Blog post](https://www.redhat.com/sysadmin/podman-python-bash)
+[Clean storage code](https://raw.githubusercontent.com/containers/Demos/main/restful_api/clean_storage.py)
+[Docker compose example](https://docs.docker.com/compose/gettingstarted/)
+[Docker-Compose python](https://pypi.org/project/docker-compose/)
+[Podman compose tests](https://github.com/containers/podman/tree/main/test/compose)
+[Red Hat container docs](https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#assembly_using-the-container-tools-api_using-the-container-tools-cli)
+
