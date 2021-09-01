@@ -11,7 +11,13 @@ configured and running, the `curl` command can be used to test basic connectivit
 [[anchor-1]]
 ===== Configuring the registries
 
-.Login to `node1.{GUID}.internal` and configure the registry. Do this as a regular (non-root) user.
+.Login to `node1.{GUID}.internal` and configure the registry. Do this using `sudo`.
+
+[source,subs="{markup-in-source}"]
+```
+$ *sudo ssh node1.{GUID}.internal*
+```
+
 [source,subs="{markup-in-source}"]
 ```
 $ *cd $HOME/files/nodes/registry-files/gen-certs*
