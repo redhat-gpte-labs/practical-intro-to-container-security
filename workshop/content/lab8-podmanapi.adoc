@@ -4,6 +4,10 @@
 :toc:
 
 In this lab, you will use `podman` in a client/server manner. 
+The Podman v2.0 RESTful API consists of the Libpod API providing support for Podman, and a Docker-compatible API. 
+With this new REST API, podman may be called from platforms such as cURL, Postman, Google’s Advanced REST 
+client, and many others.
+
 
 ==== Podman API demo
 
@@ -81,6 +85,83 @@ Expected output.
 
 ==== Docker Compose 
 
+This exercise must be performed as a **rootful** user. In a future version of
+RHEL, this restriction will be lifted.
+
+```
+sudo -i
+```
+
+As root, start the podman service.
+```
+podman --log-level=debug system service -t0
+```
+
+In a separate terminal window as root, create a compose file called `docker-compose.yml`
+
+```
+sudo -i
+```
+
+```
+cat >> docker-compose.yml << EOF
+version: "3.9"
+services:
+  hello:
+    image: "quay.io/bkozdemb/hello"
+    ports:
+      - "8080:8080"
+EOF
+```
+
+Setup a Python environment.
+```
+python -m venv venv
+```
+```
+source venv/bin/activate
+```
+
+Upgrade `pip` and install `docker-compose`.
+```
+pip install pip docker-compose -U
+```
+
+Run the application in the background.
+```
+docker-compose up -d
+```
+Expected output.
+```
+Creating network "lab-user_default" with the default driver
+Creating lab-user_hello_1 ... done
+```
+
+Confirm the application is running.
+```
+docker ps
+```
+Sample output.
+```
+Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
+CONTAINER ID  IMAGE                          COMMAND               CREATED        STATUS            PORTS                   NAMES
+ae404eeedcc7  quay.io/bkozdemb/hello:latest  /usr/bin/python3 ...  6 seconds ago  Up 6 seconds ago  0.0.0.0:8080->8080/tcp  lab-user_hello_1
+```
+
+Visit the application on port 8080.
+```
+curl http://127.0.0.1:8080
+```
+
+Expected output.
+```
+The Python http server is listening on port 8080
+```
+
+Shutdown the application.
+```
+docker-compose down
+```
 
 References
 
