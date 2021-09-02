@@ -80,6 +80,8 @@ $ *curl  --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
 
 ==== Configuring and testing the bastion
 
+Perform the following on the bastion.
+
 .Copy the SSL certificates from the registry servers and update the trust store.
 [source,subs="{markup-in-source}"]
 ```

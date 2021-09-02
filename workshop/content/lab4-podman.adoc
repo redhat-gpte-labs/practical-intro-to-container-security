@@ -50,19 +50,25 @@ in the previous modules.
 Before an image can be pushed to a registry, it must be tagged 
 appropriately.
 
+.Pull an image from quay.io
+[source,subs="{markup-in-source}"]
+```
+$ podman pull quay.io/bkozdemb/hello
+```
+
 .Confirm the pull worked.
 [source,subs="{markup-in-source}"]
 ```
 $ *podman images*
 
 REPOSITORY                            TAG      IMAGE ID       CREATED      SIZE
-%RHEL_CONTAINER%   latest   8121a9f5303b   8 days ago   240 MB
+quay.io/bkozdemb/hello                latest  398a3b0bab81  7 months ago   250 MB
 ```
 
 .Next tag the image for the remote registry hosted at node1.{GUID}.internal.
 [source,subs="{markup-in-source}"]
 ```
-$ *podman tag %RHEL_CONTAINER% node1.{GUID}.internal:5000/ubi8/ubi*
+$ *podman tag quay.io/bkozdemb/hello node1.{GUID}.internal:5000/mynamespace/hello*
 ```
 
 .Confirm the tag is correct.
@@ -71,8 +77,9 @@ $ *podman tag %RHEL_CONTAINER% node1.{GUID}.internal:5000/ubi8/ubi*
 $ *podman images*
 
 REPOSITORY                            TAG      IMAGE ID       CREATED      SIZE
-%RHEL_CONTAINER%   latest   8121a9f5303b   8 days ago   240 MB
-node1.8l829.internal:5000/ubi8/ubi    latest   8121a9f5303b   8 days ago   240 MB
+quay.io/bkozdemb/hello                latest  398a3b0bab81  7 months ago   250 MB
+node1.pph67.internal:5000/mynamespace/hello  latest  398a3b0bab81  7 months ago
+   250 MB
 ```
 
 .Login to the `node1.{GUID}.internal` registry. Do the same for `node2.{GUID}.internal`. 
@@ -87,10 +94,24 @@ $ *podman login -u redhat -p redhat node2.{GUID}.internal:5000*
 Login Succeeded!
 ```
 
+IMPORTANT: If the following error message is reported...
+
+```
+Error: error authenticating creds for "node1.pph67.internal:5000": error pinging docker registry node1.pph67.internal:5000: Get "https://node1.pph67.internal:5000/v2/": x509: certificate relies on legacy 
+Common Name field, use SANs or temporarily enable Common Name matching with GODEBUG=x509ignoreCN=0
+```
+
+The `GODEBUG=x509ignoreCN=0` variable needs to be set.
+```
+export GODEBUG=x509ignoreCN=0
+```
+
+Now, try to login again.
+
 .Finally, push the image.
 [source,subs="{markup-in-source}"]
 ```
-$ *podman push node1.{GUID}.internal:5000/ubi8/ubi*
+$ *podman push node1.{GUID}.internal:5000/mynamespace/hello*
 
 Getting image source signatures
 Copying blob 8da573feae5f: 205.77 MiB / 205.77 MiB [========================] 5s
@@ -106,7 +127,7 @@ Storing signatures
 ```
 $ *curl --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
 
-{"repositories":["ubi8/ubi"]}
+{"repositories":["hello","mynamespace/hello"]}
 ```
 
 ==== Working with root and rootless containers.
