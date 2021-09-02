@@ -74,19 +74,19 @@ EOF
 ```
 
 .In the upper terminal, launch the podman API service.
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-1]
 ```
 podman system service tcp:localhost:8080 --log-level=debug --time=0
 ```
 
 .In the lower termnal, activate the python environment then run the `podman-client.py`  that was just created.
 
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 source ~/venv/bin/activate
 ```
 
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 python podman-client.py
 ```
@@ -135,14 +135,14 @@ sudo yum install python38 -y
 podman --log-level=debug system service -t0
 ```
 
-.In a separate terminal window as root, create a compose file called `docker-compose.yml`.
+.In the lower terminal window as root, create a compose file called `docker-compose.yml`.
 
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 sudo -i
 ```
 
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 cat >> docker-compose.yml << EOF
 version: "3.9"
@@ -155,23 +155,23 @@ EOF
 ```
 
 .Setup a Python environment.
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 python -m venv venv
 ```
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 source venv/bin/activate
 ```
 
 .Upgrade `pip` and install `docker-compose`.
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 pip install pip docker-compose -U
 ```
 
 .Run the application in the background.
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 docker-compose up -d
 ```
@@ -182,7 +182,7 @@ Creating lab-user_hello_1 ... done
 ```
 
 .Confirm the application is running.
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 docker ps
 ```
@@ -194,7 +194,7 @@ ae404eeedcc7  quay.io/bkozdemb/hello:latest  /usr/bin/python3 ...  6 seconds ago
 ```
 
 .Visit the application on port 8080.
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 curl http://127.0.0.1:8080
 ```
@@ -205,7 +205,7 @@ The Python http server is listening on port 8080
 ```
 
 .Shutdown the application.
-[source,subs="{markup-in-source}",role=execute]
+[source,subs="{markup-in-source}",role=execute-2]
 ```
 docker-compose down
 ```
