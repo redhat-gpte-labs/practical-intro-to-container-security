@@ -3,13 +3,15 @@
 :markup-in-source: verbatim,attributes,quotes
 :toc:
 
+= Using the podman API
+
 In this lab, you will use `podman` in a client/server manner. 
 The Podman v2.0 RESTful API consists of the Libpod API providing support for Podman, and a Docker-compatible API. 
 With this new REST API, podman may be called from platforms such as cURL, Postman, Google’s Advanced REST 
 client, and many others.
 
 
-==== Podman API demo
+== Client/Server Exercise
 
 This exercise can be performed on the bastion as a **rootless** user.
 
@@ -115,14 +117,14 @@ Expected output.
 {'apparmorEnabled': False, 'capabilities': 'CAP_NET_RAW,CAP_CHOWN,CAP_DAC_OVERRIDE,CAP_FOWNER,CAP_FSETID,CAP_KILL,CAP_NET_BIND_SERVICE,CAP_SETFCAP,CAP_SETGID,CAP_SETPCAP,CAP_SETUID,CAP_SYS_CHROOT', 'rootless': True, 'seccompEnabled': True, 'selinuxEnabled': True}
 ```
 
-==== Bonus exercise
+=== Bonus exercise
 
 Bastion Client and Remote Node Service
 
 Login to either one of the nodes, and run the podman service. Then on the bastion, change the `url` variable in the `podman-client.py` file so API 
 calls are made to the podman service running on the remote node instead of the bastion.
 
-==== Docker Compose 
+=== Docker Compose 
 
 This exercise must be performed as a **rootful** user. In a future version of
 RHEL, this restriction will be lifted.
@@ -232,7 +234,7 @@ The Python http server is listening on port 8080
 docker-compose down
 ```
 
-References
+== References
 
 https://www.redhat.com/sysadmin/podman-python-bash[Python example Blog post]
 
