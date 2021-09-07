@@ -28,12 +28,21 @@ Instructors and Lab Assistants:
 
 ### Infrastructure
 
-(3) RHEL 8.4 hosts
+(3) RHEL 8.4 hosts (Nodes 1 and 2 must be accessed via the bastion)
 
-- Bastion (publicly accessible)
+- Bastion (ports 22 and 8080 are publicly accessible)
 - Node 1
 - Node 2
 
-### Common Issues
+### Delivering the Lab
 
-- Attendee is typing command on the wrong host.
+This is largely a self-paced lab session where students work at their own pace and ask questions when
+they get stuck. I typically begin by walking everyone through the **Introduction** and **Registry Configuration** labs
+together. At this point, students should have (2) working registries and the remainder of the labs can be completed on the
+bastion host.
+
+### Troubleshooting and Common Issues
+
+- The best way to help a student is to visit their bookbag URL and see what errors are being reported.
+- I often back up to the start of a section in order to follow the path they've taken. 
+- Students often type commands into the wrong host.
