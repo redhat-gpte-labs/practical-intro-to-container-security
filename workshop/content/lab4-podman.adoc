@@ -78,7 +78,7 @@ $ *podman images*
 
 REPOSITORY                            TAG      IMAGE ID       CREATED      SIZE
 quay.io/bkozdemb/hello                latest  398a3b0bab81  7 months ago   250 MB
-node1.pph67.internal:5000/mynamespace/hello  latest  398a3b0bab81  7 months ago
+node1.{GUID}.internal:5000/mynamespace/hello  latest  398a3b0bab81  7 months ago
    250 MB
 ```
 
@@ -97,16 +97,17 @@ Login Succeeded!
 IMPORTANT: If the following error message is reported...
 
 ```
-Error: error authenticating creds for "node1.pph67.internal:5000": error pinging docker registry node1.pph67.internal:5000: Get "https://node1.pph67.internal:5000/v2/": x509: certificate relies on legacy 
+Error: error authenticating creds for "node1.{GUID}.internal:5000": error pinging docker registry node1.{GUID}.internal:5000: Get "https://node1.{GUID}.internal:5000/v2/": x509: certificate relies on legacy 
 Common Name field, use SANs or temporarily enable Common Name matching with GODEBUG=x509ignoreCN=0
 ```
 
-The `GODEBUG=x509ignoreCN=0` variable needs to be set.
+The `GODEBUG` variable needs to be set.
+[source,subs="{markup-in-source}"]
 ```
-export GODEBUG=x509ignoreCN=0
+$ *export GODEBUG=x509ignoreCN=0*
 ```
 
-Now, try to login again.
+Now, try to login again. It should suceed.
 
 .Finally, push the image.
 [source,subs="{markup-in-source}"]
@@ -382,6 +383,11 @@ $ *sudo podman top -l user huser*
 USER   HUSER
 1001   201001
 ```
+
+==== Clean up challenge
+
+.Use `podman` to stop and remove any containers before proceeding with the next lab.
+
 
 ==== References
 

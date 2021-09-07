@@ -46,3 +46,18 @@ bastion host.
 - The best way to help a student is to visit their bookbag URL and see what errors are being reported.
 - I often back up to the start of a section in order to follow the path they've taken. 
 - Students often type commands into the wrong host.
+
+### Challenge Exercises
+
+Podman user namespace challenge.
+```
+$ sudo podman run --name=mytest --user=1001 --uidmap 0:200000:5000 -d registry.access.redhat.com/ubi8
+/ubi:8.1 sleep 1000
+```
+
+Podman clean up challenge.
+
+```
+for i in $(sudo podman ps -a -q); do sudo podman stop $i && sudo podman rm $i; done
+```
+
