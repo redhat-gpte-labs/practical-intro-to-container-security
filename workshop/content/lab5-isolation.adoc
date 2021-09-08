@@ -57,22 +57,18 @@ The bitmask returned is `0x0` meaning this process does not have any capabilitie
 ```
 $ *sudo grep CapEff /proc/self/status*
 
-CapEff:	0000003fffffffff
+CapEff:	000000ffffffffff
 ```
 
-Notice that all 38 capability bits are set indicating this process has a full set of capabilities. In a later exercise, you'll discover that a container
+Notice that all 39 capability bits are set indicating this process has a full set of capabilities. In a later exercise, you'll discover that a container
 running as **root** has a filtered set of capabilities by default but this can be changed at run time.
 
 .The `capsh` command can decode a capabilities bitmask into a human readable output. Try it out!
 [source,subs="{markup-in-source}"]
 ```
-$ *capsh --decode=3fffffffff*
+$ *capsh --decode=ffffffffff*
 
-0x0000003fffffffff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,ca
-p_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner
-,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys
-_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_overr
-ide,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
+0x000000ffffffffff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read,38,39
 
 $ *capsh --decode=200*
 
@@ -96,7 +92,7 @@ CapEff:	0000000000000000
 ```
 $ *podman run --user=0 --rm -it %RHEL_CONTAINER% grep CapEff /proc/self/status*
 
-CapEff:	00000000a80425fb
+CapEff:	00000000800425fb
 ```
 
 .Now run a container as privileged and compare the results to the previous exercises. What conclusions can you draw?
@@ -142,7 +138,7 @@ How could you determine which capabilities podman _filters_ from a _root_ proces
 
 .From a previous exercise we know that a root process on the host has a capabilities mask of CapEff = `0000003fffffffff`
 
-.From a previous exercise we know that a root process in a container has a capabilities mask of CapEff = `00000000a80427fb`
+.From a previous exercise we know that a root process in a container has a capabilities mask of CapEff = `00000000800425fb`
 
 .Hint: Below is an example that uses the Linux binary calculator `bc` to add hexadecimal numbers `(0x9 + 0x1) = A`.
 [source,subs="{markup-in-source}"]
@@ -173,7 +169,7 @@ Mon Apr  8 21:45:24 UTC 2019
 
 ==== Capabilities Challenge #3
 
-You have been given a container image to deploy (`quay.io/bkozdemb/hello`). The application needs to use the `chattr` utility but must not be allowed to `ping` any hosts. Use what you've learned about capabilities to properly deploy this application using `podman`.
+You have been given a container image to deploy (`quay.io/bkozdemb/hello`). The application needs to use the `chattr` utility but must not be allowed to `chown` any files. Use what you've learned about capabilities to properly deploy this application using `podman`.
 
 .For example, `ping` succeeds but `chattr` fails. We want the opposite.  
 [source,subs="{markup-in-source}"]
@@ -195,26 +191,25 @@ chattr: Operation not permitted while setting flags on file
 
 ==== Example Solutions to Challenges
 
-.Challenge #1: One approach would be to use your favorite binary calculator (`bc`) to calculate the difference in `CapEff` between a host root process `(0x3fffffffff)` and a containerized root process `(0xa80427fb)`.
+.Challenge #1: One approach would be to use your favorite binary calculator (`bc`) to calculate the difference in `CapEff` between a host root process `(0x3fffffffff)` and a containerized root process `(0x00800425fb)`.
 [source,subs="{markup-in-source}"]
 ```
   0x3FFFFFFFFF
-- 0x00A80427FB
+- 0x00800425FB
   ------------
-  0x3F57FBD804
+  0x3F7FFBDA04
 
-$ *echo 'obase=16;ibase=16;3FFFFFFFFF-A80427FB' | bc*
+$ *echo 'obase=16;ibase=16;3FFFFFFFFF-00800425FB' | bc*
 
-3F57FBD804
+3F7FFBDA04
 ```
 
 .To produce a human readable list, use `capsh` to decode the vector.
 [source,subs="{markup-in-source}"]
 ```
-$ *capsh --decode=3F57FBD804*
+$ *capsh --decode=3F7FFBDA04*
 
-0x0000003f57fbd804=cap_dac_read_search,cap_net_broadcast,cap_net_admin,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys
-_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_lease,cap_audit_control,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
+0x0000003f7ffbda04=cap_dac_read_search,cap_linux_immutable,cap_net_broadcast,cap_net_admin,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read
 ```
 
 .Challenge #2: To allow a container to set the system clock, the `sys_time` capability must be added. Add this capability then try setting the date again.
@@ -230,49 +225,58 @@ Mon Apr  8 21:46:18 UTC 2019
 *%CONTAINER_PROMPT% exit*
 ```
 
-.Challenge #3: Drop all capabilities then add `linux_immutable`. The trick with this is the container must run as root because `linux_immutable` is a filtered capability.
+.Challenge #3: Drop all capabilities then add `linux_immutable`. The key with this challenge is the container must run as root because `linux_immutable` is a filtered capability.
 [source,subs="{markup-in-source}"]
 ```
 $ *sudo podman run -it --name=chattr_no_ping --rm --cap-drop=all --cap-add=linux_immutable quay.io/bkozdemb/utils bash*
+
+$ *sudo podman run --name=chattr_no_chown -it --rm --cap-drop=chown --cap-add=linux_immutable quay.io/bkozdemb/utils bash*
 ```
 
-.The `ping` command should fail.
+.Create (2) files and try to `chown file1`. The `chown` command should fail.
 [source,subs="{markup-in-source}"]
 ```
-# *ping -c1 127.0.0.1*
-ping: socket: Operation not permitted
+[root@966131ac3d17 /]# *cd /var/tmp*
+[root@966131ac3d17 tmp]# *touch file1 file2*
+[root@966131ac3d17 tmp]# *chown 1000 file1*
+
+chown: changing ownership of 'file1': Operation not permitted
 ```
 
-.The `chattr` command should succeed in making a file read only
+.However, the `chattr` command should succeed in making a file read only
 [source,subs="{markup-in-source}"]
 ```
-# *touch file*
-# *chattr +i file*
-# *rm -rf file*
+# *chattr +i file2*
+# *rm -rf file2*
 
 rm: cannot remove 'file': Operation not permitted
 
-# *lsattr file*
+# *lsattr*
 
-----i--------------- file
+-------------------- ./file1
+----i--------------- ./file2
 ```
 
 .Remember to reset the file attributes so the container can shutdown cleanly.
 [source,subs="{markup-in-source}"]
 ```
-# *chattr -i file*
-# *lsattr file*
+# *chattr -i file2*
+# *lsattr file2*
 
--------------------- file
+-------------------- ./file2
 ```
 
-.On the host, check the capabilities of the container.
+.On the host, check the capabilities of the container. 
+
+The `LINUX_IMMUTABLE` capability should
+be present but not `CHOWN`.
 [source,subs="{markup-in-source}"]
 ```
-$ *sudo podman top chattr_no_ping capeff*
+# *sudo podman top chattr_no_chown capeff*
 
 EFFECTIVE CAPS
-LINUX_IMMUTABLE
+DAC_OVERRIDE,FOWNER,FSETID,KILL,LINUX_IMMUTABLE,NET_BIND_SERVICE,NET_RAW,SETFCAP,SETGID,SETPC
+AP,SETUID,SYS_CHROOT
 ```
 
 .Exit the container. 
