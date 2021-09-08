@@ -389,6 +389,20 @@ USER   HUSER
 .Use `podman` to stop and remove any containers before proceeding with the next lab.
 
 
+==== Challenge Exercises
+
+.Podman user namespace challenge.
+[source,subs="{markup-in-source}"]
+```
+$ *sudo podman run --name=mytest --user=1001 --uidmap 0:200000:5000 -d registry.access.redhat.com/ubi8/ubi:8.1 sleep 1000*
+```
+
+.Podman clean up challenge.
+[source,subs="{markup-in-source}"]
+```
+$ *for i in $(sudo podman ps -a -q); do sudo podman stop $i && sudo podman rm $i; done*
+```
+
 ==== References
 
 https://kubernetes.io/docs/concepts/workloads/pods/pod/[Pod concepts]
