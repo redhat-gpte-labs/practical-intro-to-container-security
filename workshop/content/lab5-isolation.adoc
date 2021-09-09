@@ -174,7 +174,7 @@ You have been given a container image to deploy (`quay.io/bkozdemb/hello`). The 
 .For example, `ping` succeeds but `chattr` fails. We want the opposite.  
 [source,subs="{markup-in-source}"]
 ```
-$ *podman run -it --name=chattr_no_ping --rm quay.io/bkozdemb/utils bash*
+$ *podman run -it --name=chattr_no_chown --rm quay.io/bkozdemb/utils bash*
 
 # *ping -c1 127.0.0.1*
 PING 127.0.0.1 (127.0.0.1) 56(84) bytes of data.
@@ -228,8 +228,6 @@ Mon Apr  8 21:46:18 UTC 2019
 .Challenge #3: Drop all capabilities then add `linux_immutable`. The key with this challenge is the container must run as root because `linux_immutable` is a filtered capability.
 [source,subs="{markup-in-source}"]
 ```
-$ *sudo podman run -it --name=chattr_no_ping --rm --cap-drop=all --cap-add=linux_immutable quay.io/bkozdemb/utils bash*
-
 $ *sudo podman run --name=chattr_no_chown -it --rm --cap-drop=chown --cap-add=linux_immutable quay.io/bkozdemb/utils bash*
 ```
 
