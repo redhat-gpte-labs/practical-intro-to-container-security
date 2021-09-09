@@ -49,13 +49,16 @@ $ *sudo podman mount sleepy*
 /var/lib/containers/storage/overlay/<container-id>/merged
 ```
 
-.Using the directory returned from the above `mount` command, confirm the date.txt file exists in the mounted file system.
+.Using the `find` command, confirm the `date.txt` file exists in the mounted file system.
 [source,subs="{markup-in-source}"]
 ```
-$ *sudo cat /var/lib/containers/storage/overlay/`<container-id>`/merged/tmp/date.txt*
+$ *sudo find /var/lib/containers -name date.txt* 
 
-Tue Apr 16 19:45:11 UTC 2019
+/var/lib/containers/storage/overlay/<container-id>/diff/tmp/date.txt
+/var/lib/containers/storage/overlay/<container-id>/merged/tmp/date.txt
 ```
+
+Security challenge
 
 .How might you search this container's file system for all programs that are owned by root and have the SETUID bit set? 
 [source,subs="{markup-in-source}"]
@@ -118,7 +121,7 @@ $ *skopeo inspect docker://%RHEL_CONTAINER%*
 .Skopeo can also copy images between two registries. See the `skopeo(1)` man page for details and give it a try. An example is shown below. To make this work, the proper image tags must exist and authentication to registries must be in place.
 [source,subs="{markup-in-source}"]
 ```
-$ *skopeo copy docker://node1.{GUID}.internal:5000/ubi8/ubi docker://node2.{GUID}.internal:5000/ubi8/ubi*
+$ *skopeo copy docker://node1.{GUID}.internal:5000/mynamespace/hello docker://node1.{GUID}.internal:5000/mynamespace/hello*
 
 Getting image source signatures
 Copying blob ba795627ed38 done

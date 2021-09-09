@@ -126,7 +126,7 @@ Complete!
 ```
 [root@bastion 0 ~]# *dnf clean --installroot $scratchmnt all*
 
-56 files removed
+33 files removed
 ```
 
 .Create a simple shell script that will get copied into the container.
@@ -237,8 +237,8 @@ Your simple container is still working!
 .Tag and push the image to the registry. 
 [source,subs="{markup-in-source}"]
 ```
-$ *podman tag localhost/scratch node1.w222v.internal:5000/lab-user/my-scratch-build*
-$ *podman push node1.w222v.internal:5000/lab-user/my-scratch-build*
+$ *podman tag localhost/scratch node1.{GUID}.internal:5000/lab-user/my-scratch-build*
+$ *podman push node1.{GUID}.internal:5000/lab-user/my-scratch-build*
 
 Getting image source signatures
 Copying blob d751a5947269 done
