@@ -23,6 +23,12 @@ MY_VARS="{
 \"guid\":\"${GUID}\"
 }"
 
+function build() {
+	buildah bud -t lab-guide .
+}
+
+build
+
 running=$(podman ps --filter=name=${name} -q)
 
 if [ ${running} ]; then
@@ -37,7 +43,7 @@ if [ ${stopped} ]; then
 	podman rm ${name}
 fi
 
-podman run -d --restart=no --pull=always --name=${name} -p ${port}:10080 -e WORKSHOP_VARS="${MY_VARS}" quay.io/bkozdemb/labguide:2021
+podman run -d --restart=no --pull=always --name=${name} -p ${port}:10080 -e WORKSHOP_VARS="${MY_VARS}" localhost/labguide
 
 echo
 echo "==================================================================="

@@ -28,6 +28,9 @@ image::lab-diagram.png[Lab diagram]
 |node2    |Image registry and  container host
 |=======================
 
+.Source Code
+The https://github.com/redhat-gpte-labs/practical-intro-to-container-security[source code and build instructions] for this lab are available on https://github.com/redhat-gpte-labs/practical-intro-to-container-security[github].
+
 ==== Important 
 
 TIP: These servers can not be rebuilt in a timely fashion.
