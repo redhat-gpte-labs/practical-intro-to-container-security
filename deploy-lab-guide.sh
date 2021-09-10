@@ -24,7 +24,7 @@ MY_VARS="{
 }"
 
 function build() {
-	buildah bud -t lab-guide .
+	buildah bud -t ${name} .
 }
 
 build
@@ -43,7 +43,7 @@ if [ ${stopped} ]; then
 	podman rm ${name}
 fi
 
-podman run -d --restart=no --name=${name} -p ${port}:10080 -e WORKSHOP_VARS="${MY_VARS}" localhost/lab-guide
+podman run -d --restart=no --name=${name} -p ${port}:10080 -e WORKSHOP_VARS="${MY_VARS}" localhost/${name}
 
 echo
 echo "==================================================================="
