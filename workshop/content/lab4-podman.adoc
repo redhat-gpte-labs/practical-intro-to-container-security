@@ -107,7 +107,7 @@ The `GODEBUG` variable needs to be set.
 $ *export GODEBUG=x509ignoreCN=0*
 ```
 
-Now, try to login again. It should suceed.
+Now, try to login again. It should succeed.
 
 .Finally, push the image.
 [source,subs="{markup-in-source}"]
@@ -149,13 +149,43 @@ REPOSITORY                            TAG      IMAGE ID       CREATED       SIZE
 %RHEL_CONTAINER%   latest   8121a9f5303b   8 days ago   240 MB
 ```
 
-.Where are the images actually stored? Here is a clue.
+.Where are the container images actually stored? It depends on the user. For a rootless user, 
+they are stored in the home directory. There are separate directories for images (once
+they are pulled) and containers (once they have run).
 [source,subs="{markup-in-source}"]
 ```
-$ *cat $HOME/.config/containers/storage.conf*
+$ *ls $HOME/.local/share/containers/storage*
+
+cache/	libpod/  mounts/  overlay/  overlay-containers/  overlay-images/  overlay-layers/  storage.lock  tmp/  userns.lock
 ```
 
-Let's start with a few warmup exercises. Note that a random _container ID_ is returned when the container starts.
+.Here is an example to locate the storage directory for an image.
+[source,subs="{markup-in-source}"]
+```
+$ *podman images*
+
+REPOSITORY                           TAG     IMAGE ID      CREATED        SIZE
+quay.io/bkozdemb/hello               latest  398a3b0bab81  7 months ago   250 MB
+```
+
+.Use the image ID to locate the actual layers. Here is an example. How would you do the same for a running container? You should be able to answer that soon.
+[source,subs="{markup-in-source}"]
+```
+$ *ls -R .local/share/containers | grep 398a3b0bab81*
+
+398a3b0bab8109a059a2a1cb733553cab01d7350bf439063b3b39b02937c9064/
+.local/share/containers/storage/overlay-images/398a3b0bab8109a059a2a1cb733553cab01d7350bf439063b3b39b02937c9064:
+```
+
+.For a rootfull user, the are stored in `/run/containers`.
+[source,subs="{markup-in-source}"]
+```
+$ *sudo ls /run/containers/storage*
+
+overlay  overlay-containers  overlay-layers  overlay-locks
+```
+
+Let's start with a few more warmup exercises. Note that a random _container ID_ is returned when the container starts.
 
 .Run a rootless container.
 [source,subs="{markup-in-source}"]
