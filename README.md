@@ -1,13 +1,10 @@
 # A Practical Introduction to Container Security - a hands on lab.
 
-## Red Hat Summit 2021.
+## Red Hat Summit 2023.
 
 ### Deployment Options
 
-#### Red Hat Summit
-
-If you are taking this lab as part of the Red Hat
-Summit, a customized bookbag/homeroom environment will be provided for you.
+#### To build and host the lab guide on OpenShift refer to [deploy-openshift.md](deploy-openshift.md).
 
 #### RHPDS bastion (RedHat employees and partners)
 
@@ -33,5 +30,7 @@ $ ssh lab-user@<bastion-public-hostname>
 
 Run the `deploy-lab-guide.sh` script from the bastion.
 
-#### To build and host the lab guide on OpenShift refer to `deploy-openshift.md`.
+#### Red Hat Summit
 
+If you are taking this lab as part of the Red Hat
+Summit, a customized bookbag/homeroom environment will be provided for you.
