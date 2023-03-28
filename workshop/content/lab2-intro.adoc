@@ -44,10 +44,10 @@ image::lab-diagram.png[Lab diagram]
 
 === Lab Conventions
 
-.Example `*command*` with `sample output`.
+.Example `*command*` with `sample output`
 [source,subs="{markup-in-source}"]
 ----
-*cat /etc/redhat-release*
+$ *cat /etc/redhat-release*
 ----
 ----
 Red Hat Enterprise Linux 9.1 (Plow)
