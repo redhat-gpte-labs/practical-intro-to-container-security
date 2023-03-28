@@ -60,6 +60,7 @@ Certificate:
 [source,subs="{markup-in-source}"]
 ```
 $ *cd ..*
+$ *loginctl enable-linger*
 $ *sh ./run-registry.sh*
 
 Adding password for user redhat
