@@ -3,7 +3,7 @@
 :markup-in-source: verbatim,attributes,quotes
 :toc:
 
-= Using the podman API
+=== Using the podman API
 
 In this lab, you will use `podman` in a client/server manner. 
 The Podman v2.0 RESTful API consists of the Libpod API providing support for Podman, and a Docker-compatible API. 
@@ -11,61 +11,44 @@ With this new REST API, podman may be called from platforms such as cURL, Postma
 client, and many others.
 
 
-== Client/Server Exercise
+=== Client/Server Exercise
 
-This exercise can be performed on the bastion as a **rootless** user.
+This exercise can be performed on the bastion as a **rootless** user. We will start by setting up a Python environment
 
-.To get started, set up a Python environment
-
-.Install python.
+.Create a python virtual environment
+--
 [source,subs="{markup-in-source}",role=execute]
-```
-sudo yum install python38 -y
-```
-
-.Set the default python version.
-[source,subs="{markup-in-source}",role=execute]
-```
-sudo alternatives --set python /usr/bin/python3.8
-```
-
-.Confirm it is working.
-[source,subs="{markup-in-source}",role=execute]
-```
-python --version
-```
-Output
-```
-Python 3.8.6
-```
-
-.Create a python virtual environment. 
-[source,subs="{markup-in-source}",role=execute]
-```
+----
 python -m venv ~/venv
-```
+----
+--
 
-.Activate the virtual environment.
+.Activate the virtual environment
+--
 [source,subs="{markup-in-source}",role=execute]
-```
+----
 source ~/venv/bin/activate
-```
+----
+--
 
 The shell prompt should change.
-```
+
+----
 (venv) [lab-user@bastion 0 ~]$
-```
+----
 
-.Upgrade pip and install the requests package.
+.Upgrade pip and install the requests package
+--
 [source,subs="{markup-in-source}",role=execute]
-```
+----
 pip install pip requests -U
-```
+----
+--
 
-.Add the following Python client code into a file called `podman-client.py`. Click the arrow to create the file.
-
+.Add the following Python client code into a file called `podman-client.py`. Click the arrow to create the file
+--
 [source,subs="{markup-in-source}",role=execute]
-```
+----
 cat >> podman-client.py <<EOF
 import json
 import requests
@@ -90,34 +73,39 @@ response.raise_for_status()
 info = json.loads(response.text)
 print(info['host']['security'])
 EOF
-```
+----
+--
 
-.In the upper terminal, launch the podman API service.
+.In the upper terminal, launch the podman API service
+--
 [source,subs="{markup-in-source}",role=execute-1]
-```
+----
 podman system service tcp:localhost:8080 --log-level=debug --time=0
-```
+----
+--
 
-.In the lower terminal, activate the python environment.
+.In the lower terminal, activate the python environment
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 source ~/venv/bin/activate
-```
+----
+--
 
-.Now run the `podman-client.py` program that was just created.
+.Now run the `podman-client.py` program that was just created
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 python podman-client.py
-```
-
-Expected output.
-```
+----
+----
 <Response [200]>
 <class 'dict'>
 {'apparmorEnabled': False, 'capabilities': 'CAP_NET_RAW,CAP_CHOWN,CAP_DAC_OVERRIDE,CAP_FOWNER,CAP_FSETID,CAP_KILL,CAP_NET_BIND_SERVICE,CAP_SETFCAP,CAP_SETGID,CAP_SETPCAP,CAP_SETUID,CAP_SYS_CHROOT', 'rootless': True, 'seccompEnabled': True, 'selinuxEnabled': True}
-```
+----
+--
 
-=== Bonus exercise
+=== Bonus Exercise
 
 Bastion Client and Remote Node Service
 
@@ -129,13 +117,21 @@ calls are made to the podman service running on the remote node instead of the b
 This exercise must be performed as a **rootful** user. In a future version of
 RHEL, this restriction will be lifted.
 
-.Become a super user.
+.Become root
+--
 [source,subs="{markup-in-source}",role=execute]
-```
+----
 sudo -i
-```
+----
+--
 
-.Install the `podman-docker` package. 
+.Install the `podman-docker` package
+--
+[source,subs="{markup-in-source}",role=execute]
+----
+sudo yum install podman-docker -y
+----
+--
 
 Here is why that is necessary.
 
@@ -143,27 +139,26 @@ Docker compose looks for docker's socket, which is normally `/var/run/docker.soc
 We need to symlink podman's rootful socket there, something like `ln -s /run/podman/podman.sock /var/run/docker.sock`
 The podman-docker package also makes a symlink between podman binary and docker. (i.e. `ln -s /usr/bin/podman /usr/bin/docker`)
 
-.To get started, set up a Python environment.
+.As root, start the podman service
+--
 [source,subs="{markup-in-source}",role=execute]
-```
-sudo yum install python38 -y
-```
-
-.As root, start the podman service.
-[source,subs="{markup-in-source}",role=execute]
-```
+----
 podman --log-level=debug system service -t0
-```
+----
+--
 
-.In the lower terminal window become a root user.
+.In the lower terminal window become a root user
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 sudo -i
-```
+----
+--
 
-.Next, create a compose file called `docker-compose.yml`. This container is a simple python web server.
+.Next, create a compose file called `docker-compose.yml`. This container is a simple python web server
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 cat >> docker-compose.yml << EOF
 version: "3.9"
 services:
@@ -172,69 +167,78 @@ services:
     ports:
       - "8080:8080"
 EOF
-```
+----
+--
 
-.Setup a Python environment.
+.Setup a Python environment
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 python -m venv venv
-```
+----
+--
 
-.Activate the environment.
+.Activate the environment
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 source venv/bin/activate
-```
+----
+--
 
-.Upgrade `pip` and install `docker-compose`.
+.Upgrade `pip` and install `docker-compose`
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 pip install pip docker-compose -U
-```
+----
+--
 
-.Run the docker-compose application in the background.
+.Run the docker-compose application in the background
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 docker-compose up -d
-```
-
-Expected output:
-```
+----
+----
 Creating network "lab-user_default" with the default driver
 Creating lab-user_hello_1 ... done
-```
+----
+--
 
-.Confirm the application is running.
+.Confirm the application is running
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 docker ps
-```
-
-Sample output:
-```
+----
+----
 Emulate Docker CLI using podman. Create /etc/containers/nodocker to quiet msg.
 CONTAINER ID  IMAGE                          COMMAND               CREATED        STATUS            PORTS                   NAMES
 ae404eeedcc7  quay.io/bkozdemb/hello:latest  /usr/bin/python3 ...  6 seconds ago  Up 6 seconds ago  0.0.0.0:8080->8080/tcp  lab-user_hello_1
-```
+----
+--
 
-.Visit the application on port 8080.
+.Visit the application on port 8080
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 curl http://127.0.0.1:8080
-```
-
-Expected output:
-```
+----
+----
 The Python http server is listening on port 8080
-```
+----
+--
 
-.Shutdown the application.
+.Shut down the application
+--
 [source,subs="{markup-in-source}",role=execute-2]
-```
+----
 docker-compose down
-```
+----
+--
 
-== References
+=== References
 
 https://www.redhat.com/sysadmin/podman-python-bash[Python example Blog post]
 
