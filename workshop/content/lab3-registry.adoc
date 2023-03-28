@@ -9,38 +9,40 @@ container. Two simple bash scripts are provided to do this. Once the registries 
 configured and running, the `curl` command can be used to test basic connectivity.
 
 [[anchor-1]]
-===== Configuring the registries
+=== Configure and Start Registry
 
-.Login to `node1.{GUID}.internal` and configure the registry. Do this using `sudo`.
-
+.Login to `node1.{GUID}.internal` and configure the registry. Do this using `sudo`
+--
 [source,subs="{markup-in-source}"]
-```
+----
 $ *sudo ssh node1.{GUID}.internal*
-```
-
-[source,subs="{markup-in-source}"]
-```
 $ *cd $HOME/files/nodes/registry-files/gen-certs*
-```
+----
+--
 
-.Confirm that the `FQDN` variable is set to `node1.{GUID}.internal` in the `myserver.cnf` file.
+.Confirm that the `FQDN` variable is set to `node1.{GUID}.internal` in the `myserver.cnf` file
+--
 [source,subs="{markup-in-source}"]
-```
+----
 $ *grep FQDN myserver.cnf*
-
+----
+----
 FQDN=node1.{GUID}.internal
-```
+----
+--
 
-.Run the `gen-cert.sh` script to generate an SSL certificate.
+.Run the `gen-cert.sh` script to generate an SSL certificate
+--
 [source,subs="{markup-in-source}"]
-```
+----
 $ *sh ./gen-cert.sh*
-
+----
+-----
 Generating a RSA private key
 ........................................................++++
 .......................................++++
 writing new private key to 'myserver.key'
------
+----
 Signature ok
 subject=C = CH, O = Summit, CN = node1.{GUID}.internal
 Getting Private key
@@ -54,55 +56,68 @@ Certificate:
         Validity
             Not Before: Apr  7 19:12:30 2020 GMT
             Not After : Sep 28 19:12:30 2025 GMT
-```
+-----
+--
 
-.Now move up one directory and run the `run-registry.sh` script to start the registry container.
+.Now move up one directory and run the `run-registry.sh` script to start the registry container
+--
 [source,subs="{markup-in-source}"]
-```
+----
 $ *cd ..*
 $ *loginctl enable-linger*
 $ *sh ./run-registry.sh*
-
+----
+----
 Adding password for user redhat
 750ef695e4b66b00919e725bc2559db6ec2f9407e1f31358686b4339017c2ed5
-```
+----
+--
 
-==== Testing the registries
+=== Testing the registries
 
-.Use `curl` to test that the registry service is running.
+.Use `curl` to test that the registry service is running
+--
 [source,subs="{markup-in-source}"]
-```
+----
 $ *curl  --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
-
+----
+----
 {"repositories":[]}
-```
+----
+--
 
 <<anchor-1,Repeat>> the same for node2
 
-==== Configuring and testing the bastion
+=== Configure the bastion
 
 Perform the following on the bastion.
 
-.Copy the SSL certificates from the registry servers and update the trust store.
+.Copy the SSL certificates from the registry servers and update the trust store
+--
 [source,subs="{markup-in-source}"]
-```
+----
 $ *sudo scp node1.{GUID}.internal:/etc/pki/ca-trust/source/anchors/myserver.cert /etc/pki/ca-trust/source/anchors/node1.cert*
-
 $ *sudo scp node2.{GUID}.internal:/etc/pki/ca-trust/source/anchors/myserver.cert /etc/pki/ca-trust/source/anchors/node2.cert*
-
 $ *sudo update-ca-trust*
-```
+----
+--
 
-.Now try to curl the registries from the bastion using the `FQDN`.
+.Test the registries from the bastion
+--
 [source,subs="{markup-in-source}"]
-```
+----
 $ *curl  --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
-
+----
+----
 {"repositories":[]}
-
+----
+[source,subs="{markup-in-source}"]
+----
 $ *curl  --user redhat:redhat https://node2.{GUID}.internal:5000/v2/_catalog*
-
+----
+----
 {"repositories":[]}
-```
+----
+--
 
 Now that the registries have been configured, the remainder of the commands will be run on the bastion.
