@@ -13,13 +13,7 @@ Capabilities are distinct units of privilege that can be independently enabled o
 .Start by examining the Linux process capabilities header file. 
 [source,subs="{markup-in-source}"]
 ```
-$ *vim -R /usr/include/linux/capability.h*
-```
-
-.Turn on **line numbering** in vim.
-[source,subs="{markup-in-source}"]
-```
-*:set number*
+$ *cat --number /usr/include/linux/capability.h | less*
 ```
 
 .The capability bit mask definitions begin around line 103. Each capability is defined by a bit position followed by a short description. For example, the first capability is `CAP_CHOWN` (bit 0). This capability grants permission to change the ownership of files. 
@@ -35,12 +29,6 @@ $ *vim -R /usr/include/linux/capability.h*
 109    ownership. */
 110 
 111 #define CAP_CHOWN            0
-```
-
-.Exit vim 
-[source,subs="{markup-in-source}"]
-```
-*:q*
 ```
 
 .Now examine the capabilities bit mask of a *rootless* process running on the host. 
