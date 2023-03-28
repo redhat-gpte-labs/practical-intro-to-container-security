@@ -516,7 +516,7 @@ USER   HUSER
 ----
 --
 
-.Click to reveal the answer
+.Solution
 [%collapsible]
 ====
 [source,subs="{markup-in-source}"]
@@ -540,7 +540,7 @@ CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
 ----
 --
 
-.Click to reveal the answer
+.Solution
 [%collapsible]
 ====
 [source,subs="{markup-in-source}"]
