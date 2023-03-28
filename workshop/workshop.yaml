@@ -10,7 +10,7 @@ vars:
   SERVER_1: node2.$GUID.internal
   SERVER_2: server2.summit.lab
   BASTION: bastion.$GUID.sandbox1485.opentlc.com
-  RHEL_CONTAINER: registry.access.redhat.com/ubi8/ubi:8.1
+  RHEL_CONTAINER: registry.access.redhat.com/ubi9/ubi:9.1
   USERNAME: lab-user
 
 modules:
