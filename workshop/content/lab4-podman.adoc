@@ -89,6 +89,7 @@ $ *podman tag quay.io/bkozdemb/hello node1.{GUID}.internal:5000/mynamespace/hell
 ----
 $ *podman images*
 ----
+[source,subs="{markup-in-source}"]
 ----
 REPOSITORY                            TAG      IMAGE ID       CREATED      SIZE
 quay.io/bkozdemb/hello                latest  398a3b0bab81  7 months ago   250 MB
