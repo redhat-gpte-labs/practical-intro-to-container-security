@@ -8,7 +8,7 @@ Bob Kozdemba (bkozdemb@redhat.com)
 Dan Walsh (dwalsh@redhat.com)
 Jason Kincl (jkincl@redhat.com)
 
-image::container-tools.png[Container Tools Image]
+image::container-tools.png[Container Tools,align="center"]
 
 .Abstract
 ****
