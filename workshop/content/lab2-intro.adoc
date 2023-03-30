@@ -7,7 +7,7 @@
 :markup-in-source: verbatim,attributes,quotes
 :toc:
 
-This lab session is a low-level, hands-on introduction to container security using the container tools included with Red Hat Enterprise Linux 8. It is intended to be consumed as a series of self paced exercises.
+This lab session is a low-level, hands-on introduction to container security using the container tools included with Red Hat Enterprise Linux 9. It is intended to be consumed as a series of self paced exercises.
 
 .Source Code
 --
