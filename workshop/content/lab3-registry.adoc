@@ -15,7 +15,7 @@ configured and running, the `curl` command can be used to test basic connectivit
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *sudo ssh node1.{GUID}.internal*
+$ *ssh node1*
 $ *cd $HOME/files/nodes/registry-files/gen-certs*
 ----
 --
@@ -26,6 +26,7 @@ $ *cd $HOME/files/nodes/registry-files/gen-certs*
 ----
 $ *grep FQDN myserver.cnf*
 ----
+[source,subs="{markup-in-source}"]
 ----
 FQDN=node1.{GUID}.internal
 ----
