@@ -1,4 +1,3 @@
-id: "workshop1"
 name: "A Practical Introduction to Container Security"
 
 vars:
@@ -8,8 +7,6 @@ vars:
   CONTAINER_PROMPT: "[root@a6c3539285a7 /]#"
   SERVER_0: node1.$GUID.internal
   SERVER_1: node2.$GUID.internal
-  SERVER_2: server2.summit.lab
-  BASTION: bastion.$GUID.sandbox1485.opentlc.com
   RHEL_CONTAINER: registry.access.redhat.com/ubi9/ubi:9.1
   USERNAME: lab-user
 
