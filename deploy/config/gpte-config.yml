@@ -11,7 +11,7 @@ all:
     ##    one that includes fqdn.  This saves us
     ##    from having to specify FQDN in host 
     ##    vars section below.
-    # ansible_host: "{{ inventory_hostname }}.{{ workshop_vars.network_fqdn }}"
+    ansible_host: "{{ inventory_hostname }}.{{ network_fqdn }}"
 
 ## HOSTGROUPS
 bastions:
