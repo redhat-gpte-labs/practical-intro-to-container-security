@@ -1,0 +1,36 @@
+---
+- name: Configure bastion
+  hosts: bastions
+  gather_facts: false
+  tasks:
+    - name: Copy files to the bastion.
+      copy:
+        src: files/bastions
+        dest: $HOME/files
+
+- name: Configure nodes
+  hosts: nodes
+  gather_facts: false
+  tasks:
+    - name: Pull registry image
+      command: podman pull docker.io/library/registry:2
+      register: r_podman_pull
+      until: r_podman_pull.rc == 0
+      retries: 20
+      delay: 30
+      become: true
+      become_user: "{{ student_user }}"
+
+    - name: Copy files to the nodes
+      copy:
+        src: files/nodes
+        dest: "/home/{{ student_user }}/files"
+        owner: "{{ student_user }}"
+        group: "users"
+
+    - name: Copying configuration files to the nodes from templates
+      template:
+        src: templates/ssl_cert_cnf_template.j2
+        dest: "/home/{{ student_user }}/files/nodes/registry-files/gen-certs/myserver.cnf"
+        owner: "{{ student_user }}"
+        group: "users"

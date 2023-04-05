@@ -1,0 +1,28 @@
+
+all: 
+  vars:
+    student_user: lab-user
+    guid: "{{ lookup('file','config/gpte-guid.txt') }}"
+    network_basedomain: internal
+    network_fqdn: "{{ lookup('file','.././config/gpte-guid.txt') }}.internal"
+
+    ## ----------------------------------------
+    ##    Override default ansible host with
+    ##    one that includes fqdn.  This saves us
+    ##    from having to specify FQDN in host 
+    ##    vars section below.
+    # ansible_host: "{{ inventory_hostname }}.{{ workshop_vars.network_fqdn }}"
+
+## HOSTGROUPS
+bastions:
+  hosts:
+    bastion:
+  vars:
+    ansible_connection: local
+
+nodes:
+  hosts:
+    node1:
+    node2:
+  vars:
+    ansible_user: "ec2-user"
