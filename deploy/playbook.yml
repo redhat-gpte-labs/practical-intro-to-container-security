@@ -6,7 +6,9 @@
 #     - name: Copy files to the bastion.
 #       copy:
 #         src: files/bastions/
-#         dest: $HOME/lab
+#         dest: "/home/{{ student_user }}"
+#         owner: "{{ student_user }}"
+#         group: "users"
 
 - name: Configure nodes
   hosts: nodes
@@ -17,21 +19,20 @@
       command: podman pull docker.io/library/registry:2
       register: r_podman_pull
       until: r_podman_pull.rc == 0
-      retries: 20
-      delay: 30
+      retries: 10
       become: true
       become_user: "{{ student_user }}"
 
     - name: Copy files to the nodes
       copy:
         src: files/nodes/
-        dest: "/home/{{ student_user }}/lab"
+        dest: "/home/{{ student_user }}"
         owner: "{{ student_user }}"
         group: "users"
 
     - name: Copying configuration files to the nodes from templates
       template:
         src: templates/ssl_cert_cnf_template.j2
-        dest: "/home/{{ student_user }}/lab/registry-files/gen-certs/myserver.cnf"
+        dest: "/home/{{ student_user }}/registry-files/gen-certs/myserver.cnf"
         owner: "{{ student_user }}"
         group: "users"
