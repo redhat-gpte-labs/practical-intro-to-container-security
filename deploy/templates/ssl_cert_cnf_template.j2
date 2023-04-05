@@ -4,7 +4,7 @@
 # on the command line.
 
 # the fully qualified server (or service) name
-FQDN={{ansible_hostname}}.{{chomped_zone_internal_dns}}
+FQDN={{inventory_hostname}}.{{network_fqdn}}
 
 # the name of your organization
 # (see also https://www.switch.ch/pki/participants/)

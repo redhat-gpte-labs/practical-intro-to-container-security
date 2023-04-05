@@ -11,6 +11,7 @@
 - name: Configure nodes
   hosts: nodes
   gather_facts: false
+  become: true
   tasks:
     - name: Pull registry image
       command: podman pull docker.io/library/registry:2
