@@ -16,19 +16,7 @@ configured and running, the `curl` command can be used to test basic connectivit
 [source,subs="{markup-in-source}"]
 ----
 $ *ssh node1*
-$ *cd $HOME/files/nodes/registry-files/gen-certs*
-----
---
-
-.Confirm that the `FQDN` variable is set to `node1.{GUID}.internal` in the `myserver.cnf` file
---
-[source,subs="{markup-in-source}"]
-----
-$ *grep FQDN myserver.cnf*
-----
-[source,subs="{markup-in-source}"]
-----
-FQDN=node1.{GUID}.internal
+$ *cd registry-files/gen-certs*
 ----
 --
 
@@ -38,26 +26,23 @@ FQDN=node1.{GUID}.internal
 ----
 $ *sh ./gen-cert.sh*
 ----
------
-Generating a RSA private key
-........................................................++++
-.......................................++++
-writing new private key to 'myserver.key'
+[subs="{markup-in-source}"]
 ----
-Signature ok
-subject=C = CH, O = Summit, CN = node1.{GUID}.internal
-Getting Private key
-Certificate:
-    Data:
-        Version: 1 (0x0)
-        Serial Number:
-            66:eb:dd:c8:21:f5:38:ef:22:16:79:d0:ba:34:2c:f9:4b:1b:7d:6f
-        Signature Algorithm: sha256WithRSAEncryption
-        Issuer: C = CH, O = Summit, CN = node1.897qp.internal
-        Validity
-            Not Before: Apr  7 19:12:30 2020 GMT
-            Not After : Sep 28 19:12:30 2025 GMT
++ touch myserver.key
++ chmod 600 myserver.key
++ openssl req -new -newkey rsa:4096 -nodes -sha256 -config myserver.cnf -keyout myserver.key -out myserver.csr
++..........+...+........+..........+.....+.........+...+.+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 -----
++ openssl x509 -signkey myserver.key -in myserver.csr -req -days 2000 -out myserver.cert -extensions req_ext -extfile myserver.cnf
++ openssl x509 -noout -in myserver.cert -serial -issuer -dates -subject -ext subjectAltName
+serial=26D386D4CF34E06B73240B4DD247D5D4C34477FC
+issuer=O = Red Hat Lab, CN = node1.{GUID}.internal
+notBefore=Apr  5 17:36:21 2023 GMT
+notAfter=Sep 25 17:36:21 2028 GMT
+subject=O = Red Hat Lab, CN = node1.{GUID}.internal
+X509v3 Subject Alternative Name:
+    DNS:node1.{GUID}.internal
+----
 --
 
 .Now move up one directory and run the `run-registry.sh` script to start the registry container

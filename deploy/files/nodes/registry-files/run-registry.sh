@@ -4,6 +4,7 @@
 #
 # Before running this script, generate SSL certificates (see gen-certs/gen-cert.sh).
 #
+set -xeuo pipefail
 
 ENGINE=podman
 LOCAL_PORT=5000
