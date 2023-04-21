@@ -1,14 +1,35 @@
 ---
-# - name: Configure bastion
-#   hosts: bastions
-#   gather_facts: false
-#   tasks:
-#     - name: Copy files to the bastion.
-#       copy:
-#         src: files/bastions/
-#         dest: "/home/{{ student_user }}"
-#         owner: "{{ student_user }}"
-#         group: "users"
+- name: Configure bastion
+  hosts: bastions
+  gather_facts: false
+  tasks:
+    - name: Copy files to the bastion
+      copy:
+        src: files/gen-ca
+        dest: /root
+        mode: preserve
+
+    - name: Generate the CA
+      command: 
+        cmd: /root/gen-ca/gen-ca.sh
+        creates: /root/CA/CA_cert.pem
+      become: true
+
+- name: Add CA to trust store
+  hosts: all
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Copy CA pubkey to anchor trust
+      copy:
+        src: /root/CA/CA_cert.pem
+        dest: /etc/pki/ca-trust/source/anchors
+        mode: 0644
+        owner: root
+        group: root
+
+    - name: Update CA trust
+      command: update-ca-trust
 
 - name: Configure nodes
   hosts: nodes
@@ -29,10 +50,19 @@
         dest: "/home/{{ student_user }}"
         owner: "{{ student_user }}"
         group: "users"
+        mode: preserve
+
+    - name: Copy CA to host
+      copy:
+        src: /root/CA
+        dest: "/home/{{ student_user }}/gen-certs"
+        owner: "{{ student_user }}"
+        group: "users"
+        mode: preserve
 
     - name: Copying configuration files to the nodes from templates
       template:
         src: templates/ssl_cert_cnf_template.j2
-        dest: "/home/{{ student_user }}/registry-files/gen-certs/myserver.cnf"
+        dest: "/home/{{ student_user }}/gen-certs/certificate.cnf"
         owner: "{{ student_user }}"
         group: "users"

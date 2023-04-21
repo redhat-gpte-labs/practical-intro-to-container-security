@@ -1,19 +1,16 @@
-# the fully qualified server (or service) name
-FQDN={{inventory_hostname}}.{{network_fqdn}}
+authorityKeyIdentifier = keyid,issuer
+keyUsage               = digitalSignature
+extendedKeyUsage       = serverAuth
+subjectAltName         = @alt_names
 
-# --- no modifications required below ---
-[ req ]
-default_bits = 2048
-default_md = sha256
-prompt = no
-encrypt_key = no
-distinguished_name = dn
-x509_extensions = req_ext
-req_extensions = req_ext
+[alt_names]
+DNS.1                  = {{inventory_hostname}}.{{network_fqdn}}
+DNS.2                  = {{inventory_hostname}}
 
-[ dn ]
-O = Red Hat Lab
-CN = $FQDN
+[req]
+distinguished_name     = req_distinguished_name
+prompt                 = no
 
-[ req_ext ]
-subjectAltName = DNS:$FQDN
+[ req_distinguished_name ]
+O                      = Red Hat Lab
+CN                     = {{inventory_hostname}}
