@@ -1,0 +1,237 @@
+:GUID: %guid%
+:markup-in-source: verbatim,attributes,quotes
+:toc:
+
+=== User Namespace Support
+
+In this lab we will look at how containers run "rootless" and look at how kernel
+features like user namespaces are used.
+
+To start we will run a rootless container and observe the UID and PID in both
+the container and host namespaces.
+
+.Start by running a rootless container in the background
+--
+[source,subs="{markup-in-source}"]
+----
+$ *podman run --name sleepy -d %RHEL_CONTAINER% sleep 999*
+----
+--
+
+Next, run `podman top` to list the processes running in the 
+container. Take note of the USER and the PID. The container process appears to be running as
+the `root` user even though the container is actually running as the `lab-user`. This is 
+user namespaces in action. 
+
+.What does the `-l` option do?
+--
+[source,subs="{markup-in-source}"]
+----
+$ *podman top -l*
+----
+--
+
+.Next, on the host, list the same container process and take note of the UID and the PID
+--
+[source,subs="{markup-in-source}"]
+----
+$ *ps -ef | grep /usr/bin/sleep | grep -v grep*
+
+UID        PID  PPID  C STIME TTY          TIME CMD
+lab-user  1701  1690  0 07:30 ?        00:00:00 /usr/bin/coreutils --coreutils-prog-shebang=sleep /usr/bin/sleep 999
+----
+--
+
+Compare those ID's to the same process running in the hosts
+namespace.
+
+[TIP]
+.Take note of 2 important concepts from this example
+====
+* The `sleep` process in the container is owned by `root` but
+the process on the host is owned by `lab-user`. This is
+user namespaces in action. The **fork/exec** model used by podman 
+improves the security auditing of containers. It allows an administrator to identify users
+that run containers as root. Container engines that
+use a ***client/server*** model can't provide this.
+
+* The `sleep` process in the container has a PID of 1 but 
+on the host the PID is **rootless** (a PID >1). This is
+the kernel PID namespace in action.
+====
+
+.Clean up
+--
+[source,subs="{markup-in-source}"]
+----
+$ *podman rm -f sleepy*
+----
+--
+
+=== Auditing containers
+
+.Take note of the `lab-user` UID
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman run --name sleepy --rm -it %RHEL_CONTAINER% bash -c "cat /proc/self/loginuid;echo"*
+----
+----
+1001
+----
+--
+
+.Configure the kernel audit system to watch the `/etc/shadow` file
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo auditctl -w /etc/shadow 2>/dev/null*
+----
+--
+
+.Run a privileged container that bind mounts the host's file system then touches `/etc/shadow`
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman run --privileged --rm -v /:/host %RHEL_CONTAINER% touch /host/etc/shadow*
+----
+--
+
+.Examine the kernel audit system log to determine which user ran the malicious privileged container
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo ausearch -m path -ts recent -i | grep touch | grep --color=auto 'auid=[^ ]*'*
+----
+----
+type=SYSCALL msg=audit(04/30/2019 11:03:03.384:425) : arch=x86_64 syscall=openat success=yes exit=3 a0=0xffffff9c a1=0x7ffeee3ecf5c a2=O_WRONLY|O_CREAT|O_NOCTTY|O_NONBLOCK a3=0x1b6 items=2 ppid=6168 pid=6180 auid=lab-user uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=11 comm=touch exe=/usr/bin/coreutils subj=unconfined_u:system_r:spc_t:s0 key=(null) 
+----
+--
+
+TIP: Try this at home using another container engine based on a client/server model and you 
+will notice that the offending audit ID is reported as `4294967295` (i.e. an `unsignedint(-1)`).
+In other words, the malicious user is unknown.  
+
+=== UID Mapping
+
+A container administrator can make use *podman's* `--uidmap` option to force a range of UID's to be used. See
+`podman-run(1)` for details.
+
+.Run a container that maps `5000` UIDs starting at `100,000`. This example maps uids `0-5000` in the container to the uids `100,000 - 104,999` on the host
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman run --uidmap 0:100000:5000 -d %RHEL_CONTAINER% sleep 1000*
+----
+----
+98554ea68dae250deeaf78d9b20069716e40eeaf1804b070eb408c9894b1df5a
+----
+--
+
+.Check the container
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman top --latest user huser | grep --color=auto -B 1 100000*
+----
+----
+USER   HUSER
+root   100000
+----
+--
+
+.Check the host
+--
+[source,subs="{markup-in-source}"]
+----
+$ *ps -f --user=100000*
+----
+----
+UID        PID  PPID  C STIME TTY          TIME CMD
+100000    2894  2883  0 12:40 ?        00:00:00 /usr/bin/coreutils --coreutils-prog-shebang=sleep /usr/bin/sleep 1000
+----
+--
+
+.Do the same beginning at uid `200,000`
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman run --uidmap 0:200000:5000 -d %RHEL_CONTAINER% sleep 1000*
+----
+----
+0da91645b9c5e4d77f16f7834081811543f5d2c5e2a510e3092269cbd536d978
+----
+--
+
+.Check the container
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman top --latest user huser | grep --color=auto -B 1 200000*
+----
+----
+USER   HUSER
+root   200000
+----
+--
+
+.Check the host
+--
+[source,subs="{markup-in-source}"]
+----
+$ *ps -f --user=200000*
+----
+----
+UID        PID  PPID  C STIME TTY          TIME CMD
+200000    3024  3011  0 12:41 ?        00:00:00 /usr/bin/coreutils --coreutils-prog-shebang=sleep /usr/bin/sleep 1000
+----
+--
+
+=== Challenge
+
+The `--user` argument can be used to tell `podman` to use a specific effective user in the container namespace. In other words, repeat the previous example specifying the user to be `1001` which is `%USERNAME%`.This can be confirmed by examining the `/etc/passwd` file.
+
+.The `top` results should look like:
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman top -l user huser*
+----
+----
+USER   HUSER
+1001   201001
+----
+--
+
+.Solution
+[%collapsible]
+====
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman run --name=mytest --user=1001 --uidmap 0:200000:5000 -d registry.access.redhat.com/ubi8/ubi:8.1 sleep 1000*
+----
+====
+
+=== Clean up challenge
+
+Use `podman` to stop and remove any containers before proceeding with the next lab.
+
+.The result should look like:
+--
+[source,subs="{markup-in-source}"]
+----
+$ podman ps -a
+----
+----
+CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
+----
+--
+
+.Solution
+[%collapsible]
+====
+[source,subs="{markup-in-source}"]
+----
+$ *for i in $(sudo podman ps -a -q); do sudo podman stop $i && sudo podman rm $i; done*
+----
+====
