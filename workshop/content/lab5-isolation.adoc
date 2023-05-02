@@ -94,7 +94,7 @@ CapEff:	0000000000000000
 ----
 --
 
-.Next run a rootless container as `--user=0` and look at it's capabilities. Note that it's capabilities are filtered from that of a root process on the host
+.Next run a rootless container as `--user=0` and look at it’s capabilities. Note that it's capabilities are filtered from that of a root process on the host
 --
 [source,subs="{markup-in-source}"]
 ----

@@ -26,7 +26,7 @@ $ *podman diff --format=json %RHEL_CONTAINER%*
 
 === Podman live mounts
 
-Next we’ll use the podman command to inspect a container’s filesystem by mounting it to the host.
+Next we'll use the podman command to inspect a container's filesystem by mounting it to the host.
 
 .First, launch a long running container in the background
 --
