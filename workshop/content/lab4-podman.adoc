@@ -48,7 +48,7 @@ The container images for these different users are stored in unique locations. U
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *podman inspect <image-ID> | grep WorkDir*
+$ *podman inspect %RHEL_CONTAINER% | grep WorkDir*
 ----
 --
 
