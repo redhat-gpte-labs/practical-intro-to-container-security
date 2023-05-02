@@ -7,7 +7,7 @@
 
 In this lab, you will use `podman` in a client/server manner. 
 The Podman v2.0 RESTful API consists of the Libpod API providing support for Podman, and a Docker-compatible API. 
-With this new REST API, podman may be called from platforms such as cURL, Postman, Google’s Advanced REST 
+With this new REST API, podman may be called from platforms such as cURL, Postman, Google's Advanced REST 
 client, and many others.
 
 

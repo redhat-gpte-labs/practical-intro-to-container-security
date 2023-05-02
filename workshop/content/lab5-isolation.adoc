@@ -2,7 +2,7 @@
 :markup-in-source: verbatim,attributes,quotes
 :toc:
 
-Containers provide a certain degree of process isolation via kernel namespaces. In this module, we’ll examine the capabilities of a process running in a containerized namespace. Specifically we'll look at how Linux capabilities can be used to grant a particular or subset of root privileges to a process running in a container. 
+Containers provide a certain degree of process isolation via kernel namespaces. In this module, we'll examine the capabilities of a process running in a containerized namespace. Specifically we'll look at how Linux capabilities can be used to grant a particular or subset of root privileges to a process running in a container. 
 
 It would be worth taking a few minutes to read this http://rhelblog.redhat.com/2016/10/17/secure-your-containers-with-this-one-weird-trick[blog post] before beginning this lab. 
 
@@ -83,7 +83,7 @@ $ *capsh --decode=200*
 
 A non-null CapEff value indicates the process has some capabilities. You will discover that the capabilities of a container are often less than what a root process has running on the host.
 
-.Start by running a rootless container as `--user=32767` and look at it’s capabilities
+.Start by running a rootless container as `--user=32767` and look at it's capabilities
 --
 [source,subs="{markup-in-source}"]
 ----
@@ -94,7 +94,7 @@ CapEff:	0000000000000000
 ----
 --
 
-.Next run a rootless container as `--user=0` and look at it’s capabilities. Note that it's capabilities are filtered from that of a root process on the host
+.Next run a rootless container as `--user=0` and look at it's capabilities. Note that it's capabilities are filtered from that of a root process on the host
 --
 [source,subs="{markup-in-source}"]
 ----
