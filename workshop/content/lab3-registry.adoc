@@ -4,9 +4,9 @@
 
 During this module you will configure both nodes to host secure container registries.
 The registry software runs in a container and listens on port 5000. Configuring the 
-registry consists of generating a self-signed SSL certificate and running the 
-container. Two simple bash scripts are provided to do this. Once the registries are
-configured and running, the `curl` command can be used to test basic connectivity.
+registry consists of generating a SSL certificate and running the container. We have
+some bash helper scripts to make it easier. Once the registries are configured and
+running, the `curl` command can be used to test basic connectivity.
 
 [[anchor-1]]
 === Configure and Start Registries
@@ -16,7 +16,7 @@ configured and running, the `curl` command can be used to test basic connectivit
 [source,subs="{markup-in-source}"]
 ----
 $ *ssh node1*
-$ *cd registry-files/gen-certs*
+$ *cd gen-certs*
 ----
 --
 
@@ -24,48 +24,77 @@ $ *cd registry-files/gen-certs*
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *sh ./gen-cert.sh*
+$ *./gen-cert.sh*
 ----
 [subs="{markup-in-source}"]
 ----
-+ touch myserver.key
-+ chmod 600 myserver.key
-+ openssl req -new -newkey rsa:4096 -nodes -sha256 -config myserver.cnf -keyout myserver.key -out myserver.csr
-+..........+...+........+..........+.....+.........+...+.+.....+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
------
-+ openssl x509 -signkey myserver.key -in myserver.csr -req -days 2000 -out myserver.cert -extensions req_ext -extfile myserver.cnf
-+ openssl x509 -noout -in myserver.cert -serial -issuer -dates -subject -ext subjectAltName
-serial=26D386D4CF34E06B73240B4DD247D5D4C34477FC
-issuer=O = Red Hat Lab, CN = node1.{GUID}.internal
-notBefore=Apr  5 17:36:21 2023 GMT
-notAfter=Sep 25 17:36:21 2028 GMT
-subject=O = Red Hat Lab, CN = node1.{GUID}.internal
-X509v3 Subject Alternative Name:
-    DNS:node1.{GUID}.internal
++ openssl genrsa -out myserver.key 2048
++ openssl req -new -key myserver.key -out myserver.csr -config certificate.cnf
++ openssl x509 -req -in myserver.csr -out myserver.pem -CA CA/CA_cert.pem -CAkey CA/CA_key.pem -CAcreateserial -days 365 -sha256 -extfile certificate.cnf
 ----
 --
 
-.Now move up one directory and run the `run-registry.sh` script to start the registry container
+.Now move up and into registry-files/ directory and run the script to create the registry container
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *cd ..*
-$ *loginctl enable-linger*
-$ *sh ./run-registry.sh*
-----
-----
-Adding password for user redhat
-750ef695e4b66b00919e725bc2559db6ec2f9407e1f31358686b4339017c2ed5
+$ *cd ../registry-files*
+$ *./create-registry.sh*
 ----
 --
 
-=== Testing the registries
+This will create the registry container but not start it, now we will create a
+systemd user service that runs as the lab-user on boot
+
+.Create a systemd unit file for the registry user service and start it
+--
+[source,subs="{markup-in-source}"]
+----
+$ *mkdir -pv $HOME/.config/systemd/user*
+$ *podman generate systemd --new --name registry > $HOME/.config/systemd/user/container-registry.service*
+$ *systemctl --user daemon-reload*
+$ *systemctl --user start container-registry*
+----
+----
+----
+--
+
+.Check that the unit started correctly and is running the registry container
+--
+[source,subs="{markup-in-source}"]
+----
+$ *systemctl --no-pager --user status container-registry*
+----
+----
+● container-registry.service - Podman container-registry.service
+     Loaded: loaded (/home/lab-user/.config/systemd/user/container-registry.service; enabled; vendor preset: disabled)
+     Active: active (running) since Tue 2023-05-02 16:01:14 UTC; 6min ago
+       Docs: man:podman-generate-systemd(1)
+   Main PID: 1722 (conmon)
+      Tasks: 14 (limit: 48156)
+     Memory: 26.0M
+        CPU: 254ms
+     CGroup: /user.slice/user-1001.slice/user@1001.service/app.slice/container-registry.service
+...
+----
+--
+
+.Enable the registry service to run on boot
+--
+[source,subs="{markup-in-source}"]
+----
+$ *loginctl enable-linger*
+$ *systemctl --user enable container-registry*
+----
+----
+----
+--
 
 .Use `curl` to test that the registry service is running
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *curl  --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
+$ *curl --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
 ----
 ----
 {"repositories":[]}
@@ -74,21 +103,7 @@ $ *curl  --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
 
 <<anchor-1,Repeat>> the same for node2
 
-=== Configure the bastion
-
-Perform the following on the bastion.
-
-.Copy the SSL certificates from the registry servers and update the trust store
---
-[source,subs="{markup-in-source}"]
-----
-$ *sudo scp node1.{GUID}.internal:/etc/pki/ca-trust/source/anchors/myserver.cert /etc/pki/ca-trust/source/anchors/node1.cert*
-
-$ *sudo scp node2.{GUID}.internal:/etc/pki/ca-trust/source/anchors/myserver.cert /etc/pki/ca-trust/source/anchors/node2.cert*
-
-$ *sudo update-ca-trust*
-----
---
+=== Testing the registries
 
 .Test the registries from the bastion
 --
@@ -108,4 +123,4 @@ $ *curl  --user redhat:redhat https://node2.{GUID}.internal:5000/v2/_catalog*
 ----
 --
 
-Now that the registries have been configured, the remainder of the commands will be run on the bastion.
+You have successfully deployed two registries running in rootless containers with systemd integration. We will be running the rest of the lab from the bastion.
