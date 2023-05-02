@@ -19,7 +19,7 @@
       file:
         path: /data
         state: directory
-        mode: 755
+        mode: 0755
         owner: root
         group: root
 
