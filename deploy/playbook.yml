@@ -15,6 +15,14 @@
         creates: /root/CA/CA_cert.pem
       become: true
 
+    - name: ensure /data dir exists
+      file:
+        path: /data
+        state: directory
+        mode: 755
+        owner: root
+        group: root
+
 - name: Add CA to trust store
   hosts: all
   gather_facts: false
