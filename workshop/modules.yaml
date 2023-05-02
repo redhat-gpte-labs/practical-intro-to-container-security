@@ -23,3 +23,5 @@ modules:
     name: Secure Builds
   lab10-thanks:
     name: Thanks
+  lab-revisitpodmanapi:
+    name: "Extra: Revisiting Podman API"

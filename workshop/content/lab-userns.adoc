@@ -64,7 +64,7 @@ the kernel PID namespace in action.
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *podman rm -f sleepy*
+$ *podman rm -f -t 0 sleepy*
 ----
 --
 
@@ -220,7 +220,7 @@ Use `podman` to stop and remove any containers before proceeding with the next l
 --
 [source,subs="{markup-in-source}"]
 ----
-$ podman ps -a
+$ *sudo podman ps -a*
 ----
 ----
 CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
@@ -232,6 +232,6 @@ CONTAINER ID  IMAGE       COMMAND     CREATED     STATUS      PORTS       NAMES
 ====
 [source,subs="{markup-in-source}"]
 ----
-$ *for i in $(sudo podman ps -a -q); do sudo podman stop $i && sudo podman rm $i; done*
+$ *for i in $(sudo podman ps -a -q); do sudo podman stop -t 0 $i && sudo podman rm $i; done*
 ----
 ====

@@ -10,108 +10,6 @@ The Podman v2.0 RESTful API consists of the Libpod API providing support for Pod
 With this new REST API, podman may be called from platforms such as cURL, Postman, Google's Advanced REST 
 client, and many others.
 
-
-=== Client/Server Exercise
-
-This exercise can be performed on the bastion as a **rootless** user. We will start by setting up a Python environment
-
-.Create a python virtual environment
---
-[source,subs="{markup-in-source}",role=execute]
-----
-python -m venv ~/venv
-----
---
-
-.Activate the virtual environment
---
-[source,subs="{markup-in-source}",role=execute]
-----
-source ~/venv/bin/activate
-----
---
-
-The shell prompt should change.
-
-----
-(venv) [lab-user@bastion 0 ~]$
-----
-
-.Upgrade pip and install the requests package
---
-[source,subs="{markup-in-source}",role=execute]
-----
-pip install pip requests -U
-----
---
-
-.Add the following Python client code into a file called `podman-client.py`. Click the arrow to create the file
---
-[source,subs="{markup-in-source}",role=execute]
-----
-cat >> podman-client.py <<EOF
-import json
-import requests
-
-#
-# Set the url variable to reflect your podman api server.
-#
-url = "http://localhost:8080"
-
-#
-# Create and call the REST request then print the response.
-#
-req = f'{url}/v1.40.0/libpod/info'
-response = requests.get(req)
-print(response)
-
-response.raise_for_status()
-
-#
-# Convert the json response to a python dict and print the security info.
-#
-info = json.loads(response.text)
-print(info['host']['security'])
-EOF
-----
---
-
-.In the upper terminal, launch the podman API service
---
-[source,subs="{markup-in-source}",role=execute-1]
-----
-podman system service tcp:localhost:8080 --log-level=debug --time=0
-----
---
-
-.In the lower terminal, activate the python environment
---
-[source,subs="{markup-in-source}",role=execute-2]
-----
-source ~/venv/bin/activate
-----
---
-
-.Now run the `podman-client.py` program that was just created
---
-[source,subs="{markup-in-source}",role=execute-2]
-----
-python podman-client.py
-----
-----
-<Response [200]>
-<class 'dict'>
-{'apparmorEnabled': False, 'capabilities': 'CAP_NET_RAW,CAP_CHOWN,CAP_DAC_OVERRIDE,CAP_FOWNER,CAP_FSETID,CAP_KILL,CAP_NET_BIND_SERVICE,CAP_SETFCAP,CAP_SETGID,CAP_SETPCAP,CAP_SETUID,CAP_SYS_CHROOT', 'rootless': True, 'seccompEnabled': True, 'selinuxEnabled': True}
-----
---
-
-=== Bonus Exercise
-
-Bastion Client and Remote Node Service
-
-Login to either one of the nodes, and run the podman service. Then on the bastion, change the `url` variable in the `podman-client.py` file so API 
-calls are made to the podman service running on the remote node instead of the bastion.
-
 === Docker Compose 
 
 This exercise must be performed as a **rootful** user. In a future version of
@@ -240,15 +138,7 @@ docker-compose down
 
 === References
 
-https://www.redhat.com/sysadmin/podman-python-bash[Python example Blog post]
-
-https://raw.githubusercontent.com/containers/Demos/main/restful_api/clean_storage.py[Clean storage code]
-
-https://docs.docker.com/compose/gettingstarted/[Docker compose example]
-
-https://pypi.org/project/docker-compose/[Docker-Compose python]
-
-https://github.com/containers/podman/tree/main/test/compose[Podman compose tests]
-
-https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#assembly_using-the-container-tools-api_using-the-container-tools-cli[Red Hat container docs]
-
+* https://docs.docker.com/compose/gettingstarted/[Docker compose example]
+* https://pypi.org/project/docker-compose/[Docker-Compose python]
+* https://github.com/containers/podman/tree/main/test/compose[Podman compose tests]
+* https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#assembly_using-the-container-tools-api_using-the-container-tools-cli[Red Hat container docs]

@@ -1,0 +1,41 @@
+:GUID: %guid%
+:markup-in-source: verbatim,attributes,quotes
+:toc:
+
+=== Devices
+
+.Insert chardev kernel module and test
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo modprobe chardev*
+$ *cat /dev/hello*
+----
+----
+I already told you 0 times Hello world!
+----
+--
+
+.Add the device into a container
+--
+[source,subs="{markup-in-source}"]
+----
+$ *podman run --device /dev/hello -it --rm %RHEL_CONTAINER% cat /dev/hello*
+%CONTAINER_PROMPT% *ls -l /dev/hello*
+----
+----
+ls: /dev/hello: Permission denied
+----
+--
+
+.Why is permission denied? SELinux
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo setsebool container_use_devices=true*
+$ *podman run --device /dev/hello -it --rm %RHEL_CONTAINER% cat /dev/hello*
+----
+----
+I already told you 1 times Hello world!
+----
+--

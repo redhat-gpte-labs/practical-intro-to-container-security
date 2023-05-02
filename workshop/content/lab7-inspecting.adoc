@@ -148,7 +148,7 @@ $ *skopeo inspect docker://%RHEL_CONTAINER%*
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *skopeo copy docker://node1.{GUID}.internal:5000/mynamespace/hello docker://node1.{GUID}.internal:5000/mynamespace/hello*
+$ *skopeo copy docker://quay.io/bkozdemb/hello docker://node1.{GUID}.internal:5000/mynamespace/hello*
 ----
 ----
 Getting image source signatures

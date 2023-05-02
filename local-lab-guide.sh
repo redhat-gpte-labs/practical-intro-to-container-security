@@ -3,18 +3,18 @@
 # Script to deploy the lab guide (on Linux) for A Practical Introduction to Container Security.
 #
 
-if [ "$#" -ne 2 ]; then
+if [ "$#" -ne 3 ]; then
     echo "Usage:"
-    echo "$0 <bastion-public-hostname> <ssh-password>"
+    echo "$0 <bastion-public-hostname> <ssh-password> <guid>"
     exit 1
 fi
 
 student_bastion_hostname=$1
 student_ssh_password=$2
+GUID=$3
 student_ssh_command="ssh ${USER}@${student_bastion_hostname}"
 port=8080
 name='lab-guide'
-
 
 MY_VARS="{
 \"student_bastion_hostname\":\"${student_bastion_hostname}\",
@@ -24,7 +24,7 @@ MY_VARS="{
 }"
 
 function build() {
-	buildah bud -t ${name} .
+	podman build -t ${name} .
 }
 
 build
@@ -47,7 +47,6 @@ podman run -d --restart=no --name=${name} -p ${port}:10080 -e WORKSHOP_VARS="${M
 
 echo
 echo "==================================================================="
-echo "Visit the lab guide at http://${student_bastion_hostname}:${port}"
+echo "Visit the lab guide at http://${HOSTNAME}:${port}"
 echo "==================================================================="
 echo
-

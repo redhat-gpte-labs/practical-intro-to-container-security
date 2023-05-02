@@ -101,7 +101,7 @@ $ *sudo chmod 777 /data*
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *podman run --rm -it -v /data:/data %RHEL_CONTAINER% bash*
+$ *podman run --rm -it -v /data:/data %RHEL_CONTAINER% `bash*
 ----
 --
 
@@ -116,8 +116,8 @@ Did the mount succeed? How can you check?
 ----
 %CONTAINER_PROMPT% *df /data*
 
-Filesystem                      Size  Used Avail Use% Mounted on
-/dev/mapper/rhel_rhel8b17-root   47G   17G   31G  35% /data
+Filesystem     1K-blocks    Used Available Use% Mounted on
+/dev/nvme0n1p4  30728172 3678388  27049784  12% /data
 ----
 --
 
@@ -320,7 +320,7 @@ Note the addition of a unique Multi-Category Security (MCS) label (`c422,c428`) 
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *podman rm -f sleepy*
+$ *podman rm -f -t 0 sleepy*
 ----
 --
 
