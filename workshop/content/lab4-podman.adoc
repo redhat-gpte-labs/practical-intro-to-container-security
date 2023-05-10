@@ -333,4 +333,4 @@ $ *podman rm -f rootless*
 ----
 --
 
-In the next section we will build on this with how rootless containers use user namespacing to run.
+In the next section we will build on our rootless containers by looking at user namespaces.

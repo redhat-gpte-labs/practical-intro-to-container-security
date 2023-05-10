@@ -101,7 +101,7 @@ $ *sudo chmod 777 /data*
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *podman run --rm -it -v /data:/data %RHEL_CONTAINER% `bash*
+$ *podman run --rm -it -v /data:/data %RHEL_CONTAINER% bash*
 ----
 --
 

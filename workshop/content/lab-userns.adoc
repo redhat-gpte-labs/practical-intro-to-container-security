@@ -103,8 +103,9 @@ $ *sudo podman run --privileged --rm -v /:/host %RHEL_CONTAINER% touch /host/etc
 ----
 $ *sudo ausearch -m path -ts recent -i | grep touch | grep --color=auto 'auid=[^ ]*'*
 ----
+[source,subs="{markup-in-source}"]
 ----
-type=SYSCALL msg=audit(04/30/2019 11:03:03.384:425) : arch=x86_64 syscall=openat success=yes exit=3 a0=0xffffff9c a1=0x7ffeee3ecf5c a2=O_WRONLY|O_CREAT|O_NOCTTY|O_NONBLOCK a3=0x1b6 items=2 ppid=6168 pid=6180 auid=lab-user uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=11 comm=touch exe=/usr/bin/coreutils subj=unconfined_u:system_r:spc_t:s0 key=(null) 
+type=SYSCALL msg=audit(04/30/2019 11:03:03.384:425) : arch=x86_64 syscall=openat success=yes exit=3 a0=0xffffff9c a1=0x7ffeee3ecf5c a2=O_WRONLY|O_CREAT|O_NOCTTY|O_NONBLOCK a3=0x1b6 items=2 ppid=6168 pid=6180 *auid=lab-user* uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=11 comm=touch exe=/usr/bin/coreutils subj=unconfined_u:system_r:spc_t:s0 key=(null) 
 ----
 --
 
