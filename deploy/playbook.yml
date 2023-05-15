@@ -125,6 +125,7 @@
         state: started
         enabled: true
         name: "{{ item }}"
+      ignore_errors: true
       loop:
         - clair-postgres.service
         - clair.service
