@@ -74,3 +74,54 @@
         dest: "/home/{{ student_user }}/gen-certs/certificate.cnf"
         owner: "{{ student_user }}"
         group: "users"
+
+- name: Configure clair on node2
+  hosts: node2
+  gather_facts: false
+  become: true
+  tasks:
+    - name: Create clair directories
+      file:
+        path: "{{ item }}"
+        state: directory
+        owner: root
+        group: root
+        mode: 0775
+      loop:
+        - /clair
+        - /clair/config
+        - /clair/data
+
+    - name: Set acl for postgres user running in container
+      ansible.posix.acl:
+        path: /clair/data
+        entry: u:26:-wx
+        state: present
+
+    - name: Copy clair config file
+      copy:
+        src: files/clair/config.yaml
+        dest: /clair/config/config.yaml
+        owner: root
+        group: root
+        mode: 0644
+
+    - name: Copy systemd unit files
+      copy:
+        src: "files/clair/{{ item }}"
+        dest: "/etc/systemd/system/{{ item }}"
+        owner: root
+        group: root
+        mode: 0644
+      loop:
+        - clair-postgres.service
+        - clair.service
+
+    - name: Make sure clair services are running
+      ansible.builtin.systemd:
+        state: started
+        enabled: true
+        name: "{{ item }}"
+      loop:
+        - clair-postgres.service
+        - clair.service
