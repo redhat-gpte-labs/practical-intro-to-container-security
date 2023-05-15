@@ -38,6 +38,20 @@
 
     - name: Update CA trust
       command: update-ca-trust
+    
+    - name: Add Clair environment to profile.d
+      file:
+        path: /etc/profile.d/clair.sh
+        content: "export CLAIR_API=http://node2:8080"
+        mode: 0644
+        owner: root
+        group: root
+
+    - name: Download clairctl
+      ansible.builtin.get_url:
+        url: https://github.com/quay/clair/releases/download/v4.6.0/clairctl-linux-amd64
+        dest: /bin/clairctl
+        mode: 0755
 
 - name: Configure nodes
   hosts: nodes
