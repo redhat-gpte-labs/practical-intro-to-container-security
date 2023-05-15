@@ -92,11 +92,14 @@
         - /clair/config
         - /clair/data
 
-    - name: Set acl for postgres user running in container
-      acl:
-        path: /clair/data
-        entry: u:26:-wx
-        state: present
+    # - name: Set acl for postgres user running in container
+    #   acl:
+    #     path: /clair/data
+    #     entry: u:26:-wx
+    #     state: present
+
+    - name: set acl
+      command: setfacl -m u:26:-wx /clair/data
 
     - name: Copy clair config file
       copy:
