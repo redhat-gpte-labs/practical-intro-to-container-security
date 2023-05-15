@@ -93,7 +93,7 @@
         - /clair/data
 
     - name: Set acl for postgres user running in container
-      ansible.posix.acl:
+      acl:
         path: /clair/data
         entry: u:26:-wx
         state: present
