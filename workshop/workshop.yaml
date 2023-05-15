@@ -1,5 +1,5 @@
+---
 name: "A Practical Introduction to Container Security"
-
 vars:
   BOOKBAG_PROMPT: "[~] $"
   BASTION_PROMPT: "$"
@@ -9,7 +9,6 @@ vars:
   SERVER_1: node2.$GUID.internal
   RHEL_CONTAINER: registry.access.redhat.com/ubi9/ubi:9.1
   USERNAME: lab-user
-
 modules:
   activate:
   - lab1-welcome
