@@ -40,8 +40,8 @@
       command: update-ca-trust
     
     - name: Add Clair environment to profile.d
-      file:
-        path: /etc/profile.d/clair.sh
+      copy:
+        dest: /etc/profile.d/clair.sh
         content: "export CLAIR_API=http://node2:8080"
         mode: 0644
         owner: root
