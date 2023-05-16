@@ -7,6 +7,9 @@
 In this lab we will look at how containers run "rootless" and look at how kernel
 features like user namespaces are used.
 
+In the lab so far, most of our containers have been running without root (unless we used *sudo*),
+let's look at how this works.
+
 Let's run a rootless container and observe the UID and PID in both the container
 and host namespaces.
 
@@ -23,7 +26,7 @@ container. Take note of the USER and the PID. The container process appears to b
 the `root` user even though the container is actually running as the `lab-user`. This is 
 user namespaces in action. 
 
-.What does the `-l` option do?
+.What does the `-l` option do? (check `man podman-top`)
 --
 [source,subs="{markup-in-source}"]
 ----
@@ -68,50 +71,101 @@ $ *podman rm -f -t 0 sleepy*
 ----
 --
 
-=== Auditing containers
+=== User namespaces
 
-.Take note of the `lab-user` UID
+As we saw in the last example, a running process can have a different UID inside a container
+from outside. This works because the user namespace supports the concept of 
+*mapping UID/GIDs from the host to different UIDs and GIDs inside the namespace*.
+
+This mapping is set up with */etc/subuid* and */etc/subgid* on the host. In RHEL 9, this mapping
+is generated automatically with `useradd` if the subuid and subgid files exist in /etc.
+
+Each process has a UID/GID that sets up the user namespace. Let's check this:
+
+.Check the UID map for a non-container process on the bastion host
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *sudo podman run --name sleepy --rm -it %RHEL_CONTAINER% bash -c "cat /proc/self/loginuid;echo"*
+$ *cat /proc/self/uid_map*
 ----
 ----
-1001
-----
---
-
-.Configure the kernel audit system to watch the `/etc/shadow` file
---
-[source,subs="{markup-in-source}"]
-----
-$ *sudo auditctl -w /etc/shadow 2>/dev/null*
+         0          0 4294967295
 ----
 --
 
-.Run a privileged container that bind mounts the host's file system then touches `/etc/shadow`
+The output is a little strange but it is showing the mapping and can be read as:
+
+* _UIDs starting at UID 0 are mapped to UID 0 for a range of 4,294,967,295 UIDs._
+
+This means UID 0 is mapped to 0 and 1 -> 1 and so on, in other words there is no mapping offset,
+all UIDs are equivalent and root is root.
+
+[TIP]
+.podman unshare
+====
+For the next example we will be using `podman unshare` which creates a user namespace to
+run commands. This is useful for debugging as well as running `podman mount` to mount container
+images for inspection. Check out `man podman-unshare` for more information!
+====
+
+.Look at the UID map in a container
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *sudo podman run --privileged --rm -v /:/host %RHEL_CONTAINER% touch /host/etc/shadow*
+$ *podman unshare cat /proc/self/uid_map*
+----
+----
+         0       1001          1
+         1     165536      65536
 ----
 --
 
-.Examine the kernel audit system log to determine which user ran the malicious privileged container
+This output shows our mapping inside of the unprivileged user namespace for our *lab-user*, let's parse it:
+
+* _UIDs starting at 0 are mapped to UID 1001 for a range of 1_
+* _UIDs starting at 1 are mapped to UID 165536 for a range of 65536_
+
+This means we are mapping root (UID 0) in the container to our user's UID outside (`$ id lab-user` will show 1001) and we are mapping UID 1 -> 165536 and UID 2 -> 165537 and so on up to 65536 in the container.
+
+We can see this mapping in action
+
+.Using podman unshare, create a file in our home area and change the owner to UID 1
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *sudo ausearch -m path -ts recent -i | grep touch | grep --color=auto 'auid=[^ ]*'*
+$ *podman unshare*
+$ *touch test-file*
+$ *chown 1 test-file*
+$ *ls -l test-file*
 ----
-[source,subs="{markup-in-source}"]
 ----
-type=SYSCALL msg=audit(04/30/2019 11:03:03.384:425) : arch=x86_64 syscall=openat success=yes exit=3 a0=0xffffff9c a1=0x7ffeee3ecf5c a2=O_WRONLY|O_CREAT|O_NOCTTY|O_NONBLOCK a3=0x1b6 items=2 ppid=6168 pid=6180 *auid=lab-user* uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=11 comm=touch exe=/usr/bin/coreutils subj=unconfined_u:system_r:spc_t:s0 key=(null) 
+-rw-r--r--. 1 bin root 0 May 16 13:43 test-file
 ----
 --
 
-TIP: Try this at home using another container engine based on a client/server model and you 
-will notice that the offending audit ID is reported as `4294967295` (i.e. an `unsignedint(-1)`).
-In other words, the malicious user is unknown.  
+We create a file called *test-file*, change the owner of the file to UID 1 in the user namespace
+and check that it is owned by UID 1 (the *bin* user).
+
+.Exit the user namespace set up by podman unshare and check the file
+--
+[source,subs="{markup-in-source}"]
+----
+$ *exit*
+$ *ls -l test-file*
+----
+----
+-rw-r--r--. 1 165536 users 0 May 16 13:43 test-file
+----
+--
+
+We can see that when we exit the user namespace that the file is owned by UID 165536 which corresponds to
+our UID mapping above (1 -> 165536)
+
+Note that `podman unshare` only sets up a user namespace, we are still in our `/home/lab-user` directory
+on the host but our process (/bin/bash) appears to run as root because of the UID mapping set up by the
+user namespace.
+
+Next we will look at how we can use podman to specify the UID mapping.
 
 === UID Mapping
 
@@ -187,6 +241,54 @@ UID        PID  PPID  C STIME TTY          TIME CMD
 200000    3024  3011  0 12:41 ?        00:00:00 /usr/bin/coreutils --coreutils-prog-shebang=sleep /usr/bin/sleep 1000
 ----
 --
+
+This is the basics of how user namespacing works. Next we will look at how the linux kernel auditing system
+keeps track of these mappings for logging actions done by users in containers.
+
+=== Auditing containers
+
+.Take note of the `lab-user` UID
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman run --name sleepy --rm -it %RHEL_CONTAINER% bash -c "cat /proc/self/loginuid;echo"*
+----
+----
+1001
+----
+--
+
+.Configure the kernel audit system to watch the `/etc/shadow` file
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo auditctl -w /etc/shadow 2>/dev/null*
+----
+--
+
+.Run a privileged container that bind mounts the host's file system then touches `/etc/shadow`
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman run --privileged --rm -v /:/host %RHEL_CONTAINER% touch /host/etc/shadow*
+----
+--
+
+.Examine the kernel audit system log to determine which user ran the malicious privileged container
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo ausearch -m path -ts recent -i | grep touch | grep --color=auto 'auid=[^ ]*'*
+----
+[source,subs="{markup-in-source}"]
+----
+type=SYSCALL msg=audit(04/30/2019 11:03:03.384:425) : arch=x86_64 syscall=openat success=yes exit=3 a0=0xffffff9c a1=0x7ffeee3ecf5c a2=O_WRONLY|O_CREAT|O_NOCTTY|O_NONBLOCK a3=0x1b6 items=2 ppid=6168 pid=6180 *auid=lab-user* uid=root gid=root euid=root suid=root fsuid=root egid=root sgid=root fsgid=root tty=(none) ses=11 comm=touch exe=/usr/bin/coreutils subj=unconfined_u:system_r:spc_t:s0 key=(null) 
+----
+--
+
+TIP: Try this at home using another container engine based on a client/server model and you 
+will notice that the offending audit ID is reported as `4294967295` (i.e. an `unsignedint(-1)`).
+In other words, the malicious user is unknown.  
 
 === Challenge
 
