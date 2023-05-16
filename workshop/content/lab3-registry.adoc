@@ -50,12 +50,15 @@ systemd user service that runs as the lab-user on boot
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *mkdir -pv $HOME/.config/systemd/user*
-$ *podman generate systemd --new --name registry > $HOME/.config/systemd/user/container-registry.service*
+$ *cd ~*
+$ *mkdir -pv .config/systemd/user*
+$ *podman generate systemd --new --name registry > .config/systemd/user/container-registry.service*
 $ *systemctl --user daemon-reload*
 $ *systemctl --user start container-registry*
 ----
 ----
+mkdir: created directory '.config/systemd'
+mkdir: created directory '.config/systemd/user'
 ----
 --
 
@@ -77,6 +80,12 @@ $ *systemctl --no-pager --user status container-registry*
      CGroup: /user.slice/user-1001.slice/user@1001.service/app.slice/container-registry.service
 ...
 ----
+--
+
+[IMPORTANT]
+--
+Red lines in the log output shows that the line was printed to stderr instead of stdout and can be safely
+ignored in this context
 --
 
 .Enable the registry service to run on boot

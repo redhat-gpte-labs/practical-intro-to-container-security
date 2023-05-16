@@ -4,9 +4,10 @@
 
 Presented at Red Hat Summit 2023
 
-Bob Kozdemba (bkozdemb@redhat.com)
-Dan Walsh (dwalsh@redhat.com)
-Jason Kincl (jkincl@redhat.com)
+[none]
+* Bob Kozdemba (bkozdemb@redhat.com)
+* Dan Walsh (dwalsh@redhat.com)
+* Jason Kincl (jkincl@redhat.com)
 
 image::container-tools.png[Container Tools,align="center"]
 
