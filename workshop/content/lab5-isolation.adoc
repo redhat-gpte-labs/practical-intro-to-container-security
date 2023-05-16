@@ -58,8 +58,9 @@ CapEff:	000000ffffffffff
 ----
 --
 
-Notice that all 39 capability bits are set indicating this process has a full set of capabilities. In a later exercise, you'll discover that a container
-running as **root** has a filtered set of capabilities by default but this can be changed at run time.
+Notice that all capability bits are set indicating this process has a full set of capabilities. In a later exercise,
+you'll discover that a container running as **root** has a filtered set of capabilities by default but this can be changed
+at run time.
 
 .The `capsh` command can decode a capabilities bitmask into a human readable output. Try it out!
 --
@@ -68,55 +69,101 @@ running as **root** has a filtered set of capabilities by default but this can b
 $ *capsh --decode=ffffffffff*
 ----
 ----
-0x000000ffffffffff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read,38,39
-----
-[source,subs="{markup-in-source}"]
-----
-$ *capsh --decode=200*
-----
-----
-0x0000000000000200=cap_linux_immutable
+0x000000ffffffffff=cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read,cap_perfmon,cap_bpf
 ----
 --
 
+Running `capsh` on the host will show the capabilities for the running process.
+
+.`capsh` can show the capabilities
+--
+[source,subs="{markup-in-source}"]
+----
+$ *capsh --print*
+----
+----
+Current: =
+Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read,cap_perfmon,cap_bpf,cap_checkpoint_restore
+Ambient set =
+----
+--
+
+The first three lines of output from `capsh` show the *Current*, *Bounding*, and *Ambient* set of capabilities
+
+[cols="0,1"]
+|===
+|Current
+|This is the set of capabilities used by the kernel to perform permission checks
+
+|Bounding
+|This is the set of capabilities that can be gained from executing a `setuid` program
+
+|Ambient
+|This is the set of capabilities that are preserved across an execution of a program that is not privileged
+|===
+
+[NOTE]
+--
+More information can be found with `man capabilities`
+--
+
+Looking at the output above, this means your user process can execute the sudo command and get full capabilities as root.
+
+
 === Exploring the capabilities of containers
 
-A non-null CapEff value indicates the process has some capabilities. You will discover that the capabilities of a container are often less than what a root process has running on the host.
+You will discover that the capabilities of a container are often less than what a root process has running on the host.
 
 .Start by running a rootless container as `--user=32767` and look at it's capabilities
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *podman run --rm -it --user=32767 %RHEL_CONTAINER% grep CapEff /proc/self/status*
+$ *podman run --rm -it --user=32767 %RHEL_CONTAINER% capsh --print*
 ----
 ----
-CapEff:	0000000000000000
-----
---
-
-.Next run a rootless container as `--user=0` and look at it's capabilities. Note that it's capabilities are filtered from that of a root process on the host
---
-[source,subs="{markup-in-source}"]
-----
-$ *podman run --user=0 --rm -it %RHEL_CONTAINER% grep CapEff /proc/self/status*
-----
-----
-CapEff:	00000000800425fb
+Current: =
+Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_sys_chroot,cap_setfcap
+Ambient set =
 ----
 --
 
-.Now run a container as privileged and compare the results to the previous exercises. What conclusions can you draw?
+Podman has dropped all but *11 capabilities* when running the container. Podman follows best practices to drop all permissions
+that are not required.
+
+.Next run a rootless container as `--user=0` and look at it's capabilities
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *sudo podman run --user=0 --rm -it --privileged %RHEL_CONTAINER% grep CapEff /proc/self/status*
+$ *podman run --user=0 --rm -it %RHEL_CONTAINER% capsh --print*
 ----
 ----
-CapEff: 0000003fffffffff
+Current: cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_sys_chroot,cap_setfcap=ep
+Bounding set =cap_chown,cap_dac_override,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_net_bind_service,cap_sys_chroot,cap_setfcap
+Ambient set =
 ----
 --
+
+Note that even running as UID 0 we still have a reduced set of capabilities.
+
+.Now run a container as privileged and compare the results to the previous exercises
+--
+[source,subs="{markup-in-source}"]
+----
+$ *sudo podman run --user=0 --rm -it --privileged %RHEL_CONTAINER% capsh --print*
+----
+----
+Current: =ep
+Bounding set =cap_chown,cap_dac_override,cap_dac_read_search,cap_fowner,cap_fsetid,cap_kill,cap_setgid,cap_setuid,cap_setpcap,cap_linux_immutable,cap_net_bind_service,cap_net_broadcast,cap_net_admin,cap_net_raw,cap_ipc_lock,cap_ipc_owner,cap_sys_module,cap_sys_rawio,cap_sys_chroot,cap_sys_ptrace,cap_sys_pacct,cap_sys_admin,cap_sys_boot,cap_sys_nice,cap_sys_resource,cap_sys_time,cap_sys_tty_config,cap_mknod,cap_lease,cap_audit_write,cap_audit_control,cap_setfcap,cap_mac_override,cap_mac_admin,cap_syslog,cap_wake_alarm,cap_block_suspend,cap_audit_read,cap_perfmon,cap_bpf,cap_checkpoint_restore
+Ambient set =
+----
+--
+
+The output of `capsh` is odd in this case as we see the Current capability set is listed as `=ep` which actually means *all* capabilities
+are effective (e) and permitted (p) with the equals sign (=) meaning all (all=)
 
 === Examining container processes
+
+We can also use `podman top` to examine the effective capabilities of a container.
 
 .Run a container in the background that runs for a few minutes
 --

@@ -22,6 +22,11 @@
         mode: 0755
         owner: root
         group: root
+    
+    - name: install man pages
+      dnf:
+        name: man-pages
+        state: installed
 
 - name: Add CA to trust store
   hosts: all
