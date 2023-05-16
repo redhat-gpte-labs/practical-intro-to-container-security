@@ -8,7 +8,7 @@ registry consists of generating a SSL certificate and running the container. We 
 some bash helper scripts to make it easier. Once the registry is configured and
 running, the `curl` command can be used to test basic connectivity.
 
-=== Configure and Start Registries
+=== Configure and Start the Registry Container
 
 .Login to `node1.{GUID}.internal` to configure the registry.
 --
@@ -44,6 +44,8 @@ $ *./create-registry.sh*
 
 This will create the registry container but not start it, now we will create a
 systemd user service that runs as the lab-user on boot
+
+=== Create a Systemd Service
 
 .Create the systemd user service directories
 --
@@ -133,7 +135,7 @@ $ *curl --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
 
 The registry service should already be running on node2 so we can return to the bastion and test.
 
-=== Testing the registries
+=== Test the Registries
 
 .Test the registries from the bastion
 --
