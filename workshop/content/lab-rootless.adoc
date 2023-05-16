@@ -95,6 +95,7 @@ $ *cat /proc/self/uid_map*
 
 The output is a little strange but it is showing the mapping and can be read as:
 
+[none]
 * _UIDs starting at UID 0 are mapped to UID 0 for a range of 4,294,967,295 UIDs._
 
 This means UID 0 is mapped to 0 and 1 -> 1 and so on, in other words there is no mapping offset,
@@ -122,6 +123,7 @@ $ *podman unshare cat /proc/self/uid_map*
 
 This output shows our mapping inside of the unprivileged user namespace for our *lab-user*, let's parse it:
 
+[none]
 * _UIDs starting at 0 are mapped to UID 1001 for a range of 1_
 * _UIDs starting at 1 are mapped to UID 165536 for a range of 65536_
 
@@ -134,9 +136,16 @@ We can see this mapping in action
 [source,subs="{markup-in-source}"]
 ----
 $ *podman unshare*
-$ *touch test-file*
-$ *chown 1 test-file*
-$ *ls -l test-file*
+%UNSHARE_PROMPT%
+----
+--
+
+--
+[source,subs="{markup-in-source}"]
+----
+%UNSHARE_PROMPT% *touch test-file*
+%UNSHARE_PROMPT% *chown 1 test-file*
+%UNSHARE_PROMPT% *ls -l test-file*
 ----
 ----
 -rw-r--r--. 1 bin root 0 May 16 13:43 test-file
@@ -150,7 +159,7 @@ and check that it is owned by UID 1 (the *bin* user).
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *exit*
+%UNSHARE_PROMPT% *exit*
 $ *ls -l test-file*
 ----
 ----

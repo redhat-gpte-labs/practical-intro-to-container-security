@@ -5,6 +5,7 @@ vars:
   BASTION_PROMPT: "$"
   ROOT_PROMPT: "#"
   CONTAINER_PROMPT: "[root@a6c3539285a7 /]#"
+  UNSHARE_PROMPT: "[root@bastion 0 ~]#"
   SERVER_0: node1.$GUID.internal
   SERVER_1: node2.$GUID.internal
   RHEL_CONTAINER: registry.access.redhat.com/ubi9/ubi:9.1
