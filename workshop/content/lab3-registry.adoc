@@ -141,14 +141,14 @@ The registry service should already be running on node2 so we can return to the 
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *curl  --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
+$ *curl --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
 ----
 ----
 {"repositories":[]}
 ----
 [source,subs="{markup-in-source}"]
 ----
-$ *curl  --user redhat:redhat https://node2.{GUID}.internal:5000/v2/_catalog*
+$ *curl --user redhat:redhat https://node2.{GUID}.internal:5000/v2/_catalog*
 ----
 ----
 {"repositories":[]}
