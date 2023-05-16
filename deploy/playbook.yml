@@ -179,6 +179,14 @@
       become: true
       become_user: root
 
+    - name: restart logind
+      ansible.builtin.systemd:
+        state: restarted
+        daemon_reload: true
+        name: systemd-logind
+      become: true
+      become_user: root
+
     - name: start registry service
       ansible.builtin.systemd:
         state: started
