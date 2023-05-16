@@ -148,3 +148,26 @@
       loop:
         - clair-postgres.service
         - clair.service
+
+- name: Configure registry on node2
+  hosts: node2
+  gather_facts: false
+  become: true
+  become_user: lab-user
+  tasks:
+    - name: set acl
+      shell: |
+        cd /home/lab-user/gen-certs
+        ./gen-cert.sh
+
+        cd /home/lab-user/registry-files
+        ./create-registry.sh
+
+        cd /home/lab-user
+        mkdir -pv /home/lab-user/.config/systemd/user
+        podman generate systemd --new --name registry > /home/lab-user/.config/systemd/user/container-registry.service
+        systemctl --user daemon-reload
+        systemctl --user start container-registry
+        
+        loginctl enable-linger
+        systemctl --user enable container-registry

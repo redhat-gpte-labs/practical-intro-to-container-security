@@ -2,16 +2,15 @@
 :markup-in-source: verbatim,attributes,quotes
 :toc:
 
-During this module you will configure both nodes to host secure container registries.
+During this module you will configure a node to host a secure container registry.
 The registry software runs in a container and listens on port 5000. Configuring the 
 registry consists of generating a SSL certificate and running the container. We have
-some bash helper scripts to make it easier. Once the registries are configured and
+some bash helper scripts to make it easier. Once the registry is configured and
 running, the `curl` command can be used to test basic connectivity.
 
-[[anchor-1]]
 === Configure and Start Registries
 
-.Login to *both* `node1.{GUID}.internal` and `node2.{GUID}.internal` to configure the registries.
+.Login to `node1.{GUID}.internal` to configure the registry.
 --
 [source,subs="{markup-in-source}"]
 ----
@@ -46,19 +45,37 @@ $ *./create-registry.sh*
 This will create the registry container but not start it, now we will create a
 systemd user service that runs as the lab-user on boot
 
-.Create a systemd unit file for the registry user service and start it
+.Create the systemd user service directories
 --
 [source,subs="{markup-in-source}"]
 ----
 $ *cd ~*
 $ *mkdir -pv .config/systemd/user*
-$ *podman generate systemd --new --name registry > .config/systemd/user/container-registry.service*
-$ *systemctl --user daemon-reload*
-$ *systemctl --user start container-registry*
 ----
 ----
 mkdir: created directory '.config/systemd'
 mkdir: created directory '.config/systemd/user'
+----
+--
+
+We can use podman to generate a systemd service file. In this case we are specifying the name of the
+service to be *registry* as well as adding logic with `--new` to create a new container when the
+service is started and stop and remove the container when the service is stopped.
+
+.Generate a systemd unit file for the registry service
+--
+[source,subs="{markup-in-source}"]
+----
+$ *podman generate systemd --new --name registry > .config/systemd/user/container-registry.service*
+----
+--
+
+.Start the registry as a systemd user service
+--
+[source,subs="{markup-in-source}"]
+----
+$ *systemctl --user daemon-reload*
+$ *systemctl --user start container-registry*
 ----
 --
 
@@ -88,6 +105,10 @@ Red lines in the log output shows that the line was printed to stderr instead of
 ignored in this context
 --
 
+Now that we have the registry service running we can set it to start on system boot. By default in RHEL 9
+systemd stops all processes associated with a ssh connection so we use `loginctl` to enable processes to
+"linger" after the ssh connection is terminated.
+
 .Enable the registry service to run on boot
 --
 [source,subs="{markup-in-source}"]
@@ -110,7 +131,7 @@ $ *curl --user redhat:redhat https://node1.{GUID}.internal:5000/v2/_catalog*
 ----
 --
 
-<<anchor-1,Repeat>> the same for node2
+The registry service should already be running on node2 so we can return to the bastion and test.
 
 === Testing the registries
 
@@ -132,4 +153,5 @@ $ *curl  --user redhat:redhat https://node2.{GUID}.internal:5000/v2/_catalog*
 ----
 --
 
-You have successfully deployed two registries running in rootless containers with systemd integration. We will be running the rest of the lab from the bastion.
+You have successfully deployed a registry running in rootless containers with systemd integration. We
+will be running the rest of the lab from the bastion.
