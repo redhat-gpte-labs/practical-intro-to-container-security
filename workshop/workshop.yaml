@@ -15,7 +15,7 @@ modules:
   - lab2-intro
   - lab3-registry
   - lab4-podman
-  - lab-userns
+  - lab-rootless
   - lab5-isolation
   - lab6-selinux
   - lab7-inspecting

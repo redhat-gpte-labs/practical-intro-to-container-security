@@ -2,13 +2,13 @@
 :markup-in-source: verbatim,attributes,quotes
 :toc:
 
-=== User Namespace Support
+=== Rootless Containers
 
 In this lab we will look at how containers run "rootless" and look at how kernel
 features like user namespaces are used.
 
-To start we will run a rootless container and observe the UID and PID in both
-the container and host namespaces.
+Let's run a rootless container and observe the UID and PID in both the container
+and host namespaces.
 
 .Start by running a rootless container in the background
 --
@@ -46,7 +46,7 @@ Compare those ID's to the same process running in the hosts
 namespace.
 
 [TIP]
-.Take note of 2 important concepts from this example
+.Take note of two important concepts from this example
 ====
 * The `sleep` process in the container is owned by `root` but
 the process on the host is owned by `lab-user`. This is

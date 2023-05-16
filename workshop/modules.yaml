@@ -8,8 +8,8 @@ modules:
     name: Registry Configuration 
   lab4-podman:
     name: Podman Basics
-  lab-userns:
-    name: User Namespaces and Containers
+  lab-rootless:
+    name: Rootless Containers
   lab5-isolation: 
     name: Isolation
   lab6-selinux:

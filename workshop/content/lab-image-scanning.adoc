@@ -1,0 +1,21 @@
+:GUID: %guid%
+:markup-in-source: verbatim,attributes,quotes
+:toc:
+
+=== Image Scanning
+
+Inspecting an image to determine if it has known vulnerabilities
+
+We will use podman to inspect the layers manually and then clair
+to show something more "automated"
+
+.descriptor
+--
+[source,subs="{markup-in-source}"]
+----
+$ *command*
+----
+----
+output
+----
+--
