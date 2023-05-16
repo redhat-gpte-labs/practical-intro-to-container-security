@@ -44,8 +44,7 @@
 
     - name: Update CA trust
       command: update-ca-trust
-      args:
-        when: copy_ca|changed
+      when: copy_ca|changed
     
     - name: Add Clair environment to profile.d
       copy:
