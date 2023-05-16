@@ -172,10 +172,12 @@
     - name: enable linger
       file:
         path: /var/lib/systemd/linger/lab-user
-        state: present
+        state: touch
         owner: root
         group: root
         mode: 0644
+      become: true
+      become_user: root
 
     - name: start registry service
       ansible.builtin.systemd:
