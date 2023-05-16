@@ -15,7 +15,7 @@ running, the `curl` command can be used to test basic connectivity.
 [source,subs="{markup-in-source}"]
 ----
 $ *ssh node1*
-$ *cd gen-certs*
+$ *cd /home/lab-user/gen-certs*
 ----
 --
 
@@ -37,7 +37,7 @@ $ *./gen-cert.sh*
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *cd ../registry-files*
+$ *cd /home/lab-user/registry-files*
 $ *./create-registry.sh*
 ----
 --
@@ -50,11 +50,11 @@ systemd user service that runs as the lab-user on boot
 [source,subs="{markup-in-source}"]
 ----
 $ *cd ~*
-$ *mkdir -pv .config/systemd/user*
+$ *mkdir -pv /home/lab-user/.config/systemd/user*
 ----
 ----
-mkdir: created directory '.config/systemd'
-mkdir: created directory '.config/systemd/user'
+mkdir: created directory '/home/lab-user/.config/systemd'
+mkdir: created directory '/home/lab-user/.config/systemd/user'
 ----
 --
 
@@ -66,7 +66,7 @@ service is started and stop and remove the container when the service is stopped
 --
 [source,subs="{markup-in-source}"]
 ----
-$ *podman generate systemd --new --name registry > .config/systemd/user/container-registry.service*
+$ *podman generate systemd --new --name registry > /home/lab-user/.config/systemd/user/container-registry.service*
 ----
 --
 
