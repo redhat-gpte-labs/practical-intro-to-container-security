@@ -1,4 +1,4 @@
-# A Practical Introduction to Container Security
+# Container Security Lab with Red Hat Enterprise Linux 9
 
 ## Instructor's Guide (2021 version)
 

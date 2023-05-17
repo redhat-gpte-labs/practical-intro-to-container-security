@@ -1,6 +1,6 @@
 :imagesdir: images
 
-== A PRACTICAL INTRODUCTION TO CONTAINER SECURITY
+== Container Security Lab with Red Hat Enterprise Linux 9
 
 Presented at Red Hat Summit 2023
 

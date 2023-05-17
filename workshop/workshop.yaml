@@ -1,5 +1,5 @@
 ---
-name: "A Practical Introduction to Container Security"
+name: "Container Security Lab with Red Hat Enterprise Linux 9"
 vars:
   BOOKBAG_PROMPT: "[~] $"
   BASTION_PROMPT: "$"

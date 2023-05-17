@@ -1,4 +1,4 @@
-# A Practical Introduction to Container Security - a hands on lab.
+# Container Security Lab with Red Hat Enterprise Linux 9
 
 ## Red Hat Summit 2023.
 

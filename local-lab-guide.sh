@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# Script to deploy the lab guide (on Linux) for A Practical Introduction to Container Security.
+# Script to deploy the lab guide
 #
 
 if [ "$#" -ne 3 ]; then
