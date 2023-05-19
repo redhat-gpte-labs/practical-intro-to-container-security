@@ -11,6 +11,19 @@ Presented at Red Hat Summit 2023
 
 image::container-tools.png[Container Tools,align="center"]
 
+=== Podman in Action: Get the book!
+
+[.float-group]
+--
+image::podman-in-action.png[width=400px,float="right"]
+
+Dan quite literally wrote the book on Podman so we (Bob and Jason) encourage you to check it out! You can order a https://www.manning.com/books/podman-in-action[physical copy] or Red Hat offers the https://developers.redhat.com/e-books/podman-action[e-book] for free. 
+
+This lab serves as a hands-on overview of the container security theme but the book goes deeper into foundational design and other advanced topics about containers.
+--
+
+=== Lab Description
+
 .Abstract
 ****
 Linux containers have become ubiquitous because they provide convenient application packaging and run-time isolation in multi-tenant environments. However, the security implications of running containerized applications are often taken for granted. For example, it is very easy to pull container images from the internet and run them in the enterprise without examining their content and authenticity. Furthermore, when a container does not work a common workaround is to run it with root-privileged which often is not necessary for most applications and contrary to least-privilege methodologies. In this lab, you'll complete a series of hands-on exercises aimed at understanding the concepts, challenges and best practices associated with deploying containers in a secure fashion. This lab session is a low-level, hands-on introduction to container security using the container tools included with Red Hat Enterprise Linux 9 such as Podman.
