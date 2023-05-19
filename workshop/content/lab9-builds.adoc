@@ -2,8 +2,11 @@
 :markup-in-source: verbatim,attributes,quotes
 :toc:
 
-This module will introduce _Buildah_, a command line tool for building https://https://www.opencontainers.org/[Open Container Initiative]
-compatible container images. _Buildah_ is easy to incorporate into scripts and build pipelines, and best of all, it doesn't require a running container daemon to build its image. You can read more about _Buildah_ at the https://buildah.io[buildah.io] web site. Also, have a look at the https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html-single/building_running_and_managing_containers/index#building-container-images-with-buildah_building-running-and-managing-containers[buildah] chapter in the RHEL 8 documentation. 
+This module will introduce _Buildah_, a command line tool for building https://www.opencontainers.org/[Open Container Initiative]
+compatible container images. _Buildah_ is easy to incorporate into scripts and build pipelines, and best of all, it doesn't
+require a running container daemon to build its image. You can read more about _Buildah_ at the https://buildah.io[buildah.io]
+web site. Also, have a look at the https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html-single/building_running_and_managing_containers/index#assembly_building-container-images-with-buildah[buildah]
+chapter in the RHEL 9 documentation. 
 
 === Scratch builds
 
