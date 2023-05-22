@@ -54,7 +54,7 @@ The bitmask returned is `0x0` meaning this process does not have any capabilitie
 $ *sudo grep CapEff /proc/self/status*
 ----
 ----
-CapEff:	000000ffffffffff
+CapEff:	000001ffffffffff
 ----
 --
 
