@@ -225,7 +225,7 @@ $ *podman run --rm -ti --user 0 --name temp %RHEL_CONTAINER% bash*
 date: cannot set date: Operation not permitted
 Mon Apr  8 21:45:24 UTC 2019
 
-%CONTAINER_PROMPT% *exit*
+%CONTAINER_PROMPT% exit
 ----
 --
 
