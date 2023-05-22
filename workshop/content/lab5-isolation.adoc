@@ -219,8 +219,8 @@ $ *podman run --rm -ti --user 0 --name temp %RHEL_CONTAINER% bash*
 
 ----
 ----
-%CONTAINER_PROMPT% *savethedate=$(date)*
-%CONTAINER_PROMPT% *date -s "$savethedate"*
+%CONTAINER_PROMPT% savethedate=$(date)
+%CONTAINER_PROMPT% date -s "$savethedate"
 
 date: cannot set date: Operation not permitted
 Mon Apr  8 21:45:24 UTC 2019
