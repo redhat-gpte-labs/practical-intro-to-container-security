@@ -59,7 +59,7 @@ that run containers as root. Container engines that
 use a ***client/server*** model can't provide this.
 
 * The `sleep` process in the container has a PID of 1 but 
-on the host the PID is **rootless** (a PID >1). This is
+on the host the PID is greather than 1. This is
 the kernel PID namespace in action.
 ====
 
